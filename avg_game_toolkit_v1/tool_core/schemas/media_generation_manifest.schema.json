@@ -1,0 +1,495 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/interactive-video/media_generation_manifest.schema.json",
+  "title": "Generic Interactive Media Generation Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project_id",
+    "pipeline_run_id",
+    "created_at",
+    "source_artifacts",
+    "agents",
+    "acceptance",
+    "items"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string"
+    },
+    "pipeline_run_id": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "source_artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "project_brief",
+        "story_bible",
+        "script_table",
+        "asset_plan"
+      ],
+      "properties": {
+        "project_brief": {
+          "type": "string"
+        },
+        "story_bible": {
+          "type": "string"
+        },
+        "script_table": {
+          "type": "string"
+        },
+        "asset_plan": {
+          "type": "string"
+        }
+      }
+    },
+    "agents": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/agent_record"
+      },
+      "minItems": 1
+    },
+    "acceptance": {
+      "$ref": "#/$defs/acceptance"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/generated_item"
+      }
+    }
+  },
+  "$defs": {
+    "agent_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agent_id",
+        "role"
+      ],
+      "properties": {
+        "agent_id": {
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "planning",
+            "executive",
+            "checker",
+            "human"
+          ]
+        },
+        "model": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "run_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "acceptance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "blocker_count",
+        "major_count"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "pending",
+            "passed",
+            "failed",
+            "passed_with_waivers"
+          ]
+        },
+        "checked_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "checker_agent_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "report_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "blocker_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "major_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "waiver_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "generated_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_id",
+        "asset_type",
+        "status",
+        "capability",
+        "local_path",
+        "review",
+        "policy_checks"
+      ],
+      "properties": {
+        "asset_id": {
+          "type": "string"
+        },
+        "planned_from_asset_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "asset_type": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "queued",
+            "running",
+            "succeeded",
+            "failed",
+            "expired",
+            "skipped",
+            "imported"
+          ]
+        },
+        "capability": {
+          "type": "string"
+        },
+        "provider": {
+          "enum": [
+            "gpt_image",
+            "ark_seedance",
+            "manual",
+            "unknown"
+          ],
+          "default": "unknown"
+        },
+        "model": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "task_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "local_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "local_aux_paths": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "default": {}
+        },
+        "runtime_references": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/runtime_reference"
+          },
+          "default": []
+        },
+        "input_asset_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "prompt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "revised_prompt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": true,
+          "default": {}
+        },
+        "content_fingerprint": {
+          "$ref": "#/$defs/content_fingerprint"
+        },
+        "review": {
+          "$ref": "#/$defs/review"
+        },
+        "lineage": {
+          "$ref": "#/$defs/lineage"
+        },
+        "policy_checks": {
+          "$ref": "#/$defs/policy_checks"
+        },
+        "error": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "redaction": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "remote_urls_redacted": {
+              "type": "boolean",
+              "default": true
+            },
+            "api_keys_written": {
+              "type": "boolean",
+              "const": false
+            }
+          },
+          "default": {
+            "remote_urls_redacted": true,
+            "api_keys_written": false
+          }
+        }
+      }
+    },
+    "runtime_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "file",
+        "json_path"
+      ],
+      "properties": {
+        "file": {
+          "type": "string"
+        },
+        "json_path": {
+          "type": "string"
+        }
+      }
+    },
+    "content_fingerprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sha256": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "bytes": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "width": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "height": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "duration_sec": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "mime_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "default": {}
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "unreviewed",
+            "approved",
+            "approved_with_notes",
+            "rerun_required",
+            "rejected",
+            "waived"
+          ]
+        },
+        "reviewer_agent_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reviewed_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "evidence_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "issues": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/review_issue"
+          },
+          "default": []
+        }
+      }
+    },
+    "review_issue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "severity",
+        "code",
+        "message"
+      ],
+      "properties": {
+        "severity": {
+          "enum": [
+            "blocker",
+            "major",
+            "minor",
+            "note"
+          ]
+        },
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "frame_or_region": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "input_asset_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "attempt_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "supersedes_asset_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "superseded_by_asset_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "default": {}
+    },
+    "policy_checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "no_remote_signed_urls",
+        "no_api_keys",
+        "no_real_person_or_existing_ip",
+        "first_person_protagonist_hidden",
+        "intended_characters_only"
+      ],
+      "properties": {
+        "no_remote_signed_urls": {
+          "type": "boolean"
+        },
+        "no_api_keys": {
+          "type": "boolean"
+        },
+        "no_real_person_or_existing_ip": {
+          "type": "boolean"
+        },
+        "first_person_protagonist_hidden": {
+          "type": "boolean"
+        },
+        "intended_characters_only": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

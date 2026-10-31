@@ -1,0 +1,436 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/interactive-video/coherence_plan.schema.json",
+  "title": "Cross-Disciplinary Coherence Plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project_id",
+    "plan_version",
+    "planner_owner",
+    "project_promise",
+    "story_intention",
+    "disciplines",
+    "global_constraints",
+    "budgets",
+    "gate_plan",
+    "conflict_policy",
+    "required_artifacts"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string"
+    },
+    "plan_version": {
+      "type": "string"
+    },
+    "planner_owner": {
+      "type": "string",
+      "description": "The role or agent responsible for resolving cross-disciplinary conflicts."
+    },
+    "project_promise": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "player_fantasy",
+        "target_runtime",
+        "target_playthrough_duration_sec",
+        "primary_experience",
+        "non_goals"
+      ],
+      "properties": {
+        "player_fantasy": {
+          "type": "string"
+        },
+        "target_runtime": {
+          "enum": [
+            "html",
+            "godot",
+            "html_then_godot",
+            "unknown"
+          ]
+        },
+        "target_playthrough_duration_sec": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "primary_experience": {
+          "type": "string"
+        },
+        "non_goals": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "story_intention": {
+      "$ref": "#/$defs/story_intention",
+      "description": "Mandatory G1.5 Story Intention Gate. This is authoring-time control data, not required runtime logic."
+    },
+    "disciplines": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/discipline"
+      }
+    },
+    "global_constraints": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/constraint"
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "story_cells",
+        "choice_points",
+        "normal_endings",
+        "failure_endings",
+        "image_assets",
+        "video_assets",
+        "audio_assets",
+        "ui_concept_assets"
+      ],
+      "properties": {
+        "story_cells": {
+          "$ref": "#/$defs/range_budget"
+        },
+        "choice_points": {
+          "$ref": "#/$defs/range_budget"
+        },
+        "normal_endings": {
+          "$ref": "#/$defs/range_budget"
+        },
+        "failure_endings": {
+          "$ref": "#/$defs/range_budget"
+        },
+        "image_assets": {
+          "$ref": "#/$defs/range_budget"
+        },
+        "video_assets": {
+          "$ref": "#/$defs/range_budget"
+        },
+        "audio_assets": {
+          "$ref": "#/$defs/range_budget"
+        },
+        "ui_concept_assets": {
+          "$ref": "#/$defs/range_budget"
+        }
+      }
+    },
+    "gate_plan": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/gate"
+      }
+    },
+    "conflict_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "planner_decision_required_for",
+        "allowed_resolution_actions",
+        "agent_change_limits"
+      ],
+      "properties": {
+        "planner_decision_required_for": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "new_visible_character",
+              "new_location",
+              "new_generated_asset",
+              "new_video_slot",
+              "new_audio_slot",
+              "choice_target_change",
+              "ending_condition_change",
+              "runtime_surface_change",
+              "style_anchor_change",
+              "budget_overrun",
+              "player_comprehension_gap"
+            ]
+          }
+        },
+        "allowed_resolution_actions": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "revise_story",
+              "revise_asset_plan",
+              "revise_mechanics",
+              "revise_ui",
+              "revise_video_plan",
+              "revise_audio_plan",
+              "revise_runtime_contract",
+              "accept_risk",
+              "defer"
+            ]
+          }
+        },
+        "agent_change_limits": {
+          "type": "string",
+          "description": "What agents may not change without Planner approval."
+        }
+      }
+    },
+    "required_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    }
+  },
+  "$defs": {
+    "story_intention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protagonist_identity",
+        "core_goal",
+        "core_conflict",
+        "core_question",
+        "emotional_anchor",
+        "core_intention",
+        "ending_philosophy",
+        "gameplay_expression",
+        "character_intention_roles"
+      ],
+      "properties": {
+        "protagonist_identity": {
+          "type": "string"
+        },
+        "core_goal": {
+          "type": "string"
+        },
+        "core_conflict": {
+          "type": "string"
+        },
+        "core_question": {
+          "type": "string"
+        },
+        "emotional_anchor": {
+          "type": "string"
+        },
+        "core_intention": {
+          "type": "string"
+        },
+        "ending_philosophy": {
+          "enum": [
+            "single_answer_true_ending",
+            "multiple_equal_answers",
+            "branch_specific_answers",
+            "experimental"
+          ]
+        },
+        "gameplay_expression": {
+          "type": "string"
+        },
+        "choice_pressure": {
+          "type": "string"
+        },
+        "character_intention_roles": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "character_id",
+              "role_in_intention"
+            ],
+            "properties": {
+              "character_id": {
+                "type": "string"
+              },
+              "role_in_intention": {
+                "type": "string"
+              },
+              "route_question": {
+                "type": "string"
+              },
+              "emotional_function": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "must_not_become": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "discipline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "discipline_id",
+        "owner_role",
+        "scope",
+        "outputs",
+        "must_report"
+      ],
+      "properties": {
+        "discipline_id": {
+          "enum": [
+            "planning",
+            "narrative",
+            "character_world",
+            "mechanics",
+            "art",
+            "ui",
+            "video",
+            "audio",
+            "generation",
+            "runtime",
+            "checker"
+          ]
+        },
+        "owner_role": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "must_report": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "constraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "constraint_id",
+        "applies_to",
+        "rule",
+        "severity"
+      ],
+      "properties": {
+        "constraint_id": {
+          "type": "string"
+        },
+        "applies_to": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rule": {
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "blocker",
+            "major",
+            "minor"
+          ]
+        }
+      }
+    },
+    "range_budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "target",
+        "max"
+      ],
+      "properties": {
+        "min": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "target": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gate_id",
+        "name",
+        "owner",
+        "inputs",
+        "outputs",
+        "acceptance",
+        "blockers"
+      ],
+      "properties": {
+        "gate_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "acceptance": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

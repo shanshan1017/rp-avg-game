@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><!-- TITLE_PLACEHOLDER --></title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-dark: #0a0a0f;
+  --bg-darker: #050508;
+  --gold: #c4a35a;
+  --gold-light: #d4b76a;
+  --gold-dim: #8a7340;
+  --text-warm: #e8e0d0;
+  --text-dim: #a09888;
+  --red-accent: #8b2020;
+  --red-glow: #c0392b;
+  --green-accent: #2d8a56;
+  --textbox-bg: rgba(10, 10, 20, 0.92);
+  --overlay-bg: rgba(5, 5, 10, 0.92);
+}
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: var(--bg-darker);
+  font-family: 'Noto Serif SC', 'SimSun', serif;
+  color: var(--text-warm);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+/* ===== GAME CONTAINER 16:9 ===== */
+#game-container {
+  position: relative; width: 100vw; height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-darker);
+}
+#game-viewport {
+  position: relative; width: 100%; height: 100%;
+  max-width: calc(100vh * 16 / 9);
+  max-height: calc(100vw * 9 / 16);
+  overflow: hidden; background: var(--bg-dark);
+}
+
+/* ===== FOG ===== */
+@keyframes fogDrift1 {
+  0%   { transform: translateX(-10%) translateY(0); opacity: 0.03; }
+  50%  { transform: translateX(5%) translateY(-3%); opacity: 0.06; }
+  100% { transform: translateX(-10%) translateY(0); opacity: 0.03; }
+}
+@keyframes fogDrift2 {
+  0%   { transform: translateX(10%) translateY(2%); opacity: 0.04; }
+  50%  { transform: translateX(-8%) translateY(-1%); opacity: 0.07; }
+  100% { transform: translateX(10%) translateY(2%); opacity: 0.04; }
+}
+.fog-layer {
+  position: absolute; top: -20%; left: -20%; width: 140%; height: 140%;
+  pointer-events: none; z-index: 2;
+}
+.fog-layer-1 {
+  background: radial-gradient(ellipse at 30% 50%, rgba(200,190,170,0.15) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 30%, rgba(180,170,150,0.1) 0%, transparent 50%);
+  animation: fogDrift1 20s ease-in-out infinite;
+}
+.fog-layer-2 {
+  background: radial-gradient(ellipse at 60% 60%, rgba(160,150,130,0.12) 0%, transparent 55%),
+              radial-gradient(ellipse at 20% 70%, rgba(190,180,160,0.08) 0%, transparent 45%);
+  animation: fogDrift2 28s ease-in-out infinite;
+}
+
+.vignette {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 5;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%);
+}
+
+/* ===== TITLE SCREEN ===== */
+#title-screen {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 100;
+  background: linear-gradient(180deg, #080810 0%, #0d0d18 40%, #0a0a12 100%);
+  transition: opacity 1s ease;
+}
+#title-screen.hidden { opacity: 0; pointer-events: none; }
+
+#title-screen .ornament {
+  width: 200px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 12px 0;
+}
+#title-screen h1 {
+  font-size: 2.6rem; font-weight: 900; color: var(--gold);
+  text-shadow: 0 0 30px rgba(196,163,90,0.3), 0 2px 4px rgba(0,0,0,0.5);
+  letter-spacing: 6px; text-align: center; line-height: 1.4;
+}
+#title-screen .subtitle {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.95rem;
+  color: var(--text-dim); letter-spacing: 4px; margin-top: 8px; font-weight: 300;
+}
+#title-screen .title-buttons {
+  display: flex; flex-direction: column; gap: 14px; margin-top: 50px; align-items: center;
+}
+.btn-title {
+  font-family: 'Noto Serif SC', serif; font-size: 1.05rem;
+  color: var(--text-warm); background: transparent;
+  border: 1px solid var(--gold-dim); padding: 12px 54px;
+  cursor: pointer; letter-spacing: 4px; min-width: 220px; text-align: center;
+  transition: all 0.3s ease;
+}
+.btn-title:hover:not(:disabled) {
+  border-color: var(--gold); color: var(--gold-light);
+  box-shadow: 0 0 15px rgba(196,163,90,0.2), inset 0 0 15px rgba(196,163,90,0.05);
+}
+.btn-title:disabled { color: #555; border-color: #333; cursor: not-allowed; }
+
+/* ===== SCENE LAYER ===== */
+#scene-layer {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 10; display: none;
+}
+#scene-bg {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background-size: cover; background-position: center; background-repeat: no-repeat;
+  background-color: var(--bg-dark); transition: opacity 0.8s ease;
+}
+#scene-bg-next {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background-size: cover; background-position: center; background-repeat: no-repeat;
+  background-color: var(--bg-dark); opacity: 0; transition: opacity 0.8s ease;
+}
+
+/* ===== CHARACTER PORTRAITS ===== */
+.char-wrap {
+  position: absolute; bottom: 28%; height: 58%; max-width: 40%;
+  z-index: 12; opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+  display: flex; flex-direction: column; align-items: center;
+}
+.char-wrap .char-portrait {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 20px rgba(0,0,0,0.6));
+}
+.char-wrap .char-name {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.8rem;
+  color: var(--gold-light); letter-spacing: 2px;
+  background: rgba(10,10,20,0.75); padding: 4px 16px;
+  border: 1px solid rgba(196,163,90,0.2); border-radius: 3px;
+  margin-top: 6px; white-space: nowrap;
+  backdrop-filter: blur(4px);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+.char-wrap.pos-left { left: 5%; transform: translateY(10px); }
+.char-wrap.pos-right { right: 5%; transform: translateY(10px); }
+.char-wrap.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== SCENE TITLE OVERLAY ===== */
+#scene-title-overlay {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 50; background: rgba(0,0,0,0.75);
+  opacity: 0; pointer-events: none; transition: opacity 0.6s ease;
+}
+#scene-title-overlay.visible { opacity: 1; }
+#scene-title-overlay .act-label {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.9rem;
+  color: var(--gold-dim); letter-spacing: 6px; margin-bottom: 12px;
+}
+#scene-title-overlay .scene-title-text {
+  font-family: 'Noto Serif SC', serif; font-size: 2rem; color: var(--gold);
+  text-shadow: 0 0 20px rgba(196,163,90,0.3); letter-spacing: 3px;
+}
+
+/* ===== ACT TRANSITION ===== */
+#act-transition {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 200; background: var(--bg-dark);
+  opacity: 0; pointer-events: none; transition: opacity 0.8s ease;
+}
+#act-transition.visible { opacity: 1; pointer-events: auto; }
+#act-transition .act-number {
+  font-family: 'Noto Serif SC', serif; font-size: 1rem;
+  color: var(--gold-dim); letter-spacing: 8px; margin-bottom: 16px;
+}
+#act-transition .act-title {
+  font-family: 'Noto Serif SC', serif; font-size: 2.4rem; color: var(--gold);
+  text-shadow: 0 0 30px rgba(196,163,90,0.3); letter-spacing: 4px;
+}
+#act-transition .act-line {
+  width: 120px; height: 1px; margin-top: 20px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+}
+
+/* ===== TEXT BOX ===== */
+#textbox-container {
+  position: absolute; bottom: 0; left: 0; width: 100%;
+  z-index: 30; pointer-events: auto;
+}
+#textbox {
+  background: var(--textbox-bg);
+  border-top: 1px solid rgba(196,163,90,0.15);
+  padding: 28px 48px 36px;
+  min-height: 260px;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+}
+#speaker-name {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 1rem;
+  color: var(--gold); letter-spacing: 3px; margin-bottom: 10px;
+  font-weight: 500; min-height: 1.3em;
+}
+#text-content {
+  font-size: 1.2rem; line-height: 2; color: var(--text-warm);
+  letter-spacing: 0.8px; white-space: pre-wrap;
+  min-height: 120px;
+}
+#text-content em, #text-content i {
+  color: var(--gold-dim); font-style: italic;
+}
+#click-indicator {
+  position: absolute; bottom: 12px; right: 30px;
+  font-size: 0.75rem; color: var(--gold-dim);
+  animation: blink 1.2s ease-in-out infinite;
+}
+@keyframes blink { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+/* ===== CHOICE PANEL ===== */
+#choice-panel {
+  position: absolute; bottom: 0; left: 0; width: 100%;
+  z-index: 35; display: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(5,5,10,0.85) 20%, rgba(5,5,10,0.95) 100%);
+  padding: 40px 60px 36px;
+}
+#choice-panel .choice-header {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.8rem;
+  color: var(--gold-dim); letter-spacing: 4px; margin-bottom: 18px; text-align: center;
+}
+.choice-btn {
+  display: block; width: 100%; max-width: 700px; margin: 0 auto 12px;
+  font-family: 'Noto Serif SC', serif; font-size: 0.95rem;
+  color: var(--text-warm); background: rgba(20,20,35,0.8);
+  border: 1px solid rgba(196,163,90,0.25); padding: 16px 24px;
+  cursor: pointer; text-align: left; letter-spacing: 0.5px;
+  transition: all 0.3s ease; line-height: 1.6; position: relative;
+}
+.choice-btn:hover:not(.locked) {
+  border-color: var(--gold); color: var(--gold-light);
+  background: rgba(30,28,40,0.9);
+  box-shadow: 0 0 20px rgba(196,163,90,0.15), inset 0 0 20px rgba(196,163,90,0.03);
+}
+.choice-btn.locked {
+  color: #555; border-color: #2a2a2a; cursor: not-allowed;
+}
+.choice-btn .lock-reason {
+  display: block; font-family: 'Noto Sans SC', sans-serif;
+  font-size: 0.75rem; color: var(--red-accent); margin-top: 6px;
+  font-style: italic;
+}
+.choice-btn .dead-end-icon {
+  color: var(--red-glow); margin-left: 6px; font-size: 0.85em;
+}
+
+/* ===== HUD ===== */
+#hud {
+  position: absolute; top: 16px; left: 20px; z-index: 40;
+  display: none; gap: 16px;
+}
+.hud-stat {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.75rem;
+  color: var(--text-dim); letter-spacing: 1px;
+  background: rgba(10,10,20,0.7); padding: 6px 14px;
+  border: 1px solid rgba(100,90,70,0.2); border-radius: 4px;
+  backdrop-filter: blur(4px); transition: all 0.4s ease;
+  display: flex; align-items: center; gap: 6px;
+}
+.hud-stat .stat-icon { font-size: 0.9rem; }
+.hud-stat .stat-val {
+  color: var(--gold); font-weight: 500; min-width: 16px; text-align: center;
+  transition: all 0.3s ease;
+}
+.hud-stat.flash { border-color: var(--gold); box-shadow: 0 0 12px rgba(196,163,90,0.3); }
+
+/* ===== HUD RIGHT (save/load/menu) ===== */
+#hud-right {
+  position: absolute; top: 16px; right: 20px; z-index: 40;
+  display: none; gap: 8px;
+}
+.hud-btn {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.7rem;
+  color: var(--text-dim); background: rgba(10,10,20,0.6);
+  border: 1px solid rgba(100,90,70,0.15); padding: 5px 12px;
+  cursor: pointer; letter-spacing: 1px; transition: all 0.3s;
+  border-radius: 3px;
+}
+.hud-btn:hover { color: var(--gold-light); border-color: var(--gold-dim); }
+
+/* ===== SAVE/LOAD MODAL ===== */
+#modal-overlay {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 300; background: rgba(0,0,0,0.8);
+  display: none; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+}
+#modal-box {
+  background: #111118; border: 1px solid var(--gold-dim);
+  padding: 30px 40px; max-width: 500px; width: 90%;
+  text-align: center;
+}
+#modal-box h2 {
+  font-size: 1.2rem; color: var(--gold); letter-spacing: 3px; margin-bottom: 24px;
+}
+.save-slot {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 16px; margin-bottom: 10px;
+  border: 1px solid rgba(196,163,90,0.15); cursor: pointer;
+  transition: all 0.3s;
+}
+.save-slot:hover { border-color: var(--gold-dim); background: rgba(196,163,90,0.05); }
+.save-slot .slot-info { font-size: 0.85rem; color: var(--text-dim); text-align: left; }
+.save-slot .slot-label { color: var(--text-warm); font-size: 0.9rem; }
+#modal-close {
+  margin-top: 20px; font-family: 'Noto Sans SC', sans-serif;
+  font-size: 0.85rem; color: var(--text-dim); background: transparent;
+  border: 1px solid #333; padding: 8px 30px; cursor: pointer;
+  letter-spacing: 2px; transition: all 0.3s;
+}
+#modal-close:hover { color: var(--gold-light); border-color: var(--gold-dim); }
+
+/* ===== ENDING SCREEN ===== */
+#ending-screen {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 250; display: none; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: var(--bg-dark); text-align: center; padding: 40px;
+}
+#ending-screen.bad-end { background: linear-gradient(180deg, #0a0508 0%, #150810 50%, #0a0508 100%); }
+#ending-screen .ending-icon { font-size: 3rem; margin-bottom: 20px; }
+#ending-screen h2 {
+  font-family: 'Noto Serif SC', serif; font-size: 2rem; color: var(--gold);
+  letter-spacing: 4px; margin-bottom: 12px;
+}
+#ending-screen .ending-type {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.8rem;
+  color: var(--gold-dim); letter-spacing: 3px; margin-bottom: 30px;
+}
+#ending-screen .ending-text {
+  font-size: 0.95rem; line-height: 1.8; color: var(--text-dim);
+  max-width: 600px; margin-bottom: 40px;
+}
+#ending-screen .ending-stats {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.8rem;
+  color: var(--text-dim); margin-bottom: 30px; line-height: 2;
+}
+.ending-buttons { display: flex; gap: 16px; }
+.btn-ending {
+  font-family: 'Noto Serif SC', serif; font-size: 0.95rem;
+  color: var(--text-warm); background: transparent;
+  border: 1px solid var(--gold-dim); padding: 12px 40px;
+  cursor: pointer; letter-spacing: 3px; transition: all 0.3s;
+}
+.btn-ending:hover { border-color: var(--gold); color: var(--gold-light); }
+
+/* ===== HISTORY PANEL ===== */
+#history-panel {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 280; display: none; background: rgba(5,5,10,0.95);
+  overflow-y: auto; padding: 40px 60px;
+  backdrop-filter: blur(6px);
+}
+#history-panel h2 {
+  font-size: 1.1rem; color: var(--gold); letter-spacing: 3px;
+  margin-bottom: 24px; text-align: center;
+}
+#history-panel .history-entry {
+  padding: 12px 0; border-bottom: 1px solid rgba(196,163,90,0.1);
+  font-size: 0.85rem; line-height: 1.7; color: var(--text-dim);
+}
+#history-panel .history-entry .h-title { color: var(--gold-dim); margin-bottom: 4px; }
+#history-close {
+  position: fixed; top: 20px; right: 30px;
+  font-size: 1.5rem; color: var(--text-dim); cursor: pointer;
+  background: none; border: none; z-index: 281;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  #textbox { padding: 18px 24px 24px; min-height: 200px; }
+  #text-content { font-size: 1.05rem; line-height: 1.8; }
+  #title-screen h1 { font-size: 1.8rem; letter-spacing: 3px; }
+  #choice-panel { padding: 30px 20px 28px; }
+  .choice-btn { font-size: 0.85rem; padding: 12px 16px; }
+  #hud { left: 10px; }
+  .hud-stat { font-size: 0.65rem; padding: 4px 10px; }
+}
+</style>
+</head>
+<body>
+<div id="game-container">
+<div id="game-viewport">
+
+  <!-- Background -->
+  <div id="scene-bg"></div>
+  <div id="scene-bg-next"></div>
+  <div class="fog-layer fog-layer-1"></div>
+  <div class="fog-layer fog-layer-2"></div>
+  <div class="vignette"></div>
+
+  <!-- Title Screen -->
+  <div id="title-screen">
+    <div class="ornament"></div>
+    <h1><!-- MAIN_TITLE_PLACEHOLDER --></h1>
+    <div class="subtitle"><!-- SUBTITLE_PLACEHOLDER --></div>
+    <div class="ornament"></div>
+    <div class="title-buttons">
+      <button class="btn-title" id="btn-start">开 始 调 查</button>
+      <button class="btn-title" id="btn-continue" disabled>继 续 游 戏</button>
+    </div>
+  </div>
+
+  <!-- Scene Layer -->
+  <div id="scene-layer">
+    <!-- Character portraits with name labels -->
+    <div class="char-wrap pos-left" id="char-left-wrap">
+      <img class="char-portrait" id="char-left" src="" alt="">
+      <div class="char-name" id="char-left-name"></div>
+    </div>
+    <div class="char-wrap pos-right" id="char-right-wrap">
+      <img class="char-portrait" id="char-right" src="" alt="">
+      <div class="char-name" id="char-right-name"></div>
+    </div>
+
+    <!-- Scene title flash -->
+    <div id="scene-title-overlay">
+      <div class="act-label" id="scene-act-label"></div>
+      <div class="scene-title-text" id="scene-title-text"></div>
+    </div>
+
+    <!-- Text box -->
+    <div id="textbox-container">
+      <div id="textbox">
+        <div id="speaker-name"></div>
+        <div id="text-content"></div>
+        <div id="click-indicator">▼ 点击继续</div>
+      </div>
+    </div>
+
+    <!-- Choice panel -->
+    <div id="choice-panel">
+      <div class="choice-header">— 请做出选择 —</div>
+      <div id="choice-buttons"></div>
+    </div>
+  </div>
+
+  <!-- Act transition -->
+  <div id="act-transition">
+    <div class="act-number" id="act-number"></div>
+    <div class="act-title" id="act-title"></div>
+    <div class="act-line"></div>
+  </div>
+
+  <!-- HUD -->
+  <div id="hud">
+    <div class="hud-stat" id="hud-clues"><span class="stat-icon">🔍</span>线索 <span class="stat-val" id="val-clues">0</span></div>
+    <div class="hud-stat" id="hud-courage"><span class="stat-icon">⚔️</span>勇气 <span class="stat-val" id="val-courage">0</span></div>
+    <div class="hud-stat" id="hud-trust"><span class="stat-icon">🤝</span>信任 <span class="stat-val" id="val-trust">0</span></div>
+  </div>
+  <div id="hud-right">
+    <button class="hud-btn" id="btn-save">存档</button>
+    <button class="hud-btn" id="btn-load">读档</button>
+    <button class="hud-btn" id="btn-history">回顾</button>
+    <button class="hud-btn" id="btn-auto">自动</button>
+  </div>
+
+  <!-- Ending screen -->
+  <div id="ending-screen">
+    <div class="ending-icon" id="ending-icon"></div>
+    <h2 id="ending-title"></h2>
+    <div class="ending-type" id="ending-type-label"></div>
+    <div class="ending-text" id="ending-text"></div>
+    <div class="ending-stats" id="ending-stats"></div>
+    <div class="ending-buttons">
+      <button class="btn-ending" id="btn-restart">重新开始</button>
+      <button class="btn-ending" id="btn-title-return">返回标题</button>
+    </div>
+  </div>
+
+  <!-- Save/Load Modal -->
+  <div id="modal-overlay">
+    <div id="modal-box">
+      <h2 id="modal-title">存 档</h2>
+      <div id="modal-slots"></div>
+      <button id="modal-close">关 闭</button>
+    </div>
+  </div>
+
+  <!-- History Panel -->
+  <div id="history-panel">
+    <button id="history-close">&times;</button>
+    <h2>— 回 顾 —</h2>
+    <div id="history-content"></div>
+  </div>
+
+</div>
+</div>
+
+<!-- GAME_DATA_PLACEHOLDER -->
+
+<script>
+(function() {
+'use strict';
+
+const ACT_NAMES = { 1: '第一幕 · 调查开端', 2: '第二幕 · 深入调查', 3: '第三幕 · 地下室危机', 4: '第四幕 · 终局' };
+const ENDING_LABELS = {
+  true_ending: '完整正义', bittersweet_ending: '苦甜正义',
+  neutral: '中性结局', cold_ending: '未竟之案', bad_ending: '死亡结局'
+};
+const ENDING_ICONS = {
+  true_ending: '☀️', bittersweet_ending: '🌤️',
+  neutral: '🌫️', cold_ending: '❄️', bad_ending: '💀'
+};
+
+const story = GAME_DATA.story;
+const narratives = GAME_DATA.narratives;
+const assets = GAME_DATA.assets;
+const nodes = story.nodes;
+const entryId = story.entry_node_id;
+
+/* ===== STATE ===== */
+let state = {
+  currentNode: null,
+  values: { clues: 0, courage: 0, trust_isabella: 0 },
+  visited: [],
+  history: [],
+  currentAct: 0,
+  textQueue: [],
+  textIdx: 0,
+  typing: false,
+  typeTimer: null,
+  autoMode: false,
+  autoTimer: null,
+};
+
+/* ===== DOM REFS ===== */
+const $ = id => document.getElementById(id);
+const titleScreen = $('title-screen');
+const sceneLayer = $('scene-layer');
+const sceneBg = $('scene-bg');
+const sceneBgNext = $('scene-bg-next');
+const sceneTitleOverlay = $('scene-title-overlay');
+const actTransition = $('act-transition');
+const textbox = $('textbox');
+const textContent = $('text-content');
+const speakerName = $('speaker-name');
+const clickIndicator = $('click-indicator');
+const choicePanel = $('choice-panel');
+const choiceButtons = $('choice-buttons');
+const hud = $('hud');
+const hudRight = $('hud-right');
+const endingScreen = $('ending-screen');
+const modalOverlay = $('modal-overlay');
+const historyPanel = $('history-panel');
+const charLeft = $('char-left');
+const charRight = $('char-right');
+const charLeftWrap = $('char-left-wrap');
+const charRightWrap = $('char-right-wrap');
+const charLeftName = $('char-left-name');
+const charRightName = $('char-right-name');
+
+/* ===== INIT ===== */
+function init() {
+  if (hasSaveData()) $('btn-continue').disabled = false;
+  $('btn-start').addEventListener('click', () => startGame(false));
+  $('btn-continue').addEventListener('click', () => startGame(true));
+  $('btn-save').addEventListener('click', () => openModal('save'));
+  $('btn-load').addEventListener('click', () => openModal('load'));
+  $('btn-history').addEventListener('click', toggleHistory);
+  $('btn-auto').addEventListener('click', toggleAuto);
+  $('btn-restart').addEventListener('click', () => { endingScreen.style.display = 'none'; startGame(false); });
+  $('btn-title-return').addEventListener('click', () => { endingScreen.style.display = 'none'; returnToTitle(); });
+  $('modal-close').addEventListener('click', closeModal);
+  $('history-close').addEventListener('click', () => historyPanel.style.display = 'none');
+  textbox.addEventListener('click', onTextClick);
+  document.addEventListener('keydown', e => { if (e.code === 'Space' || e.code === 'Enter') onTextClick(); });
+}
+
+/* ===== START ===== */
+function startGame(continued) {
+  if (continued && hasSaveData()) {
+    loadFromSlot('auto');
+  } else {
+    state.currentNode = null;
+    const attrs = GAME_DATA.story.value_system?.attributes || {};
+    state.values = {};
+    for (const k of Object.keys(attrs)) state.values[k] = 0;
+    state.visited = [];
+    state.history = [];
+    state.currentAct = 0;
+  }
+  titleScreen.classList.add('hidden');
+  setTimeout(() => {
+    titleScreen.style.display = 'none';
+    sceneLayer.style.display = 'block';
+    hud.style.display = 'flex';
+    hudRight.style.display = 'flex';
+    updateHUD();
+    if (state.currentNode && nodes[state.currentNode]) {
+      enterNode(state.currentNode);
+    } else {
+      enterNode(entryId);
+    }
+  }, 800);
+}
+
+function returnToTitle() {
+  sceneLayer.style.display = 'none';
+  hud.style.display = 'none';
+  hudRight.style.display = 'none';
+  titleScreen.style.display = 'flex';
+  titleScreen.classList.remove('hidden');
+  if (hasSaveData()) $('btn-continue').disabled = false;
+}
+
+/* ===== NODE ENTRY ===== */
+function enterNode(nodeId) {
+  const node = nodes[nodeId];
+  if (!node) return;
+
+  state.currentNode = nodeId;
+  if (!state.visited.includes(nodeId)) state.visited.push(nodeId);
+
+  const newAct = node.act || 1;
+  if (newAct !== state.currentAct) {
+    state.currentAct = newAct;
+    showActTransition(newAct, () => showScene(nodeId, node));
+  } else {
+    showScene(nodeId, node);
+  }
+
+  autoSave();
+}
+
+/* ===== ACT TRANSITION ===== */
+function showActTransition(act, cb) {
+  $('act-number').textContent = `第 ${['一','二','三','四'][act-1]} 幕`;
+  $('act-title').textContent = ACT_NAMES[act] || '';
+  actTransition.classList.add('visible');
+  setTimeout(() => {
+    actTransition.classList.remove('visible');
+    setTimeout(cb, 600);
+  }, 2500);
+}
+
+/* ===== SCENE ===== */
+function showScene(nodeId, node) {
+  choicePanel.style.display = 'none';
+  clickIndicator.style.display = 'block';
+
+  const bgUrl = assets.backgrounds[nodeId];
+  if (bgUrl) {
+    sceneBgNext.style.backgroundImage = `url('${bgUrl}')`;
+    sceneBgNext.style.opacity = '1';
+    setTimeout(() => {
+      sceneBg.style.backgroundImage = `url('${bgUrl}')`;
+      sceneBgNext.style.opacity = '0';
+    }, 900);
+  } else {
+    sceneBg.className = '';
+    sceneBg.classList.add('bg-fallback');
+    sceneBg.style.backgroundImage = '';
+  }
+
+  showCharacters(node);
+
+  const narr = narratives[nodeId];
+  const title = narr ? narr.title : node.title;
+  const act = narr ? narr.act : node.act;
+
+  $('scene-act-label').textContent = `第 ${['一','二','三','四'][(act||1)-1]} 幕`;
+  $('scene-title-text').textContent = title || '';
+  sceneTitleOverlay.classList.add('visible');
+  setTimeout(() => sceneTitleOverlay.classList.remove('visible'), 2000);
+
+  setTimeout(() => {
+    const fullText = narr ? narr.text : (node.scene_description || node.title);
+    startTextDisplay(fullText, node);
+  }, 1800);
+}
+
+/* ===== CHARACTERS ===== */
+function showCharacters(node) {
+  charLeftWrap.classList.remove('visible');
+  charRightWrap.classList.remove('visible');
+  charLeft.src = '';
+  charRight.src = '';
+  charLeftName.textContent = '';
+  charRightName.textContent = '';
+
+  const witnesses = node.witnesses || [];
+  const chars = GAME_DATA.story.characters || [];
+  const protagonistId = (chars.find(c => c.role === 'protagonist') || chars[0] || {}).char_id || '';
+  const nonPlayer = witnesses.filter(c => c !== protagonistId);
+  const playerInScene = witnesses.includes(protagonistId);
+
+  if (playerInScene && assets.characters[protagonistId]) {
+    charLeft.src = assets.characters[protagonistId].url;
+    charLeftName.textContent = assets.characters[protagonistId].name;
+    setTimeout(() => charLeftWrap.classList.add('visible'), 400);
+  }
+  if (nonPlayer.length > 0) {
+    const npc = nonPlayer[0];
+    if (assets.characters[npc]) {
+      charRight.src = assets.characters[npc].url;
+      charRightName.textContent = assets.characters[npc].name;
+      setTimeout(() => charRightWrap.classList.add('visible'), 600);
+    }
+  }
+}
+
+/* ===== TEXT DISPLAY ===== */
+function startTextDisplay(fullText, node) {
+  const paragraphs = splitIntoParagraphs(fullText);
+  state.textQueue = paragraphs;
+  state.textIdx = 0;
+  state.currentNodeObj = node;
+  displayNextParagraph();
+}
+
+function splitIntoParagraphs(text) {
+  if (!text) return ['...'];
+  const raw = text.split(/\n\s*\n/);
+  const result = [];
+  let buffer = '';
+  for (const para of raw) {
+    const trimmed = para.trim();
+    if (!trimmed) continue;
+    if (buffer.length + trimmed.length > 300 && buffer.length > 0) {
+      result.push(buffer.trim());
+      buffer = trimmed;
+    } else {
+      buffer += (buffer ? '\n\n' : '') + trimmed;
+    }
+  }
+  if (buffer.trim()) result.push(buffer.trim());
+  if (result.length === 0) result.push(text.trim() || '...');
+  return result;
+}
+
+function displayNextParagraph() {
+  if (state.textIdx >= state.textQueue.length) {
+    onTextComplete();
+    return;
+  }
+  const para = state.textQueue[state.textIdx];
+  state.textIdx++;
+
+  const speaker = extractSpeaker(para);
+  speakerName.textContent = speaker || '';
+  const displayText = speaker ? para.replace(/^"[^"]*"\s*/, '').replace(/^「[^」]*」\s*/, '') : para;
+
+  typeText(formatText(displayText));
+}
+
+function extractSpeaker(text) {
+  const dialogMatch = text.match(/^["「](.+?)["」]/);
+  if (dialogMatch) {
+    const said = dialogMatch[1];
+    if (said.length < 20) return '';
+  }
+  return '';
+}
+
+function formatText(text) {
+  return text
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+    .replace(/---/g, '—');
+}
+
+function typeText(html) {
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = html;
+  const plainText = tempDiv.textContent;
+
+  state.typing = true;
+  textContent.innerHTML = '';
+  clickIndicator.style.display = 'none';
+
+  let charIdx = 0;
+  const speed = 30;
+
+  clearInterval(state.typeTimer);
+  state.typeTimer = setInterval(() => {
+    if (charIdx >= plainText.length) {
+      clearInterval(state.typeTimer);
+      textContent.innerHTML = html;
+      state.typing = false;
+      clickIndicator.style.display = 'block';
+      if (state.autoMode) {
+        clearTimeout(state.autoTimer);
+        state.autoTimer = setTimeout(onTextClick, 2500);
+      }
+      return;
+    }
+    charIdx++;
+    const partial = plainText.substring(0, charIdx);
+    let reconstructed = html;
+    const emMatches = [...html.matchAll(/<em>([^<]*)<\/em>/g)];
+    if (emMatches.length === 0) {
+      textContent.textContent = partial;
+    } else {
+      textContent.innerHTML = buildPartialHTML(html, charIdx);
+    }
+  }, speed);
+}
+
+function buildPartialHTML(html, charCount) {
+  let result = '';
+  let count = 0;
+  let inTag = false;
+  for (let i = 0; i < html.length && count < charCount; i++) {
+    const ch = html[i];
+    if (ch === '<') { inTag = true; const end = html.indexOf('>', i); if (end >= 0) { result += html.substring(i, end + 1); i = end; } inTag = false; continue; }
+    result += ch;
+    count++;
+  }
+  const openEm = (result.match(/<em>/g) || []).length;
+  const closeEm = (result.match(/<\/em>/g) || []).length;
+  if (openEm > closeEm) result += '</em>';
+  return result;
+}
+
+function skipTypewriter() {
+  if (!state.typing) return false;
+  clearInterval(state.typeTimer);
+  const html = formatText(state.textQueue[state.textIdx - 1] || '');
+  textContent.innerHTML = html;
+  state.typing = false;
+  clickIndicator.style.display = 'block';
+  return true;
+}
+
+function onTextClick() {
+  if (choicePanel.style.display === 'flex') return;
+  if (skipTypewriter()) return;
+  displayNextParagraph();
+}
+
+function onTextComplete() {
+  const node = state.currentNodeObj;
+  if (!node) return;
+
+  state.history.push({ nodeId: node.node_id, title: node.title });
+
+  clickIndicator.style.display = 'none';
+
+  const isEnding = node.node_type === 'ending' || node.node_type === 'dead_end';
+  if (isEnding) {
+    setTimeout(() => showEnding(node), 800);
+    return;
+  }
+
+  if (node.choices && node.choices.length > 0) {
+    setTimeout(() => showChoices(node), 400);
+    return;
+  }
+
+  if (node.next_nodes && node.next_nodes.length > 0) {
+    let targetNode = node.next_nodes[0];
+    if (node.auto_route && node.next_nodes.length > 1) {
+      targetNode = resolveAutoRouteTarget(node);
+    }
+    clickIndicator.style.display = 'block';
+    textbox.onclick = () => {
+      textbox.onclick = onTextClick;
+      enterNode(targetNode);
+    };
+    return;
+  }
+
+  showEnding(node);
+}
+
+/* ===== CHOICES ===== */
+function showChoices(node) {
+  textbox.style.display = 'none';
+  choicePanel.style.display = 'flex';
+  choicePanel.style.flexDirection = 'column';
+  choiceButtons.innerHTML = '';
+
+  node.choices.forEach((choice, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+
+    let locked = false;
+    let lockReason = '';
+
+    if (choice.gate_condition) {
+      for (const [attr, cond] of Object.entries(choice.gate_condition)) {
+        const match = cond.match(/(>=|<=|>|<|==)(\d+)/);
+        if (match) {
+          const op = match[1];
+          const threshold = parseInt(match[2]);
+          const val = state.values[attr] || 0;
+          if (op === '>=' && val < threshold) locked = true;
+          else if (op === '<=' && val > threshold) locked = true;
+          else if (op === '>' && val <= threshold) locked = true;
+          else if (op === '<' && val >= threshold) locked = true;
+          else if (op === '==' && val !== threshold) locked = true;
+        }
+      }
+      if (locked) lockReason = choice.locked_hint || '条件未满足';
+    }
+
+    let label = `${idx + 1}. ${choice.text}`;
+    if (choice.is_dead_end) label += ' <span class="dead-end-icon">💀</span>';
+
+    btn.innerHTML = label;
+    if (locked) {
+      btn.classList.add('locked');
+      btn.innerHTML += `<span class="lock-reason">🔒 ${lockReason}</span>`;
+    }
+
+    if (!locked) {
+      btn.addEventListener('click', () => makeChoice(choice));
+    }
+
+    choiceButtons.appendChild(btn);
+  });
+}
+
+function makeChoice(choice) {
+  choicePanel.style.display = 'none';
+  textbox.style.display = 'block';
+  textbox.onclick = onTextClick;
+
+  if (choice.value_effects) {
+    choice.value_effects.forEach(eff => {
+      const attr = eff.attribute;
+      const delta = eff.delta || 0;
+      if (state.values.hasOwnProperty(attr)) {
+        state.values[attr] += delta;
+        flashStat(attr, delta);
+      }
+    });
+    updateHUD();
+  }
+
+  let targetNode = choice.target_node_id;
+
+  if (choice.gate_branch) {
+    const gb = choice.gate_branch;
+    let pass = true;
+    if (gb.condition) {
+      for (const [attr, cond] of Object.entries(gb.condition)) {
+        const match = cond.match(/(>=|<=|>|<|==)(\d+)/);
+        if (match) {
+          const op = match[1];
+          const threshold = parseInt(match[2]);
+          const val = state.values[attr] || 0;
+          if (op === '>=' && val < threshold) pass = false;
+          else if (op === '<=' && val > threshold) pass = false;
+          else if (op === '>' && val <= threshold) pass = false;
+          else if (op === '<' && val >= threshold) pass = false;
+        }
+      }
+    }
+    targetNode = pass ? gb.true_target : gb.false_target;
+  }
+
+  state.history.push({ nodeId: state.currentNode, choice: choice.text });
+
+  enterNode(targetNode);
+}
+
+/* ===== AUTO ROUTE ===== */
+function resolveAutoRouteTarget(node) {
+  const nid = node.node_id;
+  const v = state.values;
+
+  if (nid === 'node_12_public') {
+    return (v.courage >= 3 && v.clues >= 4 && v.trust_isabella >= 1)
+      ? 'node_end_true' : 'node_end_bittersweet';
+  }
+  if (nid === 'node_12_legal') {
+    return v.clues >= 3 ? 'node_end_neutral' : 'node_end_cold';
+  }
+
+  return node.next_nodes[0];
+}
+
+/* ===== HUD ===== */
+function updateHUD() {
+  $('val-clues').textContent = state.values.clues;
+  $('val-courage').textContent = state.values.courage;
+  $('val-trust').textContent = state.values.trust_isabella;
+}
+
+function flashStat(attr, delta) {
+  const map = { clues: 'hud-clues', courage: 'hud-courage', trust_isabella: 'hud-trust' };
+  const el = $(map[attr]);
+  if (!el) return;
+  el.classList.add('flash');
+  setTimeout(() => el.classList.remove('flash'), 1200);
+}
+
+/* ===== ENDING ===== */
+function showEnding(node) {
+  sceneLayer.style.display = 'none';
+
+  const isBad = node.ending_type === 'bad_ending' || node.node_type === 'dead_end';
+  endingScreen.className = isBad ? 'bad-end' : '';
+  endingScreen.style.display = 'flex';
+
+  const endType = node.ending_type || (node.node_type === 'dead_end' ? 'bad_ending' : 'neutral');
+  $('ending-icon').textContent = ENDING_ICONS[endType] || '🌫️';
+  $('ending-title').textContent = node.title || '结局';
+  $('ending-type-label').textContent = ENDING_LABELS[endType] || '';
+
+  const narr = narratives[node.node_id];
+  const endText = narr ? narr.text : (node.scene_description || '');
+  const shortText = endText.length > 200 ? endText.substring(0, 200) + '...' : endText;
+  $('ending-text').textContent = shortText;
+
+  $('ending-stats').innerHTML =
+    `线索: ${state.values.clues} | 勇气: ${state.values.courage} | 信任: ${state.values.trust_isabella}<br>` +
+    `经过节点: ${state.visited.length}/${Object.keys(nodes).length}`;
+
+  autoSave();
+}
+
+/* ===== SAVE / LOAD ===== */
+function getSaveKey(slot) { return `avg_save_${story.story_id}_${slot}`; }
+
+function hasSaveData() {
+  return !!localStorage.getItem(getSaveKey('auto'));
+}
+
+function autoSave() {
+  saveToSlot('auto');
+}
+
+function saveToSlot(slot) {
+  const data = {
+    currentNode: state.currentNode,
+    values: { ...state.values },
+    visited: [...state.visited],
+    history: [...state.history],
+    currentAct: state.currentAct,
+    timestamp: new Date().toISOString(),
+    nodeTitle: nodes[state.currentNode]?.title || '',
+  };
+  localStorage.setItem(getSaveKey(slot), JSON.stringify(data));
+}
+
+function loadFromSlot(slot) {
+  const raw = localStorage.getItem(getSaveKey(slot));
+  if (!raw) return false;
+  try {
+    const data = JSON.parse(raw);
+    state.currentNode = data.currentNode;
+    state.values = data.values || { clues: 0, courage: 0, trust_isabella: 0 };
+    state.visited = data.visited || [];
+    state.history = data.history || [];
+    state.currentAct = data.currentAct || 0;
+    return true;
+  } catch { return false; }
+}
+
+function openModal(mode) {
+  $('modal-title').textContent = mode === 'save' ? '存 档' : '读 档';
+  const slots = $('modal-slots');
+  slots.innerHTML = '';
+
+  ['slot1', 'slot2', 'slot3'].forEach((slot, i) => {
+    const div = document.createElement('div');
+    div.className = 'save-slot';
+    const raw = localStorage.getItem(getSaveKey(slot));
+    let info = '空';
+    if (raw) {
+      try {
+        const d = JSON.parse(raw);
+        info = `${d.nodeTitle || '?'} — ${new Date(d.timestamp).toLocaleString('zh-CN')}`;
+      } catch { info = '损坏'; }
+    }
+    div.innerHTML = `<span class="slot-label">存档 ${i + 1}</span><span class="slot-info">${info}</span>`;
+    div.addEventListener('click', () => {
+      if (mode === 'save') {
+        saveToSlot(slot);
+        closeModal();
+      } else {
+        if (loadFromSlot(slot)) {
+          closeModal();
+          endingScreen.style.display = 'none';
+          sceneLayer.style.display = 'block';
+          updateHUD();
+          enterNode(state.currentNode);
+        }
+      }
+    });
+    slots.appendChild(div);
+  });
+
+  modalOverlay.style.display = 'flex';
+}
+
+function closeModal() { modalOverlay.style.display = 'none'; }
+
+/* ===== HISTORY ===== */
+function toggleHistory() {
+  if (historyPanel.style.display === 'block') {
+    historyPanel.style.display = 'none';
+    return;
+  }
+  const content = $('history-content');
+  content.innerHTML = '';
+  state.history.forEach(entry => {
+    const div = document.createElement('div');
+    div.className = 'history-entry';
+    if (entry.choice) {
+      div.innerHTML = `<div class="h-title">选择</div>${entry.choice}`;
+    } else {
+      div.innerHTML = `<div class="h-title">${entry.title || entry.nodeId}</div>`;
+    }
+    content.appendChild(div);
+  });
+  historyPanel.style.display = 'block';
+}
+
+/* ===== AUTO MODE ===== */
+function toggleAuto() {
+  state.autoMode = !state.autoMode;
+  $('btn-auto').textContent = state.autoMode ? '停止' : '自动';
+  $('btn-auto').style.borderColor = state.autoMode ? 'var(--gold)' : '';
+  if (state.autoMode && !state.typing) {
+    state.autoTimer = setTimeout(onTextClick, 2000);
+  }
+  if (!state.autoMode) clearTimeout(state.autoTimer);
+}
+
+/* ===== BOOT ===== */
+init();
+
+})();
+</script>
+</body>
+</html>

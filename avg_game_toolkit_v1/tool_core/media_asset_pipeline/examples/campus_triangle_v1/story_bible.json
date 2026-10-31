@@ -1,0 +1,399 @@
+{
+  "project_id": "campus_triangle_v1",
+  "premise": "校园祭前夜，男主在旧图书馆归还一枚小时候的星形护符时意外触发星门。青梅竹马林澄想兑现一起看烟火的旧约，隔壁班傲娇女唐绫音想让男主帮她澄清舞台事故，异界从者星弥则需要男主在日落前帮她稳定归途。三个愿望在同一个黄昏撞在一起，玩家必须选择诚实面对谁，也决定星门如何关闭。",
+  "tone": [
+    "青春校园",
+    "恋爱喜剧",
+    "轻奇幻",
+    "黄昏倒计时",
+    "温柔但有选择压力"
+  ],
+  "style_profile": {
+    "style_id": "original_anime_campus_light_fantasy",
+    "prompt_prefix": "Original Japanese anime campus light-fantasy illustration, cinematic sunset lighting, clean character silhouettes, expressive eyes, soft rim light, detailed school festival decorations, no photorealism.",
+    "negative_prompt": "photorealistic, live action, real human face, celebrity likeness, public figure likeness, existing anime or game IP, visible male protagonist, male reflection, subtitles, UI, watermark, logo",
+    "reference_asset_ids": []
+  },
+  "protagonist_rule": {
+    "pov": "first_person",
+    "visibility_rule": "The protagonist is the camera. Do not show his face, body, back view, mirror reflection, social avatar, ID photo, or identifiable shadow.",
+    "allowed_body_parts": []
+  },
+  "characters": [
+    {
+      "character_id": "lin_cheng",
+      "display_name": "林澄",
+      "role": "青梅竹马，大学同专业同班，校园祭执行组记录员",
+      "age": 20,
+      "appears_on_screen": true,
+      "needs_reference_image": true,
+      "personality": "熟悉男主的小习惯，温柔但不想再被敷衍，关键时刻会直接说出委屈。",
+      "visual_anchor": "warm chestnut bob hair, pale blue campus cardigan, white pleated skirt, star-shaped hairpin matching the childhood charm, gentle but steady gaze",
+      "must_preserve": [
+        "star-shaped hairpin",
+        "pale blue cardigan",
+        "warm chestnut bob hair"
+      ],
+      "must_avoid": [
+        "childlike appearance",
+        "overly glamorous idol outfit"
+      ]
+    },
+    {
+      "character_id": "tang_lingyin",
+      "display_name": "唐绫音",
+      "role": "隔壁公共课班的傲娇女，戏剧社舞台负责人",
+      "age": 20,
+      "appears_on_screen": true,
+      "needs_reference_image": true,
+      "personality": "嘴硬、反应快、很怕被看出在意男主；真正的问题是她被误会破坏了星空舞台布景。",
+      "visual_anchor": "long dark violet twin tails tied low, red ribbon tie, black school blazer worn over one shoulder, sharp amber eyes, folded arms, theatrical star-lantern prop",
+      "must_preserve": [
+        "dark violet low twin tails",
+        "red ribbon tie",
+        "amber eyes",
+        "star-lantern prop"
+      ],
+      "must_avoid": [
+        "villain expression",
+        "adult office suit"
+      ]
+    },
+    {
+      "character_id": "xing_mi",
+      "display_name": "星弥",
+      "role": "从异界星图书库来的契约从者，外表为大学年龄的少女",
+      "age": 21,
+      "appears_on_screen": true,
+      "needs_reference_image": true,
+      "personality": "礼貌、过度认真、把校园规则当成仪式法则；她不是来抢人，而是被男主的护符召来，需要理解人的承诺才能回去。",
+      "visual_anchor": "silver-blue long hair, translucent short cape like folded starlight, navy and white fantasy-academic uniform, small floating page fragments, calm luminous eyes",
+      "must_preserve": [
+        "silver-blue long hair",
+        "starlight cape",
+        "fantasy-academic uniform",
+        "floating page fragments"
+      ],
+      "must_avoid": [
+        "angel wings",
+        "heavy armor",
+        "childlike proportions"
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "location_id": "after_class_corridor",
+      "display_name": "放学后的教学楼走廊",
+      "visual_anchor": "university hallway after class, sunset through windows, festival posters, quiet lockers, warm dust motes",
+      "needs_reference_image": false
+    },
+    {
+      "location_id": "old_library",
+      "display_name": "旧图书馆",
+      "visual_anchor": "old campus library, tall shelves, dusk light, star map notebook, faint blue magic dust",
+      "needs_reference_image": false
+    },
+    {
+      "location_id": "festival_courtyard",
+      "display_name": "校园祭中庭",
+      "visual_anchor": "campus festival courtyard at sunset, paper lanterns, half-built booths, clock tower visible",
+      "needs_reference_image": false
+    },
+    {
+      "location_id": "clocktower_stair",
+      "display_name": "钟楼楼梯",
+      "visual_anchor": "narrow school clocktower stairs, sunset stripe light, paper lanterns below, blue star gate glow above",
+      "needs_reference_image": false
+    },
+    {
+      "location_id": "rooftop",
+      "display_name": "钟楼天台",
+      "visual_anchor": "school clocktower rooftop during first fireworks, city dusk, star gate light, festival music below",
+      "needs_reference_image": false
+    }
+  ],
+  "recurring_props": [
+    {
+      "prop_id": "star_charm",
+      "display_name": "星形护符",
+      "visual_anchor": "small handmade star charm, slightly worn, blue glint when the gate reacts",
+      "needs_reference_image": false
+    },
+    {
+      "prop_id": "star_lantern",
+      "display_name": "星空舞台灯",
+      "visual_anchor": "handmade star lantern prop with bent wire frame and warm bulbs",
+      "needs_reference_image": false
+    }
+  ],
+  "audio_direction": {
+    "music": "清亮校园钢琴和轻微电子星光音色，选择前加入心跳感倒计时。",
+    "sfx": "放学铃、远处社团声、纸灯摇晃、星门低鸣、烟火声。"
+  },
+  "story_graph": {
+    "entry_node_id": "n00_after_class_spark",
+    "state_variables": [
+      "honesty",
+      "lin_bond",
+      "tang_bond",
+      "xing_mi_trust",
+      "gate_stability"
+    ],
+    "nodes": [
+      {
+        "node_id": "n00_after_class_spark",
+        "type": "opening",
+        "summary": "放学铃后，男主收到三条同时弹出的消息，口袋里的星形护符开始发光。",
+        "target_duration_sec": 10,
+        "choices": [
+          {
+            "choice_id": "go_lin",
+            "label": "先去找林澄，她说护符的事不能再拖",
+            "target_node_id": "n01_osmanthus_staircase",
+            "state_effects": {
+              "lin_bond": 1
+            }
+          },
+          {
+            "choice_id": "go_tang",
+            "label": "去隔壁班找唐绫音，她说你得负责",
+            "target_node_id": "n02_next_class_rehearsal",
+            "state_effects": {
+              "tang_bond": 1
+            }
+          },
+          {
+            "choice_id": "go_library",
+            "label": "追着护符的光去旧图书馆",
+            "target_node_id": "n03_old_library_contract",
+            "state_effects": {
+              "xing_mi_trust": 1
+            }
+          }
+        ]
+      },
+      {
+        "node_id": "n01_osmanthus_staircase",
+        "type": "scene",
+        "summary": "林澄在桂花树旁等你，提醒你今晚烟火是小时候约好的时间。",
+        "target_duration_sec": 10,
+        "choices": [
+          {
+            "choice_id": "promise_listen",
+            "label": "认真听她说完",
+            "target_node_id": "n04_courtyard_collision",
+            "state_effects": {
+              "lin_bond": 1,
+              "honesty": 1
+            }
+          }
+        ]
+      },
+      {
+        "node_id": "n02_next_class_rehearsal",
+        "type": "scene",
+        "summary": "唐绫音嘴上怪你，实际是想让你帮她证明星空舞台不是她弄坏的。",
+        "target_duration_sec": 10,
+        "choices": [
+          {
+            "choice_id": "help_lantern",
+            "label": "帮她扶住快倒的星空灯",
+            "target_node_id": "n04_courtyard_collision",
+            "state_effects": {
+              "tang_bond": 1,
+              "honesty": 1
+            }
+          }
+        ]
+      },
+      {
+        "node_id": "n03_old_library_contract",
+        "type": "scene",
+        "summary": "星弥从旧图书馆的星图中出现，称你是临时契约者，需要在日落前决定星门方向。",
+        "target_duration_sec": 10,
+        "choices": [
+          {
+            "choice_id": "calm_servant",
+            "label": "先让她冷静，问清楚星门规则",
+            "target_node_id": "n04_courtyard_collision",
+            "state_effects": {
+              "xing_mi_trust": 1,
+              "gate_stability": 1
+            }
+          }
+        ]
+      },
+      {
+        "node_id": "n04_courtyard_collision",
+        "type": "choice",
+        "summary": "中庭里三人同时找到你，星门的蓝光把校园祭灯串都点亮了。",
+        "target_duration_sec": 12,
+        "choices": [
+          {
+            "choice_id": "tell_truth",
+            "label": "把护符和星门的事全说出来",
+            "target_node_id": "n05_team_truce",
+            "state_effects": {
+              "honesty": 2,
+              "gate_stability": 1
+            }
+          },
+          {
+            "choice_id": "hide_servant",
+            "label": "先把星弥藏起来，明天再解释",
+            "target_node_id": "n06_hide_failure",
+            "state_effects": {
+              "honesty": -2,
+              "gate_stability": -2
+            }
+          }
+        ]
+      },
+      {
+        "node_id": "n05_team_truce",
+        "type": "bridge",
+        "summary": "三人吵了几句后达成临时停战：在第一束烟火前把护符送到钟楼。",
+        "target_duration_sec": 10,
+        "choices": [
+          {
+            "choice_id": "lin_leads",
+            "label": "让林澄带你走旧楼近路",
+            "target_node_id": "n07_memory_corridor",
+            "state_effects": {
+              "lin_bond": 1
+            }
+          },
+          {
+            "choice_id": "tang_blocks",
+            "label": "让唐绫音去拖住巡楼老师",
+            "target_node_id": "n08_rooftop_argument",
+            "state_effects": {
+              "tang_bond": 1
+            }
+          },
+          {
+            "choice_id": "xing_mi_guides",
+            "label": "跟星弥先确认星门的位置",
+            "target_node_id": "n09_gate_stair",
+            "state_effects": {
+              "xing_mi_trust": 1
+            }
+          }
+        ]
+      },
+      {
+        "node_id": "n06_hide_failure",
+        "type": "failure",
+        "summary": "你试图隐瞒星弥，结果星门误认成拒绝契约，灯串熄灭，三人都意识到你又在逃避。",
+        "target_duration_sec": 10,
+        "choices": []
+      },
+      {
+        "node_id": "n07_memory_corridor",
+        "type": "scene",
+        "summary": "林澄带你穿过旧楼，坦白她怕的不是星门，而是你每次重要时刻都先走开。",
+        "target_duration_sec": 10,
+        "choices": [
+          {
+            "choice_id": "continue_to_final",
+            "label": "带着她的话继续上钟楼",
+            "target_node_id": "n10_final_choice",
+            "state_effects": {
+              "lin_bond": 1,
+              "honesty": 1
+            }
+          }
+        ]
+      },
+      {
+        "node_id": "n08_rooftop_argument",
+        "type": "scene",
+        "summary": "唐绫音在楼梯口替你顶住老师，别扭地承认她只是想让你第一个相信她。",
+        "target_duration_sec": 10,
+        "choices": [
+          {
+            "choice_id": "continue_to_final",
+            "label": "带着她争取来的时间上钟楼",
+            "target_node_id": "n10_final_choice",
+            "state_effects": {
+              "tang_bond": 1,
+              "honesty": 1
+            }
+          }
+        ]
+      },
+      {
+        "node_id": "n09_gate_stair",
+        "type": "scene",
+        "summary": "星弥解释从者契约并不是占有，而是替人守住一个承诺直到他说出口。",
+        "target_duration_sec": 10,
+        "choices": [
+          {
+            "choice_id": "continue_to_final",
+            "label": "带着她的星图上钟楼",
+            "target_node_id": "n10_final_choice",
+            "state_effects": {
+              "xing_mi_trust": 1,
+              "gate_stability": 1
+            }
+          }
+        ]
+      },
+      {
+        "node_id": "n10_final_choice",
+        "type": "choice",
+        "summary": "第一束烟火升起，三个人都看着你。星门只承认一个说出口的承诺。",
+        "target_duration_sec": 10,
+        "choices": [
+          {
+            "choice_id": "choose_lin",
+            "label": "兑现和林澄一起看烟火的约定",
+            "target_node_id": "n11_end_childhood",
+            "state_effects": {
+              "lin_bond": 2
+            }
+          },
+          {
+            "choice_id": "choose_tang",
+            "label": "站到唐绫音身边，把误会说清",
+            "target_node_id": "n12_end_tsundere",
+            "state_effects": {
+              "tang_bond": 2
+            }
+          },
+          {
+            "choice_id": "choose_xing_mi",
+            "label": "陪星弥打开星门，并约定明天再见",
+            "target_node_id": "n13_end_servant",
+            "state_effects": {
+              "xing_mi_trust": 2,
+              "gate_stability": 2
+            }
+          }
+        ]
+      },
+      {
+        "node_id": "n11_end_childhood",
+        "type": "ending",
+        "summary": "林澄在烟火下把护符重新系好，星门安静关闭，普通的明天变成你认真选择的未来。",
+        "target_duration_sec": 12,
+        "choices": []
+      },
+      {
+        "node_id": "n12_end_tsundere",
+        "type": "ending",
+        "summary": "你陪唐绫音把舞台误会讲清，她别过脸说只允许你明天继续帮忙，星门化作舞台星灯。",
+        "target_duration_sec": 12,
+        "choices": []
+      },
+      {
+        "node_id": "n13_end_servant",
+        "type": "ending",
+        "summary": "星弥穿过星门前留下书页契约，说明天会以交换生身份回来学习人的承诺。",
+        "target_duration_sec": 12,
+        "choices": []
+      }
+    ]
+  }
+}

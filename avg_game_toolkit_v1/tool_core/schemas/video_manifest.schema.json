@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/interactive-video/video_manifest.schema.json",
+  "title": "Interactive Video Manifest",
+  "type": "object",
+  "required": ["game_id", "videos"],
+  "properties": {
+    "game_id": { "type": "string" },
+    "characters": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "ref_image": { "type": "string" },
+          "prompt": { "type": "string" },
+          "seed": { "type": ["integer", "string"] }
+        }
+      }
+    },
+    "videos": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["src"],
+        "properties": {
+          "src": { "type": "string" },
+          "poster": { "type": "string" },
+          "last_frame": { "type": "string" },
+          "duration_sec": { "type": "integer", "minimum": 1 },
+          "task_id": { "type": "string" },
+          "source_video_url": { "type": "string" },
+          "last_frame_url": { "type": "string" },
+          "downloaded_at": { "type": "string" },
+          "prompt": { "type": "string" }
+        }
+      }
+    }
+  }
+}

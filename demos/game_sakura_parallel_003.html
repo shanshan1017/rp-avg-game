@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>樱花落下的平行线</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-dark: #0a0a0f;
+  --bg-darker: #050508;
+  --gold: #c4a35a;
+  --gold-light: #d4b76a;
+  --gold-dim: #8a7340;
+  --text-warm: #e8e0d0;
+  --text-dim: #a09888;
+  --red-accent: #8b2020;
+  --red-glow: #c0392b;
+  --green-accent: #2d8a56;
+  --textbox-bg: rgba(10, 10, 20, 0.92);
+  --overlay-bg: rgba(5, 5, 10, 0.92);
+}
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: var(--bg-darker);
+  font-family: 'Noto Serif SC', 'SimSun', serif;
+  color: var(--text-warm);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+/* ===== GAME CONTAINER 16:9 ===== */
+#game-container {
+  position: relative; width: 100vw; height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-darker);
+}
+#game-viewport {
+  position: relative; width: 100%; height: 100%;
+  max-width: calc(100vh * 16 / 9);
+  max-height: calc(100vw * 9 / 16);
+  overflow: hidden; background: var(--bg-dark);
+}
+
+/* ===== FOG ===== */
+@keyframes fogDrift1 {
+  0%   { transform: translateX(-10%) translateY(0); opacity: 0.03; }
+  50%  { transform: translateX(5%) translateY(-3%); opacity: 0.06; }
+  100% { transform: translateX(-10%) translateY(0); opacity: 0.03; }
+}
+@keyframes fogDrift2 {
+  0%   { transform: translateX(10%) translateY(2%); opacity: 0.04; }
+  50%  { transform: translateX(-8%) translateY(-1%); opacity: 0.07; }
+  100% { transform: translateX(10%) translateY(2%); opacity: 0.04; }
+}
+.fog-layer {
+  position: absolute; top: -20%; left: -20%; width: 140%; height: 140%;
+  pointer-events: none; z-index: 2;
+}
+.fog-layer-1 {
+  background: radial-gradient(ellipse at 30% 50%, rgba(200,190,170,0.15) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 30%, rgba(180,170,150,0.1) 0%, transparent 50%);
+  animation: fogDrift1 20s ease-in-out infinite;
+}
+.fog-layer-2 {
+  background: radial-gradient(ellipse at 60% 60%, rgba(160,150,130,0.12) 0%, transparent 55%),
+              radial-gradient(ellipse at 20% 70%, rgba(190,180,160,0.08) 0%, transparent 45%);
+  animation: fogDrift2 28s ease-in-out infinite;
+}
+
+.vignette {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 5;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%);
+}
+
+/* ===== TITLE SCREEN ===== */
+#title-screen {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 100;
+  background: linear-gradient(180deg, #080810 0%, #0d0d18 40%, #0a0a12 100%);
+  transition: opacity 1s ease;
+}
+#title-screen.hidden { opacity: 0; pointer-events: none; }
+
+#title-screen .ornament {
+  width: 200px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 12px 0;
+}
+#title-screen h1 {
+  font-size: 2.6rem; font-weight: 900; color: var(--gold);
+  text-shadow: 0 0 30px rgba(196,163,90,0.3), 0 2px 4px rgba(0,0,0,0.5);
+  letter-spacing: 6px; text-align: center; line-height: 1.4;
+}
+#title-screen .subtitle {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.95rem;
+  color: var(--text-dim); letter-spacing: 4px; margin-top: 8px; font-weight: 300;
+}
+#title-screen .title-buttons {
+  display: flex; flex-direction: column; gap: 14px; margin-top: 50px; align-items: center;
+}
+.btn-title {
+  font-family: 'Noto Serif SC', serif; font-size: 1.05rem;
+  color: var(--text-warm); background: transparent;
+  border: 1px solid var(--gold-dim); padding: 12px 54px;
+  cursor: pointer; letter-spacing: 4px; min-width: 220px; text-align: center;
+  transition: all 0.3s ease;
+}
+.btn-title:hover:not(:disabled) {
+  border-color: var(--gold); color: var(--gold-light);
+  box-shadow: 0 0 15px rgba(196,163,90,0.2), inset 0 0 15px rgba(196,163,90,0.05);
+}
+.btn-title:disabled { color: #555; border-color: #333; cursor: not-allowed; }
+
+/* ===== SCENE LAYER ===== */
+#scene-layer {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 10; display: none;
+}
+#scene-bg {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background-size: cover; background-position: center; background-repeat: no-repeat;
+  background-color: var(--bg-dark); transition: opacity 0.8s ease;
+}
+#scene-bg-next {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background-size: cover; background-position: center; background-repeat: no-repeat;
+  background-color: var(--bg-dark); opacity: 0; transition: opacity 0.8s ease;
+}
+
+/* ===== CHARACTER PORTRAITS ===== */
+.char-wrap {
+  position: absolute; bottom: 28%; height: 58%; max-width: 40%;
+  z-index: 12; opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+  display: flex; flex-direction: column; align-items: center;
+}
+.char-wrap .char-portrait {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 20px rgba(0,0,0,0.6));
+}
+.char-wrap .char-name {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.8rem;
+  color: var(--gold-light); letter-spacing: 2px;
+  background: rgba(10,10,20,0.75); padding: 4px 16px;
+  border: 1px solid rgba(196,163,90,0.2); border-radius: 3px;
+  margin-top: 6px; white-space: nowrap;
+  backdrop-filter: blur(4px);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+.char-wrap.pos-left { left: 5%; transform: translateY(10px); }
+.char-wrap.pos-right { right: 5%; transform: translateY(10px); }
+.char-wrap.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== SCENE TITLE OVERLAY ===== */
+#scene-title-overlay {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 50; background: rgba(0,0,0,0.75);
+  opacity: 0; pointer-events: none; transition: opacity 0.6s ease;
+}
+#scene-title-overlay.visible { opacity: 1; }
+#scene-title-overlay .act-label {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.9rem;
+  color: var(--gold-dim); letter-spacing: 6px; margin-bottom: 12px;
+}
+#scene-title-overlay .scene-title-text {
+  font-family: 'Noto Serif SC', serif; font-size: 2rem; color: var(--gold);
+  text-shadow: 0 0 20px rgba(196,163,90,0.3); letter-spacing: 3px;
+}
+
+/* ===== ACT TRANSITION ===== */
+#act-transition {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 200; background: var(--bg-dark);
+  opacity: 0; pointer-events: none; transition: opacity 0.8s ease;
+}
+#act-transition.visible { opacity: 1; pointer-events: auto; }
+#act-transition .act-number {
+  font-family: 'Noto Serif SC', serif; font-size: 1rem;
+  color: var(--gold-dim); letter-spacing: 8px; margin-bottom: 16px;
+}
+#act-transition .act-title {
+  font-family: 'Noto Serif SC', serif; font-size: 2.4rem; color: var(--gold);
+  text-shadow: 0 0 30px rgba(196,163,90,0.3); letter-spacing: 4px;
+}
+#act-transition .act-line {
+  width: 120px; height: 1px; margin-top: 20px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+}
+
+/* ===== TEXT BOX ===== */
+#textbox-container {
+  position: absolute; bottom: 0; left: 0; width: 100%;
+  z-index: 30; pointer-events: auto;
+}
+#textbox {
+  background: var(--textbox-bg);
+  border-top: 1px solid rgba(196,163,90,0.15);
+  padding: 28px 48px 36px;
+  min-height: 260px;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+}
+#speaker-name {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 1rem;
+  color: var(--gold); letter-spacing: 3px; margin-bottom: 10px;
+  font-weight: 500; min-height: 1.3em;
+}
+#text-content {
+  font-size: 1.2rem; line-height: 2; color: var(--text-warm);
+  letter-spacing: 0.8px; white-space: pre-wrap;
+  min-height: 120px;
+}
+#text-content em, #text-content i {
+  color: var(--gold-dim); font-style: italic;
+}
+#click-indicator {
+  position: absolute; bottom: 12px; right: 30px;
+  font-size: 0.75rem; color: var(--gold-dim);
+  animation: blink 1.2s ease-in-out infinite;
+}
+@keyframes blink { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+/* ===== CHOICE PANEL ===== */
+#choice-panel {
+  position: absolute; bottom: 0; left: 0; width: 100%;
+  z-index: 35; display: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(5,5,10,0.85) 20%, rgba(5,5,10,0.95) 100%);
+  padding: 40px 60px 36px;
+}
+#choice-panel .choice-header {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.8rem;
+  color: var(--gold-dim); letter-spacing: 4px; margin-bottom: 18px; text-align: center;
+}
+.choice-btn {
+  display: block; width: 100%; max-width: 700px; margin: 0 auto 12px;
+  font-family: 'Noto Serif SC', serif; font-size: 0.95rem;
+  color: var(--text-warm); background: rgba(20,20,35,0.8);
+  border: 1px solid rgba(196,163,90,0.25); padding: 16px 24px;
+  cursor: pointer; text-align: left; letter-spacing: 0.5px;
+  transition: all 0.3s ease; line-height: 1.6; position: relative;
+}
+.choice-btn:hover:not(.locked) {
+  border-color: var(--gold); color: var(--gold-light);
+  background: rgba(30,28,40,0.9);
+  box-shadow: 0 0 20px rgba(196,163,90,0.15), inset 0 0 20px rgba(196,163,90,0.03);
+}
+.choice-btn.locked {
+  color: #555; border-color: #2a2a2a; cursor: not-allowed;
+}
+.choice-btn .lock-reason {
+  display: block; font-family: 'Noto Sans SC', sans-serif;
+  font-size: 0.75rem; color: var(--red-accent); margin-top: 6px;
+  font-style: italic;
+}
+.choice-btn .dead-end-icon {
+  color: var(--red-glow); margin-left: 6px; font-size: 0.85em;
+}
+
+/* ===== HUD ===== */
+#hud {
+  position: absolute; top: 16px; left: 20px; z-index: 40;
+  display: none; gap: 16px;
+}
+.hud-stat {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.75rem;
+  color: var(--text-dim); letter-spacing: 1px;
+  background: rgba(10,10,20,0.7); padding: 6px 14px;
+  border: 1px solid rgba(100,90,70,0.2); border-radius: 4px;
+  backdrop-filter: blur(4px); transition: all 0.4s ease;
+  display: flex; align-items: center; gap: 6px;
+}
+.hud-stat .stat-icon { font-size: 0.9rem; }
+.hud-stat .stat-val {
+  color: var(--gold); font-weight: 500; min-width: 16px; text-align: center;
+  transition: all 0.3s ease;
+}
+.hud-stat.flash { border-color: var(--gold); box-shadow: 0 0 12px rgba(196,163,90,0.3); }
+
+/* ===== HUD RIGHT (save/load/menu) ===== */
+#hud-right {
+  position: absolute; top: 16px; right: 20px; z-index: 40;
+  display: none; gap: 8px;
+}
+.hud-btn {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.7rem;
+  color: var(--text-dim); background: rgba(10,10,20,0.6);
+  border: 1px solid rgba(100,90,70,0.15); padding: 5px 12px;
+  cursor: pointer; letter-spacing: 1px; transition: all 0.3s;
+  border-radius: 3px;
+}
+.hud-btn:hover { color: var(--gold-light); border-color: var(--gold-dim); }
+
+/* ===== SAVE/LOAD MODAL ===== */
+#modal-overlay {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 300; background: rgba(0,0,0,0.8);
+  display: none; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+}
+#modal-box {
+  background: #111118; border: 1px solid var(--gold-dim);
+  padding: 30px 40px; max-width: 500px; width: 90%;
+  text-align: center;
+}
+#modal-box h2 {
+  font-size: 1.2rem; color: var(--gold); letter-spacing: 3px; margin-bottom: 24px;
+}
+.save-slot {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 16px; margin-bottom: 10px;
+  border: 1px solid rgba(196,163,90,0.15); cursor: pointer;
+  transition: all 0.3s;
+}
+.save-slot:hover { border-color: var(--gold-dim); background: rgba(196,163,90,0.05); }
+.save-slot .slot-info { font-size: 0.85rem; color: var(--text-dim); text-align: left; }
+.save-slot .slot-label { color: var(--text-warm); font-size: 0.9rem; }
+#modal-close {
+  margin-top: 20px; font-family: 'Noto Sans SC', sans-serif;
+  font-size: 0.85rem; color: var(--text-dim); background: transparent;
+  border: 1px solid #333; padding: 8px 30px; cursor: pointer;
+  letter-spacing: 2px; transition: all 0.3s;
+}
+#modal-close:hover { color: var(--gold-light); border-color: var(--gold-dim); }
+
+/* ===== ENDING SCREEN ===== */
+#ending-screen {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 250; display: none; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: var(--bg-dark); text-align: center; padding: 40px;
+}
+#ending-screen.bad-end { background: linear-gradient(180deg, #0a0508 0%, #150810 50%, #0a0508 100%); }
+#ending-screen .ending-icon { font-size: 3rem; margin-bottom: 20px; }
+#ending-screen h2 {
+  font-family: 'Noto Serif SC', serif; font-size: 2rem; color: var(--gold);
+  letter-spacing: 4px; margin-bottom: 12px;
+}
+#ending-screen .ending-type {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.8rem;
+  color: var(--gold-dim); letter-spacing: 3px; margin-bottom: 30px;
+}
+#ending-screen .ending-text {
+  font-size: 0.95rem; line-height: 1.8; color: var(--text-dim);
+  max-width: 600px; margin-bottom: 40px;
+}
+#ending-screen .ending-stats {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.8rem;
+  color: var(--text-dim); margin-bottom: 30px; line-height: 2;
+}
+.ending-buttons { display: flex; gap: 16px; }
+.btn-ending {
+  font-family: 'Noto Serif SC', serif; font-size: 0.95rem;
+  color: var(--text-warm); background: transparent;
+  border: 1px solid var(--gold-dim); padding: 12px 40px;
+  cursor: pointer; letter-spacing: 3px; transition: all 0.3s;
+}
+.btn-ending:hover { border-color: var(--gold); color: var(--gold-light); }
+
+/* ===== HISTORY PANEL ===== */
+#history-panel {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 280; display: none; background: rgba(5,5,10,0.95);
+  overflow-y: auto; padding: 40px 60px;
+  backdrop-filter: blur(6px);
+}
+#history-panel h2 {
+  font-size: 1.1rem; color: var(--gold); letter-spacing: 3px;
+  margin-bottom: 24px; text-align: center;
+}
+#history-panel .history-entry {
+  padding: 12px 0; border-bottom: 1px solid rgba(196,163,90,0.1);
+  font-size: 0.85rem; line-height: 1.7; color: var(--text-dim);
+}
+#history-panel .history-entry .h-title { color: var(--gold-dim); margin-bottom: 4px; }
+#history-close {
+  position: fixed; top: 20px; right: 30px;
+  font-size: 1.5rem; color: var(--text-dim); cursor: pointer;
+  background: none; border: none; z-index: 281;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  #textbox { padding: 18px 24px 24px; min-height: 200px; }
+  #text-content { font-size: 1.05rem; line-height: 1.8; }
+  #title-screen h1 { font-size: 1.8rem; letter-spacing: 3px; }
+  #choice-panel { padding: 30px 20px 28px; }
+  .choice-btn { font-size: 0.85rem; padding: 12px 16px; }
+  #hud { left: 10px; }
+  .hud-stat { font-size: 0.65rem; padding: 4px 10px; }
+}
+</style>
+</head>
+<body>
+<div id="game-container">
+<div id="game-viewport">
+
+  <!-- Background -->
+  <div id="scene-bg"></div>
+  <div id="scene-bg-next"></div>
+  <div class="fog-layer fog-layer-1"></div>
+  <div class="fog-layer fog-layer-2"></div>
+  <div class="vignette"></div>
+
+  <!-- Title Screen -->
+  <div id="title-screen">
+    <div class="ornament"></div>
+    <h1>樱花落下的平行线</h1>
+    <div class="subtitle">现代，初夏（六月至八月）</div>
+    <div class="ornament"></div>
+    <div class="title-buttons">
+      <button class="btn-title" id="btn-start">开 始 调 查</button>
+      <button class="btn-title" id="btn-continue" disabled>继 续 游 戏</button>
+    </div>
+  </div>
+
+  <!-- Scene Layer -->
+  <div id="scene-layer">
+    <!-- Character portraits with name labels -->
+    <div class="char-wrap pos-left" id="char-left-wrap">
+      <img class="char-portrait" id="char-left" src="" alt="">
+      <div class="char-name" id="char-left-name"></div>
+    </div>
+    <div class="char-wrap pos-right" id="char-right-wrap">
+      <img class="char-portrait" id="char-right" src="" alt="">
+      <div class="char-name" id="char-right-name"></div>
+    </div>
+
+    <!-- Scene title flash -->
+    <div id="scene-title-overlay">
+      <div class="act-label" id="scene-act-label"></div>
+      <div class="scene-title-text" id="scene-title-text"></div>
+    </div>
+
+    <!-- Text box -->
+    <div id="textbox-container">
+      <div id="textbox">
+        <div id="speaker-name"></div>
+        <div id="text-content"></div>
+        <div id="click-indicator">▼ 点击继续</div>
+      </div>
+    </div>
+
+    <!-- Choice panel -->
+    <div id="choice-panel">
+      <div class="choice-header">— 请做出选择 —</div>
+      <div id="choice-buttons"></div>
+    </div>
+  </div>
+
+  <!-- Act transition -->
+  <div id="act-transition">
+    <div class="act-number" id="act-number"></div>
+    <div class="act-title" id="act-title"></div>
+    <div class="act-line"></div>
+  </div>
+
+  <!-- HUD -->
+  <div id="hud">
+    <div class="hud-stat" id="hud-clues"><span class="stat-icon">🔍</span>线索 <span class="stat-val" id="val-clues">0</span></div>
+    <div class="hud-stat" id="hud-courage"><span class="stat-icon">⚔️</span>勇气 <span class="stat-val" id="val-courage">0</span></div>
+    <div class="hud-stat" id="hud-trust"><span class="stat-icon">🤝</span>信任 <span class="stat-val" id="val-trust">0</span></div>
+  </div>
+  <div id="hud-right">
+    <button class="hud-btn" id="btn-save">存档</button>
+    <button class="hud-btn" id="btn-load">读档</button>
+    <button class="hud-btn" id="btn-history">回顾</button>
+    <button class="hud-btn" id="btn-auto">自动</button>
+  </div>
+
+  <!-- Ending screen -->
+  <div id="ending-screen">
+    <div class="ending-icon" id="ending-icon"></div>
+    <h2 id="ending-title"></h2>
+    <div class="ending-type" id="ending-type-label"></div>
+    <div class="ending-text" id="ending-text"></div>
+    <div class="ending-stats" id="ending-stats"></div>
+    <div class="ending-buttons">
+      <button class="btn-ending" id="btn-restart">重新开始</button>
+      <button class="btn-ending" id="btn-title-return">返回标题</button>
+    </div>
+  </div>
+
+  <!-- Save/Load Modal -->
+  <div id="modal-overlay">
+    <div id="modal-box">
+      <h2 id="modal-title">存 档</h2>
+      <div id="modal-slots"></div>
+      <button id="modal-close">关 闭</button>
+    </div>
+  </div>
+
+  <!-- History Panel -->
+  <div id="history-panel">
+    <button id="history-close">&times;</button>
+    <h2>— 回 顾 —</h2>
+    <div id="history-content"></div>
+  </div>
+
+</div>
+</div>
+
+<script>
+const GAME_DATA = {"story": {"story_id": "sakura_parallel_003", "title": "樱花落下的平行线", "genre": "校园日常/奇幻（泣系）", "language": "zh", "total_acts": 4, "world_setting": "现代初夏的海滨小镇'光之丘'。小镇依山面海，坡道上种满了反季节的晚樱，初夏时分仍有零星花瓣飘落。镇上只有一所学校——光丘学园，从小学部到高中部一贯制。小镇的标志是山顶废弃的�的钟楼，据传建于明治时代，每逢满月会自行鸣响。五年前，镇上最后一次举办'光之祭'后，祭典突然中止，钟楼也被封锁。少年远野秋人五年前随父亲离开光之丘，如今因父亲再婚带着义妹远野奏回到故乡。他对五年前失踪的一周记忆一片空白，只隐约记得钟楼和樱花。小镇表面宁静，但在日常之下流淌着关于'思念体'——由强烈情感凝聚而成的超自然存在——的秘密。", "time_period": "现代，初夏（六月至八月）", "location": "海滨小镇'光之丘'，光丘学园", "characters": [{"char_id": "char_akito", "name": "远野秋人", "role": "主角", "description": "十七岁，身高中等偏高，黑发微长，习惯用手拨开额前碎发。外表冷淡，实则是天然的吐槽役，内心温柔却不善表达。五年前离开光之丘时丢失了一周的记忆，对此一直感到不安。转入光丘学园二年级。", "speech_style": "语气平淡带吐槽，偶尔冒出冷笑话，认真时会变得结巴", "hidden_agenda": "五年前在钟楼许下的愿望让铃音以思念体的形式继续存活，代价是失去那一周的记忆", "knowledge": ["五年前曾在光之丘生活", "钟楼有传说但不记得细节", "失踪的一周记忆"]}, {"char_id": "char_suzune", "name": "神尾铃音", "role": "NPC", "description": "十七岁，及腰的银灰色长发，肤色苍白，身形纤细得令人担忧。总是带着温柔却寂寞的微笑，像是随时会消失的人。幼年体弱，五年前病情曾一度危殆。秋人的青梅竹马，小时候经常一起在海边捡贝壳。喜欢猫，每天放学后会去海边喂流浪猫。", "speech_style": "语速缓慢，声音轻柔，常用省略句，笑的时候会微微歪头", "hidden_agenda": "她隐约感觉自己不完全是'活着的人'，身体里有某种不属于自己的力量在维持她的存在。她知道真相会伤害秋人，所以选择沉默", "knowledge": ["自己的身体状态异常", "五年前秋人在钟楼做了某件事", "思念体的存在（模糊感知）"]}, {"char_id": "char_yui", "name": "星野结衣", "role": "NPC", "description": "十六岁，双马尾，琥珀色眼睛，表情丰富到夸张。三年前随家人搬到光之丘的转校生，却比本地人更热衷于小镇的超常现象。性格傲娇，嘴上不饶人但行动上总是最先帮忙。自称'超常现象研究专家'，实际上是因为三年前亲眼目睹了一次思念体现象才变得执着。", "speech_style": "语速快，爱用断言句，害羞时会突然提高音量转移话题，口癖'这才不是我在意呢'", "hidden_agenda": "三年前她在海边看到一个透明的少女身影在夕阳下消失，从此开始调查。那个身影其实是铃音的思念体在不稳定时的'泄漏'", "knowledge": ["三年前目睹超常现象", "收集了大量小镇异常事件记录", "钟楼封锁的官方理由与实际不符"]}, {"char_id": "char_seiran", "name": "九条院圣良", "role": "NPC", "description": "十八岁，三年级。长及脚踝的黑直长发，容貌端丽得不像是小镇上的人。举止优雅从容，但眼神中带着某种看透一切的疲倦。九条院家是光之丘的旧家族，世代守护钟楼。她是最后的传人，拥有钟楼的钥匙。", "speech_style": "措辞典雅，偶尔用古语，说话时常带着若有若无的笑意，像是在说一个只有她知道答案的谜语", "hidden_agenda": "她一直在等秋人回来。五年前的事件中，是她的祖母引导年幼的秋人完成了钟楼的许愿仪式。祖母已逝，她继承了守护者的责任，知道思念体的真相和解决方法", "knowledge": ["钟楼的完整历史和机制", "思念体的本质", "五年前许愿仪式的全部细节", "铃音是思念体维持的存在", "光之祭中止的真正原因"]}, {"char_id": "char_kanade", "name": "远野奏", "role": "NPC", "description": "十五岁，一年级。栗色短发，大眼睛，表情总是带着一种超出年龄的懂事与隐忍。秋人父亲再婚后的义妹，与秋人没有血缘关系。对秋人有着复杂的感情——既是家人的依赖，也有隐藏的仰慕。做饭很好，每天早起给秋人做便当。", "speech_style": "说话温和有礼，对秋人用'哥哥'称呼，偶尔在无人时流露出不安，会无意识地抓住衣角", "hidden_agenda": "她在秋人的书房里偶然发现了那张旧照片——上面是幼年的秋人和一个看不清面容的女孩站在钟楼前。她一直没有告诉秋人，因为害怕照片中的女孩会让秋人想起什么、然后离开她", "knowledge": ["旧照片的存在", "秋人有记忆断层", "秋人经常在睡梦中喃喃提到钟楼"]}], "nodes": {"node_01": {"node_id": "node_01", "node_type": "narrative", "title": "光之丘的初夏", "act": 1, "branch_id": "main", "scene_description": "描写秋人乘坐长途巴士回到阔别五年的光之丘。巴士沿海岸线行驶，窗外是初夏的蓝天与大海。进入小镇时，他看到了坡道上不合时节的晚樱花瓣在飘落。下车后，他站在巴士站前，闻到潮水和花的混合气味，记忆深处有什么在隐隐作痛。义妹奏跟在他身后，手里拎着行李，小心翼翼地观察他的表情。远处山顶的钟楼轮廓在夕阳中若隐若现。", "key_events": ["秋人回到光之丘，感受到熟悉又陌生的氛围", "奏第一次来到光之丘，对小镇充满好奇", "秋人看到钟楼时产生强烈的既视感但无法回忆细节", "路过海边时，秋人隐约看到一个银发少女的身影，但转瞬即逝"], "emotional_tone": "怀旧、温暖中带着隐隐不安", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_02"], "prev_nodes": [], "merge_to": "", "auto_route": null, "facts_introduced": ["秋人阔别五年回到光之丘", "小镇有不合时节的晚樱", "山顶有一座废弃钟楼", "秋人对钟楼有强烈既视感"], "witnesses": ["char_akito", "char_kanade"]}, "node_02": {"node_id": "node_02", "node_type": "narrative", "title": "光丘学园", "act": 1, "branch_id": "main", "scene_description": "秋人转入光丘学园二年级。学校建在半山腰，从教室窗户可以看到整片海。班主任介绍他时，他用最简短的自我介绍糊弄过去。坐下后发现邻座是一个总在打瞌睡的银发少女——神尾铃音。她睁开眼看到秋人时，愣了很长时间，然后露出一个寂寞而温柔的微笑说'欢迎回来'。下课后，一个双马尾的学妹星野结衣冲进教室，举着一份手写的传单说要招募'民俗研究社'成员，被秋人吐槽传单写得像灵异杂志。放学时，三年级的九条院圣良出现在走廊，目光在秋人身上停留了几秒，微微点头后离去。", "key_events": ["秋人转入光丘学园，与铃音重逢", "铃音认出秋人，说出'欢迎回来'", "结衣招募民俗研究社成员，对超常现象充满热情", "圣良出现，似乎认识秋人但没有说话", "秋人注意到铃音的身体状况似乎不太好"], "emotional_tone": "校园日常的明快感，重逢的微妙感伤", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_03"], "prev_nodes": ["node_01"], "merge_to": "", "auto_route": null, "facts_introduced": ["铃音是秋人的青梅竹马", "铃音身体虚弱", "结衣在组建民俗研究社", "圣良似乎认识秋人"], "witnesses": ["char_akito", "char_suzune", "char_yui", "char_seiran"]}, "node_03": {"node_id": "node_03", "node_type": "choice", "title": "放学后的选择", "act": 1, "branch_id": "main", "scene_description": "放学铃响后，秋人面临选择。铃音轻声邀请他一起去海边喂猫——'和小时候一样'。与此同时，结衣拉住他的袖子，说社团第一次活动需要人手，要去调查镇上图书馆关于钟楼的旧资料。两个邀请撞在一起，秋人必须做出选择。奏在教室门口等着他，不管他选哪边都会默默跟上。", "key_events": ["铃音邀请秋人去海边喂猫", "结衣邀请秋人参加社团活动", "奏等在门口，默默观察"], "emotional_tone": "日常的温暖，选择的小小纠结", "pov_character": "", "choices": [{"option_id": "opt_03a", "text": "陪铃音去海边看猫——那个寂寞的微笑让人放不下", "target_node_id": "node_04a", "is_dead_end": false, "branch_type": "pearl_string", "value_effects": [{"attribute": "kizuna", "delta": 2}], "hint": "与铃音重建童年的羁绊，她会在海边说出一些关于过去的碎片", "gate_condition": null, "gate_branch": null, "locked_hint": ""}, {"option_id": "opt_03b", "text": "留在社团帮结衣——钟楼的传说让人在意", "target_node_id": "node_04b", "is_dead_end": false, "branch_type": "pearl_string", "value_effects": [{"attribute": "memory", "delta": 1}, {"attribute": "resolve", "delta": 1}], "hint": "在图书馆发现关于钟楼和光之祭的旧记录，推进对真相的了解", "gate_condition": null, "gate_branch": null, "locked_hint": ""}], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_04a", "node_04b"], "prev_nodes": ["node_02"], "merge_to": "", "auto_route": null, "facts_introduced": ["民俗研究社正式成立"], "witnesses": ["char_akito", "char_suzune", "char_yui", "char_kanade"]}, "node_04a": {"node_id": "node_04a", "node_type": "narrative", "title": "海边的猫与约定", "act": 1, "branch_id": "branch_suzune", "scene_description": "秋人陪铃音走到海边的防波堤。铃音从书包里拿出猫粮，三四只流浪猫立刻围了上来。夕阳将海面染成橙红色，铃音蹲在猫群中间，银发在海风中飘动。她轻声说起小时候的事——'你还记得吗，我们给那只黑猫取名叫阿波罗'。秋人不记得了，但那个名字让他胸口发紧。铃音没有追问，只是笑着说'没关系，猫会记住的'。回去的路上，铃音突然轻声咳嗽，手帕上有淡淡的红色。她迅速藏起来，但秋人看到了。", "key_events": ["秋人与铃音在海边喂猫，重温童年时光", "铃音提到他们给黑猫取名'阿波罗'——秋人不记得", "铃音说'猫会记住的'，暗示即使人忘了，某些东西不会消失", "铃音咳血，秋人发现她的身体状况比想象中严重", "奏远远跟在后面，看到这一幕"], "emotional_tone": "温暖而哀伤，夕阳下的脆弱美感", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_05"], "prev_nodes": ["node_03"], "merge_to": "", "auto_route": null, "facts_introduced": ["秋人与铃音童年曾一起喂猫", "铃音有咳血症状，病情严重", "铃音对秋人的记忆缺失表现得很平静"], "witnesses": ["char_akito", "char_suzune"]}, "node_04b": {"node_id": "node_04b", "node_type": "narrative", "title": "超常调查笔记", "act": 1, "branch_id": "branch_yui", "scene_description": "秋人跟结衣去镇上的小图书馆。结衣翻出一叠发黄的地方志和旧报纸，兴奋地指给他看——'光之祭'的历史记录。这个祭典从明治时代就有，每年盂兰盆节在钟楼举行，目的是'安抚亡者的思念'。但五年前的记录突然中断，只有一行简短的注释：'因安全隐患，钟楼封锁，祭典无限期中止'。结衣拿出她自己的调查笔记——三年来她记录了镇上十七起'无法解释的现象'：有人在海边看到透明的人影，有人在深夜听到钟声，有猫在空无一人的坡道上对着什么叫。秋人翻看笔记时，一张旧照片从地方志中掉落——上面是钟楼前一群人的合影，但面容模糊得诡异。", "key_events": ["发现'光之祭'的历史——明治时代起每年举行的安抚亡者仪式", "五年前祭典突然中止，官方理由是'安全隐患'", "结衣展示三年来记录的十七起超常现象", "从地方志中掉出一张钟楼前的旧合影，面容模糊", "秋人在看旧照片时头痛了一瞬"], "emotional_tone": "探索的好奇，谜题初现的紧张感", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_05"], "prev_nodes": ["node_03"], "merge_to": "", "auto_route": null, "facts_introduced": ["光之祭自明治时代举办，目的是安抚亡者思念", "五年前祭典中止，钟楼封锁", "镇上存在多起超常现象记录", "钟楼旧合影中的人脸模糊不清"], "witnesses": ["char_akito", "char_yui"]}, "node_05": {"node_id": "node_05", "node_type": "merge_point", "title": "圣良与钟楼", "act": 2, "branch_id": "main", "scene_description": "隔天放学，秋人在学校天台遇到九条院圣良。她正站在栏杆旁看着远处山顶的钟楼，长发在风中轻轻飘动。她主动开口：'远野同学，你回来了。我等了很久。'秋人一头雾水，圣良却不急于解释，只是说'有些事，时机到了自然会明白'。她从制服口袋里取出一把古旧的铜钥匙，在阳光下转了转：'这是钟楼的钥匙。九条院家世代保管。'她看着秋人的眼睛，'如果你想知道你遗失的那一周里发生了什么，总有一天要用到它。'走过node_04a的秋人会提到铃音的身体状况，圣良的表情会变得凝重；走过node_04b的秋人会提到光之祭的中止，圣良会说'那是因为代价太大了'。", "key_events": ["圣良主动接触秋人，暗示她一直在等他回来", "圣良展示钟楼钥匙——九条院家世代保管", "圣良暗示钥匙与秋人遗失的记忆有关", "圣良提到'时机'和'代价'等关键词"], "emotional_tone": "神秘、静谧，命运线索初现", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_06"], "prev_nodes": ["node_04a", "node_04b"], "merge_to": "node_05", "auto_route": {"description": "根据前序分支调整圣良的回应", "from_node_04a": "秋人提到铃音身体不好，圣良沉默片刻后说'她在努力活着，比你想象的更努力'", "from_node_04b": "秋人提到光之祭中止的记录，圣良说'那是因为代价太大了，但不面对也不是办法'"}, "facts_introduced": ["九条院家世代保管钟楼钥匙", "圣良一直在等秋人回来", "钟楼钥匙与秋人的遗失记忆有关"], "witnesses": ["char_akito", "char_seiran"]}, "node_06": {"node_id": "node_06", "node_type": "choice", "title": "旧照片", "act": 2, "branch_id": "main", "scene_description": "某天傍晚，秋人在家中整理旧物时，奏犹豫了很久，终于拿出一张照片递给他。照片已经破损——是一张被撕成两半又勉强拼在一起的旧照。上面是幼年的秋人，站在钟楼前，旁边有一个女孩的模糊轮廓，但那一半严重褪色，几乎看不清面容。奏低着头说'我在哥哥的旧箱子里找到的……一直不敢给你看'。秋人看着照片，头隐隐作痛，有什么东西在记忆深处挣扎。他可以选择修复这张照片，或者暂时搁置。", "key_events": ["奏交出她一直藏着的旧照片", "照片是幼年秋人和不明少女在钟楼前的合影", "照片损坏严重，女孩面容模糊", "秋人看到照片时产生头痛和记忆波动"], "emotional_tone": "紧张而温柔，过去与现在交织", "pov_character": "", "choices": [{"option_id": "opt_06a", "text": "拜托结衣帮忙修复这张旧照片——想知道照片中的女孩是谁", "target_node_id": "node_07a", "is_dead_end": false, "branch_type": "pearl_string", "value_effects": [{"attribute": "memory", "delta": 2}], "hint": "修复照片将揭示重要的家族线索和五年前事件的关键人物", "gate_condition": null, "gate_branch": null, "locked_hint": ""}, {"option_id": "opt_06b", "text": "将照片收好，暂时搁置——不想看到奏担心的表情", "target_node_id": "node_07b", "is_dead_end": false, "branch_type": "pearl_string", "value_effects": [{"attribute": "kizuna", "delta": 1}], "hint": "保护奏的心情，但错过直接获取关键线索的机会", "gate_condition": null, "gate_branch": null, "locked_hint": ""}], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_07a", "node_07b"], "prev_nodes": ["node_05"], "merge_to": "", "auto_route": null, "facts_introduced": ["存在一张秋人与不明少女在钟楼前的旧照片", "照片被撕毁过又拼合", "奏一直隐藏着这张照片"], "witnesses": ["char_akito", "char_kanade"]}, "node_07a": {"node_id": "node_07a", "node_type": "narrative", "title": "照片中的少女", "act": 2, "branch_id": "branch_photo_repair", "scene_description": "结衣用图像修复软件和放大镜花了一个下午处理照片。修复后的图像让秋人呆住了——照片中的女孩是幼年的铃音。她穿着白色连衣裙，站在钟楼前的台阶上，笑得灿烂而健康。但让秋人更震惊的是照片背面的字迹，是他自己幼年的笔迹：'和铃音的约定——七月七日，在钟楼许愿。'结衣惊讶地说'神尾学姐？等等，她五年前不是已经……'然后意识到什么，闭上了嘴。秋人追问，结衣吞吞吐吐说出镇上老人偶尔提起的话：五年前铃音病危，医生说没有希望了。但后来她奇迹般地活了下来。", "key_events": ["照片修复后确认女孩是幼年铃音", "照片背面有秋人幼年写的'七月七日在钟楼许愿的约定'", "结衣透露五年前铃音曾病危到被宣判无望", "铃音'奇迹般活下来'的事实引发疑问"], "emotional_tone": "震惊、感动、谜题深化", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_08"], "prev_nodes": ["node_06"], "merge_to": "", "auto_route": null, "facts_introduced": ["照片中的女孩是幼年铃音", "秋人与铃音有'七月七日在钟楼许愿'的约定", "五年前铃音曾病危被宣判无望后奇迹存活"], "witnesses": ["char_akito", "char_yui"]}, "node_07b": {"node_id": "node_07b", "node_type": "narrative", "title": "搁置的记忆", "act": 2, "branch_id": "branch_photo_shelf", "scene_description": "秋人将照片放进抽屉，对奏说'等我准备好了再看'。奏松了口气，但眼神里有一丝复杂的情绪——是解脱，也是愧疚。晚饭时奏做了秋人喜欢的咖喱，两人在小餐桌上安静地吃饭。奏说'哥哥，如果有什么事……不想一个人扛的话，我在的。'秋人点点头，感受到义妹的关心。虽然没有直接获取照片线索，但他注意到奏无意中透露的信息：'那个箱子里还有一个旧的护身符，上面写着光丘神社的名字。'", "key_events": ["秋人选择暂时搁置照片", "奏流露出复杂的情绪——既有安心也有愧疚", "奏无意中提到旧箱子里有光丘神社的护身符", "秋人与奏之间的家人羁绊加深"], "emotional_tone": "温馨、家人的温暖，微微的遗憾", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_08"], "prev_nodes": ["node_06"], "merge_to": "", "auto_route": null, "facts_introduced": ["秋人选择暂时不面对过去", "旧箱子里有光丘神社的护身符", "奏对秋人的记忆恢复抱有矛盾心态"], "witnesses": ["char_akito", "char_kanade"]}, "node_08": {"node_id": "node_08", "node_type": "merge_point", "title": "奏的心事", "act": 2, "branch_id": "main", "scene_description": "某个周末清晨，秋人醒来发现奏不在家，留了便条说'去买菜'。但她已经出去了两个多小时。秋人在镇上找到她时，她独自坐在海边的堤坝上，膝盖抱着腿，看着大海发呆。她听到脚步声转过头，眼眶微红。秋人在她身边坐下，什么都没问。沉默了很久，奏终于小声说：'哥哥，如果有一天你想起了所有的事……你还会需要我吗？'这句话让秋人意识到，奏一直害怕的不是秘密本身，而是秋人恢复记忆后可能不再需要她。走过node_07a的秋人会联想到照片中的铃音；走过node_07b的秋人虽然不知道具体内容，但能感受到奏的不安与照片有关。", "key_events": ["奏独自在海边哭泣", "奏问出核心问题：'想起一切后，你还会需要我吗？'", "秋人意识到奏的不安来自对失去家人关系的恐惧", "秋人安慰奏，两人的家人羁绊得到确认"], "emotional_tone": "感伤、温柔、家人之间的理解", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_09"], "prev_nodes": ["node_07a", "node_07b"], "merge_to": "node_08", "auto_route": {"description": "根据前序分支调整秋人的内心感受", "from_node_07a": "秋人知道照片中是铃音，理解奏害怕被铃音'取代'的心情", "from_node_07b": "秋人虽然不知道照片内容，但感受到奏在隐瞒某些事来保护自己"}, "facts_introduced": ["奏害怕秋人恢复记忆后不再需要她", "奏的不安与旧照片和铃音有关"], "witnesses": ["char_akito", "char_kanade"]}, "node_09": {"node_id": "node_09", "node_type": "choice", "title": "七月的调查", "act": 2, "branch_id": "main", "scene_description": "七月来临，民俗研究社的活动进入正轨。结衣整理出了三条需要调查的线索，每条都可能揭示不同的真相侧面。她在社团活动室的白板上写下三个方向，让社员们选择。秋人注意到铃音最近缺课频繁，圣良偶尔会出现在社团活动室门口旁听但从不参加。", "key_events": ["民俗研究社提出三条调查方向", "铃音缺课频繁，身体状况恶化", "圣良对社团活动保持关注但不直接参与"], "emotional_tone": "推进感、日常与超常的交界", "pov_character": "", "choices": [{"option_id": "opt_09a", "text": "深入调查钟楼传说——去镇上的旧档案馆查阅九条院家的历史", "target_node_id": "node_10a", "is_dead_end": false, "branch_type": "value_based", "value_effects": [{"attribute": "memory", "delta": 1}, {"attribute": "resolve", "delta": 1}], "hint": "深入钟楼和九条院家的历史，发现思念体仪式的文献记载", "gate_condition": null, "gate_branch": null, "locked_hint": ""}, {"option_id": "opt_09b", "text": "陪铃音去医院复查——她最近看起来越来越虚弱", "target_node_id": "node_10b", "is_dead_end": false, "branch_type": "value_based", "value_effects": [{"attribute": "kizuna", "delta": 2}], "hint": "在医院陪伴铃音时，她会说出关于自己身体'不正常'的秘密", "gate_condition": null, "gate_branch": null, "locked_hint": ""}, {"option_id": "opt_09c", "text": "和奏一起去光丘神社整理家族旧物——那个护身符让人在意", "target_node_id": "node_10c", "is_dead_end": false, "branch_type": "value_based", "value_effects": [{"attribute": "memory", "delta": 1}, {"attribute": "kizuna", "delta": 1}], "hint": "在神社发现远野家与钟楼仪式的意外关联", "gate_condition": null, "gate_branch": null, "locked_hint": ""}], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_10a", "node_10b", "node_10c"], "prev_nodes": ["node_08"], "merge_to": "", "auto_route": null, "facts_introduced": ["七月份铃音身体状况明显恶化"], "witnesses": ["char_akito", "char_yui"]}, "node_10a": {"node_id": "node_10a", "node_type": "narrative", "title": "钟楼传说的真相", "act": 2, "branch_id": "branch_tower_investigate", "scene_description": "秋人和结衣在镇上的旧档案馆找到了九条院家的家谱和一份明治时代的手抄本。手抄本记载着钟楼的真正用途：它不是普通的报时钟楼，而是一座'思念的容器'。钟楼的钟声能够共鸣人的强烈情感，将其凝聚为有形的存在——即'思念体'。九条院家历代守护者的职责是在盂兰盆节主持'光之祭'，引导思念体安息。手抄本最后一页被撕去了，只留下半句话：'若思念体与生者之魂相绑，则……'", "key_events": ["发现钟楼是'思念的容器'——可以将情感凝聚为思念体", "九条院家世代守护者的职责是引导思念体安息", "光之祭的真正目的是维持生者与思念体的平衡", "关键记载被撕去——'思念体与生者之魂相绑'的后果不明"], "emotional_tone": "发现真相的紧张与震撼", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_11"], "prev_nodes": ["node_09"], "merge_to": "", "auto_route": null, "facts_introduced": ["钟楼是思念的容器，能凝聚情感为思念体", "九条院家世代守护钟楼", "光之祭是维持生者与思念体平衡的仪式", "思念体与生者之魂可以绑定（后果未知）"], "witnesses": ["char_akito", "char_yui"]}, "node_10b": {"node_id": "node_10b", "node_type": "narrative", "title": "铃音的真实", "act": 2, "branch_id": "branch_suzune_hospital", "scene_description": "秋人陪铃音去海滨诊所复查。等待检查结果的时间里，两人坐在诊所花园的长椅上。铃音突然说：'秋人，你有没有觉得……我的手有时候会变透明？'秋人以为她在开玩笑，但她伸出手——在夕阳的角度下，她的指尖确实呈现出一种几近透明的质感。铃音平静地说：'从三年前开始的。最初只是手指，现在……有时候整个手都会。'她笑着补充'不痛的'，但那个笑容和平时寂寞的微笑不一样——是一种已经接受了什么的平静。医生出来时表情困惑：'神尾同学的身体各项指标都很诡异——以她的身体条件，按医学常理来说……'他没有说完。", "key_events": ["铃音的手有时会变透明——从三年前开始", "透明现象在加重，从指尖蔓延到整只手", "铃音已经平静地接受了自己身体的异常", "医生暗示铃音的存活本身就是医学上无法解释的"], "emotional_tone": "震惊、心痛、铃音的平静更令人难受", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_11"], "prev_nodes": ["node_09"], "merge_to": "", "auto_route": null, "facts_introduced": ["铃音的身体会变透明", "透明现象从三年前开始并在加重", "铃音的存活本身不符合医学常理"], "witnesses": ["char_akito", "char_suzune"]}, "node_10c": {"node_id": "node_10c", "node_type": "narrative", "title": "远野家的秘密", "act": 2, "branch_id": "branch_family_secret", "scene_description": "秋人和奏去光丘神社整理旧物。在神社仓库的角落，他们找到了一个落满灰尘的木盒，里面是秋人母亲留下的遗物——她在秋人很小的时候就去世了。盒子里有一本日记，记录着母亲对光之丘的记忆。日记中提到：'九条院家的老夫人告诉我，如果有一天秋人需要帮助，可以去钟楼许愿。但一定要记住——钟楼给予的一切，都有代价。'这段记载让秋人意识到，自己与钟楼的联系比想象中更深，甚至可能追溯到母亲那一代。奏看到这些内容后沉默了，她似乎开始理解为什么秋人的记忆会消失。", "key_events": ["发现秋人母亲的遗物和日记", "母亲曾被九条院家告知钟楼许愿的事", "日记明确警告：钟楼给予的一切都有代价", "秋人与钟楼的联系追溯到母亲那一代", "奏开始理解秋人记忆消失的可能原因"], "emotional_tone": "感伤、家族羁绊、真相逐渐浮现", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_11"], "prev_nodes": ["node_09"], "merge_to": "", "auto_route": null, "facts_introduced": ["秋人母亲知道钟楼许愿的事", "九条院家曾告知秋人母亲可以去钟楼许愿", "钟楼给予的一切都有代价"], "witnesses": ["char_akito", "char_kanade"]}, "node_11": {"node_id": "node_11", "node_type": "merge_point", "title": "思念体", "act": 3, "branch_id": "main", "scene_description": "七月中旬的某个傍晚，秋人在海边看到了他无法否认的现象——夕阳下的海面上，有数十个半透明的人影在缓缓行走，像是在进行某种无声的游行。它们的轮廓柔和而哀伤，从海面一直延伸到山顶钟楼的方向。结衣跑过来，兴奋而紧张地说'你也看到了吧！我说的就是这个！'圣良出现在他们身后，平静地说出那个词：'思念体。那些是被遗留的情感——有些是逝者留下的，有些是活着的人的强烈思念凝聚而成。它们本应在光之祭上被引导安息，但祭典中断了五年，它们越积越多。'她看着秋人，'而你，远野同学，是它们中最特别的一个的源头。'根据前序路线，秋人掌握的信息不同，但此处圣良统一揭示思念体的概念。", "key_events": ["秋人亲眼目睹思念体的集体出现", "圣良解释思念体的本质——遗留的情感凝聚体", "光之祭中断导致思念体积累", "圣良暗示秋人是某个特殊思念体的源头"], "emotional_tone": "超自然真相的震撼，美丽而哀伤", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_12"], "prev_nodes": ["node_10a", "node_10b", "node_10c"], "merge_to": "node_11", "auto_route": {"description": "根据前序路线调整圣良的解释详细程度", "from_node_10a": "秋人已知钟楼机制，圣良直接深入解释思念体与生者的绑定关系", "from_node_10b": "秋人已知铃音的异常，圣良暗示铃音的透明现象与思念体有关", "from_node_10c": "秋人已知家族关联，圣良提到秋人母亲也曾见过思念体"}, "facts_introduced": ["思念体是遗留情感的凝聚体", "光之祭中断导致思念体不断积累", "秋人是某个特殊思念体的源头"], "witnesses": ["char_akito", "char_yui", "char_seiran"]}, "node_12": {"node_id": "node_12", "node_type": "narrative", "title": "消失的祭典", "act": 3, "branch_id": "main", "scene_description": "圣良将众人带到九条院家的旧宅，在佛龛前点燃线香，讲述了五年前的真相。五年前的七月七日，幼年的秋人在铃音病危时跑到钟楼，在九条院圣良祖母的引导下完成了许愿仪式。他许下的愿望是'不要让铃音消失'。钟楼将秋人对铃音的强烈思念凝聚为思念体，注入铃音体内，以超自然的力量维持她的生命。代价是秋人失去了那一周的记忆——许愿仪式消耗的不是金钱或物质，而是许愿者最珍贵的记忆。圣良的祖母在主持仪式后不久离世。光之祭因此中断——没有守护者主持，祭典无法安全进行。而铃音……从那以后，她一直活在秋人思念所创造的奇迹之中，但这份力量正在衰减。", "key_events": ["五年前七月七日，秋人在钟楼许愿'不要让铃音消失'", "许愿仪式由圣良的祖母引导完成", "思念体注入铃音体内维持她的生命", "代价是秋人失去一周记忆", "圣良的祖母在仪式后离世", "铃音活在秋人的思念之中，但力量正在衰减"], "emotional_tone": "震撼、心痛、五年谜题揭晓的沉重", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_13"], "prev_nodes": ["node_11"], "merge_to": "", "auto_route": null, "facts_introduced": ["秋人五年前许愿让铃音活下来", "代价是秋人失去一周记忆", "铃音体内有思念体在维持生命", "思念体的力量正在衰减", "圣良的祖母因仪式去世", "光之祭因此中断五年"], "witnesses": ["char_akito", "char_suzune", "char_yui", "char_seiran", "char_kanade"]}, "node_13": {"node_id": "node_13", "node_type": "choice", "title": "钟楼之夜", "act": 3, "branch_id": "main", "scene_description": "得知真相后，秋人面临选择。圣良说：钟楼在七月的满月之夜会再次共鸣，这是唯一能够干预思念体的时机。还有三天就是满月。秋人必须决定如何面对钟楼。铃音知道秋人已经了解了真相，她只说了一句：'秋人，不管你怎么选，我都不会怪你。'奏紧紧抓着秋人的衣袖。结衣推了推眼镜说'一个人去太危险了吧'。", "key_events": ["满月之夜是唯一干预思念体的时机", "三天后就是满月", "铃音表达了无条件的接受", "每个人对秋人的决定都有不同反应"], "emotional_tone": "紧迫、沉重的抉择", "pov_character": "", "choices": [{"option_id": "opt_13a", "text": "独自去钟楼许愿——这是自己的责任，不想连累任何人", "target_node_id": "node_14_solo", "is_dead_end": false, "branch_type": "strong", "value_effects": [{"attribute": "resolve", "delta": 2}], "hint": "独自面对钟楼的力量，高风险路线——resolve不足时可能被思念体吞噬", "gate_condition": null, "gate_branch": null, "locked_hint": ""}, {"option_id": "opt_13b", "text": "带上同伴同行——大家一起面对，这才是羁绊的意义", "target_node_id": "node_14_together", "is_dead_end": false, "branch_type": "strong", "value_effects": [{"attribute": "kizuna", "delta": 1}], "hint": "同伴的支撑让仪式更安全，但需要承受大家一起面对真相的重量", "gate_condition": null, "gate_branch": null, "locked_hint": ""}], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_14_solo", "node_14_together"], "prev_nodes": ["node_12"], "merge_to": "", "auto_route": null, "facts_introduced": ["满月之夜是干预思念体的唯一时机"], "witnesses": ["char_akito", "char_suzune", "char_yui", "char_seiran", "char_kanade"]}, "node_14_solo": {"node_id": "node_14_solo", "node_type": "branch_point", "title": "独行者的愿望", "act": 3, "branch_id": "branch_solo_tower", "scene_description": "满月之夜，秋人独自用钥匙打开钟楼的铁门。月光从钟楼顶部的裂缝洒下，照亮了布满灰尘的螺旋楼梯。他一步步攀登，周围的空气越来越冷，思念体的光影在墙壁上流淌。登上钟楼最高层时，巨大的铜钟悬在头顶，在月光下泛出幽蓝色的光。秋人感受到五年前的记忆像潮水一样涌来——片段、声音、铃音的笑脸、自己哭泣的声音。钟楼要求他做出选择：许下新的愿望。但钟楼的力量是危险的，如果许愿者的意志不够坚定，会被思念体的洪流吞噬，永远困在记忆之中。", "key_events": ["秋人独自攀登钟楼", "思念体的光影环绕钟楼", "五年前的记忆碎片涌来", "钟楼要求许下新的愿望", "如果意志不够坚定会被思念体吞噬"], "emotional_tone": "孤独、紧迫、生死攸关", "pov_character": "", "choices": [{"option_id": "opt_14s_a", "text": "许愿'让我想起一切'——面对完整的真相", "target_node_id": "node_15_survive", "is_dead_end": false, "branch_type": "value_based", "value_effects": [{"attribute": "memory", "delta": 2}], "hint": "需要足够的觉悟才能承受完整记忆的冲击", "gate_condition": null, "gate_branch": {"condition": {"resolve": ">=3"}, "true_target": "node_15_survive", "false_target": "node_dead_tower"}, "locked_hint": ""}, {"option_id": "opt_14s_b", "text": "许愿'让她永远留在我身边'——不想再失去任何人", "target_node_id": "node_dead_alone", "is_dead_end": true, "branch_type": "pearl_string", "value_effects": [], "hint": "以自我为中心的愿望会被钟楼扭曲——代价是许愿者自己的存在", "gate_condition": null, "gate_branch": null, "locked_hint": ""}], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_15_survive", "node_dead_tower", "node_dead_alone"], "prev_nodes": ["node_13"], "merge_to": "", "auto_route": null, "facts_introduced": ["钟楼需要许愿者的坚定意志", "意志不足会被思念体吞噬"], "witnesses": ["char_akito"]}, "node_14_together": {"node_id": "node_14_together", "node_type": "narrative", "title": "同行者的钟声", "act": 3, "branch_id": "branch_companion_tower", "scene_description": "满月之夜，秋人与同伴们一起前往钟楼。圣良在前面引路，她的长发在月光下如同流水。结衣紧张地抓着手电筒，嘴上说着'才没有害怕呢'但手在发抖。奏走在秋人身边，安静地握着他的手。铃音走在最后，月光照在她身上时，她的轮廓微微发光——思念体的特征在同伴们面前第一次显现。所有人都看到了，短暂的沉默后，结衣红着眼眶说'这就是……思念体吗'。铃音轻声说'对不起'。秋人说'你没有什么需要道歉的'。大家一起登上钟楼，月光照亮铜钟，圣良开始引导仪式。有同伴在身边，钟楼的力量变得温和，思念体的洪流被分散到每个人的心中承受。", "key_events": ["同伴们一起登上钟楼", "铃音的思念体特征在月光下显现", "所有人接受了铃音的真实状态", "圣良引导仪式，同伴分担力量", "有同伴在，钟楼的力量变得可控"], "emotional_tone": "羁绊的力量、团结、感动", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_15_survive"], "prev_nodes": ["node_13"], "merge_to": "", "auto_route": null, "facts_introduced": ["铃音在月光下会显现思念体特征", "同伴的存在可以分担钟楼力量的冲击", "圣良能够引导钟楼仪式"], "witnesses": ["char_akito", "char_suzune", "char_yui", "char_seiran", "char_kanade"]}, "node_dead_tower": {"node_id": "node_dead_tower", "node_type": "dead_end", "title": "时间的囚徒", "act": 3, "branch_id": "branch_solo_tower", "scene_description": "秋人的意志不够坚定。当完整的记忆如潮水般涌来时，他被淹没了。五年前的悲伤、恐惧、对铃音的思念——所有的情感一起爆发，将他的意识撕裂。他看到自己站在一个永恒的钟楼内部，外面的时间已经停止。周围是无数的思念体，它们温柔地环绕着他，像是在安慰他，又像是在将他融入其中。三天后，搜救队在钟楼找到了他——身体完好，但眼睛空洞地望着前方，对任何呼唤都没有反应。他被永远困在了自己的记忆之中。", "key_events": [], "emotional_tone": "", "pov_character": "", "choices": [], "death_cause": "独自面对钟楼+意志不够坚定，被思念体的洪流淹没，意识永远困在记忆中", "death_description_hint": "强调孤独承受的代价，温柔的吞噬比暴力更可怕。思念体不是恶意的，它们只是太过强大。", "ending_type": "bad_ending", "ending_condition": "", "next_nodes": [], "prev_nodes": ["node_14_solo"], "merge_to": "", "auto_route": null, "facts_introduced": [], "witnesses": []}, "node_dead_alone": {"node_id": "node_dead_alone", "node_type": "dead_end", "title": "消失的少年", "act": 3, "branch_id": "branch_solo_tower", "scene_description": "秋人许下了自私的愿望——'让她永远留在我身边'。钟楼的钟声响了，但音色扭曲而不和谐。思念体接受了这个愿望，但方式是秋人没有预料到的：它将秋人自身转化为思念体，让他成为铃音身边永恒的存在。第二天早晨，铃音在海边喂猫时，身边多了一个半透明的少年身影。那个身影有着秋人的轮廓，但再也无法被触碰、无法说话、无法被除铃音以外的人看到。铃音看着那个身影，露出了最寂寞的微笑，轻声说：'笨蛋。'", "key_events": [], "emotional_tone": "", "pov_character": "", "choices": [], "death_cause": "自私的愿望被钟楼扭曲，许愿者自身被转化为思念体，失去肉体存在", "death_description_hint": "不是死亡，而是另一种形式的'消失'。强调愿望的代价——想要永远在一起的愿望，最终以失去自我为代价实现。", "ending_type": "bad_ending", "ending_condition": "", "next_nodes": [], "prev_nodes": ["node_14_solo"], "merge_to": "", "auto_route": null, "facts_introduced": [], "witnesses": []}, "node_15_survive": {"node_id": "node_15_survive", "node_type": "merge_point", "title": "记忆的洪流", "act": 3, "branch_id": "main", "scene_description": "秋人恢复了五年前的完整记忆。他想起了一切：和铃音一起喂猫的夏天，铃音病倒时自己的恐惧，跑到钟楼时圣良祖母温柔的声音，许愿时钟声在耳边回响的震撼，以及——愿望实现后，铃音在病床上睁开眼睛的那一刻，自己跪在地上哭泣的样子。他也想起了代价：失去的那一周不仅仅是记忆，还有他与铃音之间某些最珍贵的瞬间。钟楼将这些记忆转化为了维持铃音生命的能量。走独行路线存活的秋人，是在绝境中凭借纯粹的意志撑过来的，更加坚定但也更加孤独。走同伴路线的秋人，在大家的支撑下平稳地接受了一切，虽然震撼但不孤单。", "key_events": ["秋人恢复五年前的完整记忆", "想起许愿仪式的全部细节", "理解了失去的记忆被转化为维持铃音生命的能量", "完整的真相让秋人做好了面对最终选择的准备"], "emotional_tone": "记忆回归的震撼与感动，泪目", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_16"], "prev_nodes": ["node_14_solo", "node_14_together"], "merge_to": "node_15_survive", "auto_route": {"description": "根据前序路线调整秋人的状态", "from_node_14_solo": "秋人独自承受了记忆洪流，精神消耗极大但意志更坚定", "from_node_14_together": "同伴们分担了冲击，秋人的状态更稳定，铃音在他身边默默流泪"}, "facts_introduced": ["秋人恢复了完整记忆", "失去的记忆被转化为维持铃音的能量", "许愿仪式的完整细节"], "witnesses": ["char_akito"]}, "node_16": {"node_id": "node_16", "node_type": "narrative", "title": "全部的真相", "act": 4, "branch_id": "main", "scene_description": "仪式结束后的第二天，所有人聚集在九条院旧宅。圣良说出最后的真相：铃音体内的思念体能量已经不到最初的十分之一。按照现在的衰减速度，最多还能维持到这个夏天结束。之后，铃音会——圣良没有说出那个词，但所有人都懂了。她提出三个选择：第一，在盂兰盆节重新举办光之祭，让所有思念体包括铃音体内的那个安息——这意味着接受铃音的离去。第二，用钟楼的力量重新注入思念体——但需要更大的代价，可能是秋人更多的记忆，甚至是他的情感能力。第三，什么都不做，让事情按照自然的节奏发展——铃音会在夏末自然地消散。铃音听完后只是微微笑着，轻声说：'都好。'", "key_events": ["铃音体内的思念体能量只剩不到十分之一", "最多维持到夏天结束", "圣良提出三个最终选择", "铃音以一贯的微笑接受任何结果"], "emotional_tone": "沉重、面对告别的勇气", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_17"], "prev_nodes": ["node_15_survive"], "merge_to": "", "auto_route": null, "facts_introduced": ["铃音的思念体能量只剩不到十分之一", "铃音最多活到这个夏天结束", "存在三种应对方式"], "witnesses": ["char_akito", "char_suzune", "char_yui", "char_seiran", "char_kanade"]}, "node_17": {"node_id": "node_17", "node_type": "choice", "title": "最终的抉择", "act": 4, "branch_id": "main", "scene_description": "盂兰盆节前夜，秋人独自站在海边，看着落日。身后传来不同人的脚步声——铃音轻柔的、结衣急促的、奏小心翼翼的、圣良从容的。他必须在明天做出选择。这个选择不仅关乎铃音，也关乎所有积累的思念体，关乎这个小镇的未来，关乎他自己是什么样的人。", "key_events": ["盂兰盆节前夜，最终选择的时刻", "每个人用自己的方式陪在秋人身边"], "emotional_tone": "生命的重量、选择的庄严", "pov_character": "", "choices": [{"option_id": "opt_17a", "text": "举办光之祭，让思念体安息——送铃音最后一程", "target_node_id": "node_18_release", "is_dead_end": false, "branch_type": "strong", "value_effects": [{"attribute": "resolve", "delta": 1}], "hint": "接受离别的选择，需要足够的记忆来正确引导仪式", "gate_condition": {"memory": ">=3"}, "gate_branch": null, "locked_hint": "你对仪式的了解还不够，无法正确引导思念体安息"}, {"option_id": "opt_17b", "text": "用钟楼之力留住铃音——再付出一次代价也无所谓", "target_node_id": "node_18_preserve", "is_dead_end": false, "branch_type": "value_based", "value_effects": [{"attribute": "kizuna", "delta": 1}], "hint": "用更大的代价延续铃音的存在，需要足够的羁绊来承受代价", "gate_condition": {"kizuna": ">=3"}, "gate_branch": null, "locked_hint": "你与身边人的羁绊还不够深，无法承受钟楼要求的代价"}, {"option_id": "opt_17c", "text": "什么都不做——陪铃音度过最后的夏天", "target_node_id": "node_18_accept", "is_dead_end": false, "branch_type": "value_based", "value_effects": [], "hint": "不干预的选择，结局取决于之前积累的一切", "gate_condition": null, "gate_branch": null, "locked_hint": ""}], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_18_release", "node_18_preserve", "node_18_accept"], "prev_nodes": ["node_16"], "merge_to": "", "auto_route": null, "facts_introduced": [], "witnesses": ["char_akito", "char_suzune", "char_yui", "char_seiran", "char_kanade"]}, "node_18_release": {"node_id": "node_18_release", "node_type": "branch_point", "title": "告别的夏天", "act": 4, "branch_id": "branch_release", "scene_description": "盂兰盆节当夜，光之祭在钟楼前重新举行。圣良穿上巫女装束主持仪式，结衣和奏在两侧协助。秋人站在铃音面前，钟楼的钟声在月光下响起——温柔而庄严。思念体从镇上各处汇聚而来，化作光点飞向天空，像是反向的流星雨。铃音的身体开始发光，她的轮廓变得柔和而半透明。她对秋人说了最后的话：'谢谢你让我又多活了五年。那是最好的五年。'她的最后一个动作是用已经透明的手抚过秋人的脸颊——他感受到了温暖，虽然那已经不是人类体温的温暖。铃音化为无数光点，和其他思念体一起升向夜空。结局取决于之前积累的数值。", "key_events": ["光之祭重新举行", "思念体被引导安息", "铃音的最后告别", "铃音化为光点消散"], "emotional_tone": "悲伤而美丽的告别，泣系高潮", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_end_true", "node_end_sacrifice"], "prev_nodes": ["node_17"], "merge_to": "", "auto_route": {"description": "根据数值决定最终结局", "high_memory_high_kizuna_high_resolve": "node_end_true", "otherwise": "node_end_sacrifice"}, "facts_introduced": ["光之祭成功举行", "铃音作为思念体被引导安息"], "witnesses": ["char_akito", "char_seiran"]}, "node_18_preserve": {"node_id": "node_18_preserve", "node_type": "narrative", "title": "奇迹的代价", "act": 4, "branch_id": "branch_preserve", "scene_description": "秋人决定再次许愿。这一次他知道代价——他愿意付出自己关于这个夏天的全部记忆，包括与结衣、圣良、奏在一起的回忆，来换取铃音的继续存活。钟楼接受了。铃音的身体恢复了实质，她不再变透明。但秋人失去了这整个夏天的记忆。秋天开学时，他坐在教室里，不认识周围的人，不记得自己为什么回到了光之丘。铃音坐在他旁边，和五年前一样露出寂寞的微笑。但这一次，她的眼角有泪。", "key_events": ["秋人用夏天的全部记忆换取铃音的存活", "铃音恢复正常身体", "秋人再次失去大段记忆", "所有人的关系回到起点"], "emotional_tone": "苦涩的循环，代价的沉重", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_end_bittersweet"], "prev_nodes": ["node_17"], "merge_to": "", "auto_route": null, "facts_introduced": ["秋人用夏天的记忆换取铃音的存活", "记忆再次消失，关系回到起点"], "witnesses": ["char_akito", "char_suzune"]}, "node_18_accept": {"node_id": "node_18_accept", "node_type": "branch_point", "title": "日常的延续", "act": 4, "branch_id": "branch_accept", "scene_description": "秋人选择什么都不做。他和铃音度过了最后的夏天——去海边、喂猫、看烟花、一起做作业。每一天都很平凡，每一天都很珍贵。铃音的身体在一天天变得更加透明，但她的笑容从未改变。其他人也以自己的方式参与了这个夏天：结衣继续她的超常调查但不再张扬，奏每天做便当给大家，圣良偶尔出现在他们的日常中。这是一个被倒计时标记的夏天，但它也是最真实的夏天。结局取决于之前的积累。", "key_events": ["秋人选择与铃音度过最后的夏天", "日常的珍贵与消逝并行", "铃音逐渐透明但笑容不变", "所有人用自己的方式珍惜这个夏天"], "emotional_tone": "温暖而哀伤的日常，倒计时的残酷与美丽", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "", "ending_condition": "", "next_nodes": ["node_end_daily", "node_end_cold"], "prev_nodes": ["node_17"], "merge_to": "", "auto_route": {"description": "根据累积数值决定日常结局的温度", "kizuna_sufficient": "node_end_daily", "kizuna_insufficient": "node_end_cold"}, "facts_introduced": [], "witnesses": ["char_akito", "char_suzune"]}, "node_end_true": {"node_id": "node_end_true", "node_type": "ending", "title": "平行线的交汇", "act": 4, "branch_id": "branch_release", "scene_description": "光之祭结束后，秋人以为一切都结束了。但盂兰盆节过后的第一个清晨，他在海边喂猫时，一只黑猫——阿波罗——叼着一枚贝壳跑到他脚边。贝壳里塞着一张小小的纸条，上面是铃音的字迹：'平行线不会相交，但如果足够长，它们之间的距离会变得无限接近于零。所以我们没有分离，只是换了一种在一起的方式。——铃音。'秋人抬起头，初秋的清晨，海面上有一道温柔的光——不是思念体，而是晨光穿过薄雾形成的自然现象。但他知道，那道光的温度，和铃音的笑容一模一样。他用袖子擦了擦眼睛，蹲下来摸了摸阿波罗的头。'知道了。'一年后，民俗研究社在秋人、结衣、奏和圣良的共同运营下，成为了光丘学园最活跃的社团。光之祭被恢复为镇上的年度活动。每年七月七日，他们会在钟楼前放飞孔明灯，灯上写着想要传达的话。秋人的灯上永远只写一句话：'今天也很好。'", "key_events": [], "emotional_tone": "", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "true_ending", "ending_condition": "memory>=4 AND kizuna>=3 AND resolve>=3，走光之祭路线", "next_nodes": [], "prev_nodes": ["node_18_release"], "merge_to": "", "auto_route": null, "facts_introduced": [], "witnesses": ["char_akito"]}, "node_end_sacrifice": {"node_id": "node_end_sacrifice", "node_type": "ending", "title": "樱花的约定", "act": 4, "branch_id": "branch_release", "scene_description": "铃音消散后，秋人在钟楼前的台阶上坐了一整夜。天亮时，他发现台阶上落满了樱花瓣——这是六月，不应该有樱花。但那些花瓣是温暖的，像是被人的手掌握过。奏在清晨找到他，默默地在他身边坐下，将便当盒放在两人之间。秋人没有哭。他想起铃音说过的话：'猫会记住的。'他从口袋里取出那张修好的旧照片——如果他修复过的话——看着照片上两个孩子的笑脸。'约定完成了。'他说。声音很轻，但很稳。新的学期开始了。铃音的座位空着，窗外的海面在阳光下闪烁。秋人偶尔会看向那个空位，然后微微笑一下，继续听课。那不是释然，但也不是悲伤。是某种更深的东西。", "key_events": [], "emotional_tone": "", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "bittersweet_ending", "ending_condition": "memory>=3 AND (kizuna<3 OR resolve<3)，走光之祭路线", "next_nodes": [], "prev_nodes": ["node_18_release"], "merge_to": "", "auto_route": null, "facts_introduced": [], "witnesses": ["char_akito"]}, "node_end_bittersweet": {"node_id": "node_end_bittersweet", "node_type": "ending", "title": "夏天的终结", "act": 4, "branch_id": "branch_preserve", "scene_description": "秋天来了。秋人坐在教室里，看着窗外的大海，不记得这个夏天发生了什么。他只知道自己回到了光之丘，在这所学校读书。邻座的银发少女——神尾铃音——偶尔会看着他，露出一种复杂的微笑，像是想说什么又说不出口。教室后排，一个双马尾的学妹星野结衣有时会在走廊看到他，表情微妙地别过头。一个叫九条院圣良的三年级学姐，会在天台默默看着远方的钟楼，偶尔叹一口气。义妹奏每天做便当，但眼神里多了一层他读不懂的东西。秋人不知道自己遗忘了什么。但他的口袋里有一张已经修复的旧照片——上面是他自己幼年的样子，和一个笑容灿烂的女孩。照片背面写着'和铃音的约定'。他看着照片，看着邻座的铃音，觉得有什么很重要的事情，像是停在舌尖却说不出的名字。铃音对上他的目光，微微歪头一笑：'怎么了？'秋人摇摇头。'没什么。'窗外，最后一片晚樱花瓣缓缓落下。", "key_events": [], "emotional_tone": "", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "bittersweet_ending", "ending_condition": "kizuna>=3，走钟楼许愿保留路线", "next_nodes": [], "prev_nodes": ["node_18_preserve"], "merge_to": "", "auto_route": null, "facts_introduced": [], "witnesses": ["char_akito", "char_suzune"]}, "node_end_daily": {"node_id": "node_end_daily", "node_type": "ending", "title": "光之丘的日常", "act": 4, "branch_id": "branch_accept", "scene_description": "夏天结束时，铃音在海边的长椅上安静地消散了。那天的夕阳格外美丽，海面像是被融化的金子覆盖。她最后看到的是她最喜欢的风景——大海、落日、和远处奔跑过来的那个少年的身影。秋人到达时，长椅上只剩下一件叠得整整齐齐的白色外套和一只橘色的流浪猫。猫在外套上蜷着，像是在守护什么。此后的日子，秋人继续在光之丘生活。他每天放学后都会去海边，喂猫，看夕阳。那只橘色的猫成了他的固定伙伴。奏陪他走过了最难的几个月。结衣偶尔来坐一坐，不说话，只是陪着。生活继续了。不是因为遗忘，而是因为记住。", "key_events": [], "emotional_tone": "", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "neutral", "ending_condition": "kizuna>=2，走不干预路线", "next_nodes": [], "prev_nodes": ["node_18_accept"], "merge_to": "", "auto_route": null, "facts_introduced": [], "witnesses": ["char_akito"]}, "node_end_cold": {"node_id": "node_end_cold", "node_type": "ending", "title": "遗忘的再临", "act": 4, "branch_id": "branch_accept", "scene_description": "夏天结束了，铃音消失了。秋人不记得她是怎么消失的。事实上，随着思念体的消散，维持铃音存在的那部分记忆也跟着消失了——连带五年前恢复的记忆，一并被带走。秋天开学时，秋人看着教室里空着的座位，不知道那里曾经坐过谁。他只是觉得，看着那个空位，心里有什么地方隐隐作痛。奏想要告诉他什么，最终却什么都没说。在她看来，或许遗忘本身也是一种温柔。窗外的海面一如既往地蓝，但少了什么。秋人也说不清，少了什么。", "key_events": [], "emotional_tone": "", "pov_character": "", "choices": [], "death_cause": "", "death_description_hint": "", "ending_type": "cold_ending", "ending_condition": "kizuna<2，走不干预路线", "next_nodes": [], "prev_nodes": ["node_18_accept"], "merge_to": "", "auto_route": null, "facts_introduced": [], "witnesses": ["char_akito"]}}, "branches": {"branch_suzune": {"branch_id": "branch_suzune", "branch_type": "pearl_string", "fork_node_id": "node_03", "merge_node_id": "node_05", "node_ids": ["node_04a"], "description": "陪铃音去海边喂猫路线：重建童年羁绊，发现铃音病情，绊+2"}, "branch_yui": {"branch_id": "branch_yui", "branch_type": "pearl_string", "fork_node_id": "node_03", "merge_node_id": "node_05", "node_ids": ["node_04b"], "description": "帮结衣调查路线：发现光之祭历史和超常现象记录，记忆+1，覚悟+1"}, "branch_photo_repair": {"branch_id": "branch_photo_repair", "branch_type": "pearl_string", "fork_node_id": "node_06", "merge_node_id": "node_08", "node_ids": ["node_07a"], "description": "修复旧照片路线：揭示照片中少女是铃音，发现五年前的约定，记忆+2"}, "branch_photo_shelf": {"branch_id": "branch_photo_shelf", "branch_type": "pearl_string", "fork_node_id": "node_06", "merge_node_id": "node_08", "node_ids": ["node_07b"], "description": "搁置照片路线：保护奏的心情但错过线索，绊+1"}, "branch_tower_investigate": {"branch_id": "branch_tower_investigate", "branch_type": "value_based", "fork_node_id": "node_09", "merge_node_id": "node_11", "node_ids": ["node_10a"], "description": "深入钟楼传说路线：发现思念体的文献记载和仪式机制，记忆+1，覚悟+1"}, "branch_suzune_hospital": {"branch_id": "branch_suzune_hospital", "branch_type": "value_based", "fork_node_id": "node_09", "merge_node_id": "node_11", "node_ids": ["node_10b"], "description": "陪铃音去医院路线：发现铃音身体透明化现象，绊+2"}, "branch_family_secret": {"branch_id": "branch_family_secret", "branch_type": "value_based", "fork_node_id": "node_09", "merge_node_id": "node_11", "node_ids": ["node_10c"], "description": "远野家旧物路线：发现母亲日记和家族与钟楼的关联，记忆+1，绊+1"}, "branch_solo_tower": {"branch_id": "branch_solo_tower", "branch_type": "strong", "fork_node_id": "node_13", "merge_node_id": "node_15_survive", "node_ids": ["node_14_solo", "node_dead_tower", "node_dead_alone"], "description": "独自去钟楼路线：高风险，覚悟不足或许下自私愿望会死亡/消失"}, "branch_companion_tower": {"branch_id": "branch_companion_tower", "branch_type": "value_based", "fork_node_id": "node_13", "merge_node_id": "node_15_survive", "node_ids": ["node_14_together"], "description": "带同伴去钟楼路线：安全路线，同伴分担力量，绊+1"}, "branch_release": {"branch_id": "branch_release", "branch_type": "strong", "fork_node_id": "node_17", "merge_node_id": null, "node_ids": ["node_18_release", "node_end_true", "node_end_sacrifice"], "description": "光之祭路线：让思念体安息，需记忆>=3，通向真结局或樱花约定结局"}, "branch_preserve": {"branch_id": "branch_preserve", "branch_type": "value_based", "fork_node_id": "node_17", "merge_node_id": null, "node_ids": ["node_18_preserve", "node_end_bittersweet"], "description": "保留路线：再次许愿留住铃音，需绊>=3，通向夏天终结的苦涩结局"}, "branch_accept": {"branch_id": "branch_accept", "branch_type": "value_based", "fork_node_id": "node_17", "merge_node_id": null, "node_ids": ["node_18_accept", "node_end_daily", "node_end_cold"], "description": "不干预路线：陪铃音度过最后的夏天，结局取决于羁绊积累"}}, "entry_node_id": "node_01", "value_system": {"attributes": {"kizuna": 0, "memory": 0, "resolve": 0}, "thresholds": {"kizuna": {">=4": "true_ending条件之一（与其他数值组合）", ">=3": "可选择保留路线；true_ending条件之一", ">=2": "日常结局（温暖版）", "<2": "冷结局——遗忘的再临"}, "memory": {">=4": "true_ending条件之一（完整记忆恢复）", ">=3": "可选择光之祭路线；樱花约定结局条件", "<3": "光之祭路线不可用"}, "resolve": {">=3": "独行钟楼存活条件；true_ending条件之一", "<3": "独行钟楼时被思念体吞噬"}}, "description": "三个核心数值：kizuna（絆/羁绊，代表与他人的情感联结深度，影响保留路线和日常结局的温度）、memory（記憶，代表对真相和过去的了解程度，影响光之祭路线的可用性和结局完成度）、resolve（覚悟，代表面对真相和做出艰难选择的决心，影响独行钟楼的生死和最终结局的高度）。数值通过选择累积，在关键节点通过gate_condition和gate_branch进行门控判定。", "routing_rules": []}, "sp_obfuscation": {"writing_style": "light_rp", "response_length": "long", "action_depth": "normal", "thought_depth": "deep", "environment_depth": "immersive", "sensory_depth": "rich", "paragraph_count": "several", "action_marker": "asterisk", "dialogue_marker": "quotes", "register": "colloquial"}}, "narratives": {"node_01": {"text": "长途巴士在海岸公路上驶了将近四个小时。\n\n远野秋人靠着窗户，用额前的碎发挡住半闭的眼睛，假装在睡觉。车厢里空调开得太足，他的左臂贴着冰凉的玻璃，右手肘搁在座椅扶手上，指尖无意识地敲着节拍。\n\n窗外的风景在某个弯道之后变了。\n\n城市的灰色退场，取而代之的是大片的蓝——海平线从公路左侧展开，像是谁用刷子粗暴地画了一道横线，把天空和海面分割成深浅不一的两层蓝色。午后的阳光铺在海面上，碎成无数个光点，晃得人眼睛发酸。\n\n秋人把目光移回车内。斜对面的座位上，远野奏抱着一个纸袋，脑袋一点一点地往下沉——她真的睡着了。栗色的短发贴在脸颊上，嘴唇微微张开，呼吸轻而均匀。纸袋里装的是她在服务区买的当地铜锣烧，她坚持说要带到新家再吃。\n\n*义妹。*\n\n这个称呼他到现在也没完全习惯。父亲再婚是去年的事，奏叫他\"哥哥\"是三个月前开始的，而和她一起坐长途巴士搬到一个陌生的小镇——说是陌生也不对。他在这里度过了十二岁之前的全部童年。\n\n巴士拐进一条上坡路。窗外的景色再次变化：矮墙、旧邮筒、种满绣球花的院子。道路两侧的坡面上，种着一排排的树。\n\n秋人的手指停下了敲击。\n\n那些树上开着花。白色和淡粉色的花瓣，在六月的海风中一片一片地剥落，飘过巴士的车窗，落在公路的沥青路面上。\n\n樱花。\n\n六月的樱花。\n\n他知道这不正常。他也知道，这就是光之丘。这个小镇一直有不合时节的晚樱——至少在他的记忆碎片里是这样的。那些碎片模糊得像是隔着毛玻璃看到的画面：花瓣、海风、谁的笑声，还有——\n\n胸口忽然闷了一下。\n\n巴士减速，车身轻轻摇晃。奏在座位上动了动，纸袋从她怀里滑落。秋人伸手接住，同时用另一只手拨开额前的碎发，看向窗外。\n\n远处的山顶上，在薄薄的雾气和逆光之间，有一个尖锐的轮廓。那是一座钟楼——旧式的、孤零零的建筑剪影，像是某个时代遗忘在山顶的一枚图钉。\n\n他的心跳漏了一拍。\n\n不是恐惧，也不是兴奋。是一种更复杂的东西——像是你一直在找的某个词，已经到了舌尖，却怎么也说不出口。\n\n\"——到站了。光之丘站，到站了。\"\n\n巴士停稳。门打开时，潮湿的空气裹着盐味和花香涌了进来。\n\n奏揉着眼睛站起来，\"哥哥，到了吗？\"\n\n\"嗯。\"秋人拎起两个人的行李箱，朝车门走去。\n\n踏出巴士的一瞬间，他低头看着脚下——站台的水泥地面上落满了樱花瓣，薄薄一层，被午后的风吹得慢慢旋转。\n\n奏跟在他身后，四处张望，\"好漂亮……这里六月也有樱花？\"\n\n\"这里一直有。\"秋人回答。他自己也不确定这句话是记忆还是直觉。\n\n他抬起头，最后看了一眼山顶钟楼的方向。雾更浓了，钟楼的轮廓在其中时隐时现，像是某个不愿被看清的存在。\n\n在他收回视线转向镇子的街道时，余光里——海边的防波堤方向——有一个纤细的身影一闪而过。银灰色的长发，在海风中飘起又落下。\n\n秋人眨了眨眼。那里什么都没有了。\n\n\"哥哥？\"奏拽了拽他的衣袖。\n\n\"……走吧。\"\n\n他拉起行李箱，走进了光之丘的街道。花瓣在他身后继续飘落，像是一场无人注意的无声欢迎。", "title": "光之丘的初夏", "act": 1}, "node_02": {"text": "光丘学园建在半山腰的一块平台上，从校门到教学楼要爬三十七级台阶。秋人在第二十级的时候就后悔了——六月的太阳已经很毒，他的白衬衫后背贴着皮肤，书包带勒进肩膀。\n\n教室在三楼。走廊的窗户正对着海，蓝色充满整个视野，像是有人在墙上嵌了一面蓝色的镜子。秋人停了一秒看着那片海，然后被班主任推进了教室。\n\n\"转学生，远野秋人。自我介绍一下。\"\n\n秋人站在讲台旁边，面对三十多张好奇的脸。他用手拨了一下碎发。\n\n\"远野秋人。从东京来的。请多关照。\"\n\n三秒。全部结束。\n\n班主任的表情有些微妙，大概期待他多说两句。秋人已经走向座位了。\n\n他的座位在靠窗倒数第二排。坐下来的时候，他才注意到隔壁——\n\n那个位置上趴着一个人。银灰色的长发铺在桌面上，像是一匹细腻的绸缎被随意摊开。脸埋在交叠的手臂里，呼吸轻得几乎听不到。校服外套挂在椅背上，她只穿着薄薄的白衬衫，肩膀的线条单薄得让人觉得会被风吹走。\n\n秋人坐下来。椅子腿和地板摩擦发出声响。\n\n银发的主人动了。\n\n她抬起头的动作很慢，像是从水底浮上来一样。先是额前的碎发，然后是苍白的脸，最后是一双灰蓝色的眼睛——那双眼睛在对上秋人目光的瞬间，停住了。\n\n沉默持续了很长时间。长到秋人开始觉得尴尬，正想说点什么的时候——\n\n她歪了一下头。\n\n然后露出一个微笑。那个微笑很轻很轻，像是花瓣落在水面上——温柔的，但也是寂寞的。\n\n\"欢迎回来。\"\n\n秋人的喉咙堵了一下。\n\n他不记得她。至少，他的大脑说他不记得。但他的身体——胸口那个位置——说他记得。那种感觉没有名字。\n\n\"……我们，认识？\"\n\n她只是笑着摇了摇头。\"以后会想起来的。\"\n\n然后她重新趴回桌上，银灰色的长发遮住了她的脸。\n\n秋人盯着自己桌上的课本封面看了很久。*神尾铃音*——旁边座位贴的名牌上写着这三个字。\n\n——\n\n午休结束后发生的事更让他措手不及。\n\n教室后门被猛地推开，一个扎着双马尾的女生冲了进来，手里举着一张A4纸，纸上用红色马克笔写着几个大字：\n\n**【民俗研究社 · 社员募集中！】**\n\n\"各位——！我是一年级的星野结衣，现在正式宣布民俗研究社的成立！我们的目标是调查光之丘镇上的一切超常现象，包括但不限于——\"\n\n\"那个。\"秋人举起手打断她。\"你这个传单的字体和排版，怎么看都像是灵异杂志的广告。\"\n\n双马尾女生的脸从兴奋变成了震惊，然后变成了涨红。\"这、这才不是什么灵异杂志！这是严肃的学术调查！你懂什么——\"\n\n\"我懂排版。如果你想招到人，建议把那个骷髅头图案去掉。\"\n\n周围有人笑了。结衣的脸更红了。她指着秋人，嘴唇动了好几下，最终只憋出一句：\"你——给我记住！\"\n\n然后她抱着传单跑走了。\n\n秋人收回举起的手，叹了口气。旁边传来铃音细小的笑声——她不知道什么时候又醒了，歪着头看着他，灰蓝色的眼睛里有一点亮光。\n\n\"你和以前一样。\"她说，声音轻得像风。\n\n放学的时候，秋人在走廊撞见了另一个人。\n\n准确地说，是那个人站在走廊的窗边，像是一直在那里等着什么。黑色的长发长及腰际，在走廊的逆光中显出一种近乎不真实的质感。她穿着三年级的校服外套，领口别着学生会的徽章。\n\n她的目光落在秋人身上，停了两三秒。那种目光不像是在\"看\"一个陌生人——更像是在确认。\n\n她微微点了一下头，嘴角浮现出一种若有若无的弧度。\n\n然后转身走了。\n\n秋人站在原地，觉得后颈有点发凉。", "title": "光丘学园", "act": 1}, "node_03": {"text": "放学铃响的时候，教室里立刻嘈杂起来。椅子挪动的声音、笑声、收拾书包的窸窣声混在一起，像一首没有指挥的合奏。\n\n秋人把课本塞进书包，正准备站起来，手臂被人轻轻碰了一下。\n\n铃音站在他桌旁。她已经穿好了外套——那件明显大了一号的校服外套松松垮垮地挂在她身上，让她看起来更加单薄。\n\n\"秋人。\"她的声音像是夏天傍晚的风，带着一点点海的味道。\"要不要……一起去海边？\"\n\n\"海边？\"\n\n\"嗯。喂猫。\"她歪了一下头，\"和小时候一样。\"\n\n秋人张了张嘴。他不记得和她一起喂过猫。但是那个\"和小时候一样\"让他想拒绝的话卡在了喉咙里。\n\n就在这时，教室后门再次被推开。\n\n\"远野前辈——！\"\n\n星野结衣气势汹汹地站在门口，双马尾因为跑步而微微散乱，琥珀色的眼睛里燃着某种不容拒绝的光。\n\n\"社团第一次活动！今天下午！去镇图书馆调查钟楼的资料！你必须来——这才不是因为你之前吐槽了我的传单所以我要证明给你看什么的！只是……正好缺人手而已！\"\n\n秋人看了看铃音，又看了看结衣。\n\n铃音没有说话，只是安静地笑着。那个笑容很温柔，温柔到让人心里发酸——好像她已经习惯了不被选择。\n\n结衣双手叉腰，下巴微微抬起，但眼神在不自觉地飘向别处——她在紧张。\n\n教室门口，奏探出半个身子，安静地等着。不管他选哪边，她都会默默跟上。\n\n秋人拨了一下碎发。", "title": "放学后的选择", "act": 1}, "node_04a": {"text": "海边的防波堤被夕阳染成了琥珀色。\n\n铃音蹲在堤坝的阴影里，从书包里掏出一个密封袋——里面装着猫粮，颗粒均匀，是她自己搅拌好的混合粮。秋人坐在堤坝上方，两腿垂下来，看着她的动作。\n\n猫来得很快。先是一只灰色的虎斑从堤坝底部的缝隙里钻出来，然后是一只橘色的、一只黑白相间的、还有一只——\n\n纯黑的。毛色乌亮，眼睛是深绿色，走路的姿态像个小型豹子。它从铃音背后无声地跳到她肩膀附近的石头上，然后用脑袋蹭了蹭她的手。\n\n铃音用指尖摸了摸它的下巴。\"阿波罗，你今天来得最晚哦。\"\n\n秋人的手指停了一下。\"阿波罗？\"\n\n\"嗯。\"铃音喂完黑猫，抬起头看他，银灰色的长发在海风中飘起来，夕阳在她脸上画出暖色的轮廓。\"你给它取的名字。\"\n\n\"……我？\"\n\n\"小学三年级的时候。你说黑猫应该有一个听起来很厉害的名字，然后你想了很久，说'阿波罗'。我问你为什么，你说'因为太阳神不怕黑'。\"\n\n秋人完全不记得这件事。他在记忆里翻找，什么都没有——只有一片空白，像是书被撕掉了几页。\n\n铃音看着他的表情，什么都明白了。\n\n\"没关系。\"她笑了一下，歪着头。\"猫会记住的。\"\n\n阿波罗在他们之间蹲下，舔着爪子，一副老大的派头。其他猫在铃音周围散开，发出此起彼伏的细小呼噜声。海浪拍打堤坝的声音从下方传来，规律而温柔。\n\n他们在防波堤上坐了很久。铃音说了一些小时候的事情——她说的每一件事秋人都不记得，但每一件事听起来都像是应该记得的。她说话的语速很慢，像是在小心翼翼地把记忆从某个柔软的地方取出来展示，生怕弄皱了。\n\n太阳碰到海平线的时候，铃音站起来。\n\n然后她咳嗽了。\n\n不是普通的咳嗽——那种声音从胸腔深处涌出来，沉闷而黏着，像是什么东西被强行拉扯。她弓着身子，一只手捂着嘴，另一只手撑着堤坝的石面。\n\n秋人站起来，\"喂、铃——\"\n\n\"没事。\"她直起身，把手帕攥在手心里。声音很轻，像在安慰别人，也像在安慰自己。\"就是吹了点风。\"\n\n但秋人看到了。手帕的白色棉布上，有一小片淡淡的红色，像是水彩画上不小心溅到的颜料。\n\n铃音把手帕塞进口袋的速度很快。快到她自己可能也知道，这不是一件该被看到的事。\n\n回去的路上两个人都没说话。\n\n秋人走在左边，铃音走在右边，中间隔着一只猫的距离。阿波罗跟了他们一小段路，然后在某个巷口停下来，用那双深绿色的眼睛目送他们走远。\n\n在他们身后三十米的地方，远野奏拎着便利店的购物袋站在路灯下，看着两个人的背影。她的手指慢慢攥紧了购物袋的提手。", "title": "海边的猫与约定", "act": 1}, "node_04b": {"text": "镇上的图书馆是一栋两层的旧式木结构建筑，外墙刷着褪了色的鹅黄色漆，大门口有一棵歪脖子的松树。结衣推开门的时候，扑面而来的是旧纸张和樟脑球混合的气味。\n\n\"就是这里。\"结衣把书包往阅览桌上一摔，双马尾甩了个利落的弧度。\"光之丘镇地方志，我之前来翻过好几次了——老板娘已经认识我了。\"\n\n\"你一个转校生比本地人还勤快。\"秋人在旁边的椅子坐下。\n\n\"这才不是什么勤快！这是学术热情！\"结衣的耳朵红了一点点，但她已经转身去翻书架了。\n\n二十分钟后，桌上堆满了发黄的地方志、油印的小报、和几本装订简陋的手抄本。秋人翻着其中一本，眉头慢慢皱了起来。\n\n\"光之祭——明治二十三年起——每年盂兰盆节——于钟楼举行——\"\n\n结衣从对面探过头来。\"看到了吧？这个祭典从一百多年前就有了。记载说它的目的是——\"她拿过另一本手抄本，翻到折角的那一页，\"'安抚亡者之思念，使其归于安宁'。\"\n\n\"安抚亡者的思念。\"秋人重复了一遍。这句话听起来像是普通的祭祀用语，但在这个开着反季节樱花的小镇上，他总觉得这些词背后有更具体的含义。\n\n他继续翻。地方志的记录到五年前戛然而止——最后一条注释只有一行字，字体比前面的小了一号，像是后来被人添上去的：\n\n*因安全隐患，钟楼封锁，祭典无限期中止。*\n\n\"就这？\"秋人指着那一行字。\"安全隐患？什么安全隐患？一个用了一百年的钟楼突然有安全隐患？\"\n\n\"对吧！我也觉得不对！\"结衣拍了一下桌子，眼睛亮起来。她从书包里掏出一个厚厚的笔记本，封面用黑色胶带缠了好几层。\"这是我三年来的调查记录。\"\n\n她翻开笔记本。里面是密密麻麻的手写字，夹着照片、剪报、和手绘的地图。\n\n\"第一起——三年前八月十三日，�的场太太在海边散步时看到'透明的女孩站在防波堤上，然后消失了'。第二起——同年十月，邮递员早上五点送报纸时听到钟楼方向传来钟声，但钟楼已经封锁了。第三起——\"\n\n她一条一条地念下去。十七起。三年内十七起无法用常理解释的目击报告，全都和透明人影、异常钟声、或者钟楼方向的光点有关。\n\n秋人听完，手指在桌面上敲了两下。\"这些目击者你都核实过？\"\n\n\"每一个。\"结衣的表情变得认真，她推了推根本不存在的眼镜——这大概是某种习惯性动作。\"我知道你在想什么，觉得这些是幻觉或者以讹传讹。但十七个互不相识的人，在不同时间不同地点，描述的现象有超过百分之六十的细节重叠。这在统计学上——\"\n\n\"我没说不信。\"秋人打断她。\n\n结衣愣了一下，嘴张开又合上。\"你……信？\"\n\n\"这个镇六月开樱花。\"秋人耸了耸肩，\"我的可信度阈值已经调整过了。\"\n\n这时候，一张旧照片从他正在翻的地方志中滑了出来。\n\n照片是黑白的，边角发黄卷曲。上面是一群人站在钟楼前的台阶上——衣着看起来是几十年前的款式，有十几个人。但奇怪的是，照片中所有人的面部都呈现出一种不自然的模糊，像是对焦出了问题，又像是——\n\n秋人拿起照片凑近看，太阳穴突然跳了一下。\n\n\"——！\"\n\n一阵短暂而尖锐的头痛穿过他的眉心。持续了不到一秒就消失了，但那一秒里他看到了什么——不是照片上的东西，而是某种从记忆深处涌出来的画面碎片：钟楼的台阶、某个人的手、花瓣——\n\n\"前辈？前辈你怎么了？\"结衣的声音从很远的地方传来。\n\n\"……没什么。\"秋人把照片放回桌上。额角有一层细密的汗。\"可能是看太久了。\"", "title": "超常调查笔记", "act": 1}, "node_05": {"text": "秋人站在学校天台的时候并不是故意来的。午休时间教室太闷，他想找个安静的地方待一会，推开楼顶的铁门时才发现先到者——\n\n九条院圣良站在天台的栏杆旁，面朝远方，长发在六月的风里像一面黑色的旗。她的身姿端正得不自然，像是画中走出来的人，连站立的方式都带着某种经过训练的优雅。\n\n她没有回头。\"远野同学。\"\n\n\"……你怎么知道是我？\"\n\n\"脚步声。\"她转过身来，嘴角有一个浅到几乎不存在的弧度。\"你走路的节奏和五年前没有变。\"\n\n秋人不知道该怎么回应\"我不记得五年前的事\"这件事已经是第几次了。他选择不接话。\n\n圣良把视线转回远方。从天台望出去，可以看到整个小镇——层叠的旧屋顶、蜿蜒的坡道、海岸线的弧度，以及山顶上那座钟楼的尖顶。钟楼在正午的阳光下显出锈迹斑斑的铜绿色，周围没有其他建筑，孤零零地站在最高处。\n\n\"我等了很久。\"圣良说。她的语气平淡，但那个'很久'的重量落在句尾，像石子沉入水底。\n\n\"等什么？\"\n\n\"等你回来。\"\n\n秋人盯着她的侧脸。她的皮肤在阳光下几近透明，睫毛又长又密，投在眼睑下方的阴影像是工笔画的细线。她不像是十八岁的高中生——不是外表，而是某种气质，像是承载着远超她年龄的东西。\n\n\"有些事，\"她再次开口，这回是面对着他说的，\"时机到了自然会明白。急不得。\"\n\n她从制服口袋里取出一样东西。\n\n那是一把钥匙。铜制的，款式古老，上面刻着细密的花纹——秋人的目光在花纹上停留了一秒。是樱花的图案。\n\n圣良将钥匙举在两人之间的空中，让阳光穿过钥匙的镂空部分。\"钟楼的钥匙。九条院家世代保管。\"她看着秋人的眼睛，\"如果你想知道遗失的那一周里发生了什么——总有一天要用到它。\"\n\n秋人的手不自觉地伸出去，但在碰到钥匙之前停住了。\n\n\"你为什么要告诉我这些？\"\n\n圣良把钥匙收回口袋，嘴角那个若有若无的微笑又浮了上来。\"因为你会自己来找的。不如早点让你知道门在哪里。\"\n\n她绕过他走向天台的铁门，经过他身边时停了一步。\n\n\"远野同学——不要太着急。有些门打开了就关不上。\"\n\n铁门在她身后合上，发出一声沉闷的响。天台上只剩秋人一个人。\n\n风从海面吹来，裹着盐和花的气味。远处的钟楼在热气中微微摇晃，像是一个遥远的手势。", "title": "圣良与钟楼", "act": 2}, "node_06": {"text": "那天傍晚回到家的时候，奏已经做好了晚饭。餐桌上摆着两人份的白饭、味增汤和煎蛋卷——简单但摆盘整齐，筷子的方向都一丝不苟。\n\n\"哥哥，回来啦。\"她从厨房探出头，围裙上沾着一点面粉。\n\n\"嗯。\"秋人放下书包。他注意到奏的眼神有些躲闪，嘴唇时不时抿一下——这是她在纠结什么事情的信号。\n\n晚饭吃了一半，奏终于放下筷子。\n\n\"哥哥。\"\n\n\"什么？\"\n\n她从座位上站起来，走到客厅的柜子旁边，弯腰从最底层的抽屉里拿出一个东西。回到餐桌旁，她把那个东西递过来。\n\n是一张照片。\n\n准确地说，是一张被撕成两半、又用透明胶勉强粘回去的旧照片。尺寸不大，颜色已经偏黄，边角磨损。\n\n秋人接过照片。\n\n左半边是一个男孩——五六岁的样子，穿着蓝色的短袖T恤，站在某个台阶上，咧着嘴笑。那个男孩是他自己。他认出了那件T恤上印的恐龙图案。\n\n右半边——\n\n一个女孩。年龄和男孩差不多，穿着白色的连衣裙，头发很长。但这一半照片严重褪色，像是被水泡过或者在太阳下晒得太久，女孩的面容模糊得几乎辨认不出。只能看到一个大致的轮廓：长发、白裙、伸出的一只小手，似乎正拉着男孩的袖子。\n\n他们身后是——钟楼。\n\n\"我在哥哥的旧箱子里找到的。\"奏低着头，手指无意识地攥着衣角。\"搬家的时候……一直不敢给你看。\"\n\n\"不敢？\"\n\n\"因为……\"她咬了一下嘴唇。\"我怕你看了会想起什么。\"\n\n秋人翻过照片。背面有字——他自己幼年的笔迹，歪歪扭扭但很用力，像是拿着蜡笔在纸上刻字。\n\n太阳穴开始跳动。\n\n他看着那行字。字迹模糊了一部分，但还能辨认：\n\n*和——的约定　七月七日　在钟楼——*\n\n中间的名字被撕裂的位置切断了，只剩下一个偏旁。\n\n头痛来了。不是剧烈的那种，是一种持续的、闷沉的压迫感，像是什么东西在颅骨内侧推挤。记忆的碎片在黑暗中挣扎，想要浮出水面，却被某种看不见的力量按住。\n\n钟楼。白裙子。七月七日。谁的手。\n\n秋人把照片放在桌上，闭了一下眼睛。\n\n奏在对面看着他，表情紧绷。她的手指攥着衣角的力度大到指节发白。\n\n\"哥哥？\"\n\n他睁开眼。看着那张拼合的照片，看着那个模糊的女孩轮廓，看着背面残缺的字迹。\n\n他可以试着修复这张照片。也可以把它收起来，等准备好了再说。\n\n奏在等他的回答。她的目光里有期待，也有恐惧——她在害怕什么，秋人说不清。但那种害怕不是假装的。", "title": "旧照片", "act": 2}, "node_07a": {"text": "结衣花了整整一个下午来处理那张照片。\n\n社团活动室——其实就是学校三楼尽头一间没人用的旧教室——的桌上铺满了工具：放大镜、棉签、一台从家里搬来的旧式扫描仪，以及她的笔记本电脑。屏幕上开着图像修复软件，进度条来来回回地走了无数次。\n\n\"褪色太严重了……等等，这层颜色下面好像还有——\"\n\n秋人坐在旁边的椅子上等了三个小时。窗外的天色从明亮变成金黄，再变成灰蓝。\n\n\"出来了。\"\n\n结衣的声音忽然变了调——不再是之前那种兴奋的高音，而是一种更安静的、带着某种惊讶的低音。\n\n秋人凑过去看屏幕。\n\n修复后的图像比原件清晰了很多。右半边的女孩——她的脸终于可以辨认了。\n\n短短一秒之内，秋人的心脏做了一件奇怪的事：它先是停了一拍，然后用力跳了两下，像是在试图弥补错过的那一拍。\n\n照片里的女孩有着银灰色的长发——在五六岁的年纪就已经很长了，扎着低马尾，碎发贴着圆润的脸颊。她穿着白色连衣裙，站在钟楼前的台阶上，笑得灿烂——那种没有保留的、属于小孩子的、完全打开的笑容。她的左手拉着男孩的袖子。\n\n*铃音。*\n\n那是铃音。\n\n不是现在这个苍白而纤细、总带着寂寞微笑的铃音——而是一个健康的、有血色的、笑起来会露出缺了一颗门牙的小女孩。\n\n结衣转过头看秋人的表情，欲言又止。她翻过照片的扫描件，背面的字迹在修复后也更加清晰了：\n\n*和铃音的约定　七月七日　在钟楼许愿*\n\n\"远野前辈——\"结衣咽了一下。\"这个……神尾学姐？\"\n\n\"嗯。\"\n\n\"等一下。\"结衣推了推不存在的眼镜。她的表情在搜索引擎的速度和人类情感的迟钝之间挣扎了几秒。\"五年前……神尾学姐不是……\"\n\n她突然意识到什么，声音刹住了。\n\n\"不是什么？\"\n\n\"……没什么。\"结衣低下头收拾桌上的工具，但她的手在发抖。\n\n\"结衣。\"\n\n她停了好一会，才没有抬头地说：\"镇上的老人有时候会提到……五年前，神尾家的女儿病得很重。医生说……没有希望了。但后来她——活过来了。大家都说是奇迹。\"\n\n活动室里安静了下来。窗外的海面在暮色中变成了深灰色，远处的钟楼消失在越来越浓的暮色中。\n\n秋人低头看着屏幕上那个笑容灿烂的小女孩，然后想起今天早上在教室里，铃音趴在桌上睡觉的样子——那么安静，安静得像是害怕发出声音就会消失。", "title": "照片中的少女", "act": 2}, "node_07b": {"text": "秋人看了那张照片很久。\n\n然后他把它翻过来，对折，放进了抽屉里。\n\n\"等我准备好了再看。\"\n\n奏松了一口气——她大概以为自己藏得很好，但她整个人从肩膀到手指的放松太过明显了。然而放松之后，她的表情又变得复杂起来：嘴角微微弯着像是在笑，眼睛却看向别处，像是对自己的松一口气感到愧疚。\n\n晚饭的后半程在安静中度过。奏做的咖喱稍微有点咸了，她自己大概也意识到了——多喝了两杯水，然后不好意思地低着头扒饭。\n\n洗碗的时候，秋人站在水池边，奏在旁边用布擦干他洗好的盘子。水龙头的声音填满了两人之间的空隙。\n\n\"哥哥。\"奏的声音很轻，像是怕打扰水流的声音。\n\n\"嗯。\"\n\n\"如果有什么事……不想一个人扛的话。\"她把擦好的盘子放进碗柜，手指在柜门上停了一下。\"我在的。\"\n\n秋人关掉水龙头。沉默了几秒。\n\n\"知道了。\"\n\n就这两个字。但奏抿着嘴唇笑了一下，那个笑容和平时的乖巧不一样——更小，更真。\n\n后来收拾客厅的时候，奏无意间说了一句：\"那个旧箱子里，除了照片，还有一个护身符。上面写着光丘神社——不知道是谁买的。\"\n\n她说得随意，但秋人记住了。\n\n那天晚上他躺在床上，听着海浪从远处传来的声音。光之丘的夜晚出奇地安静，除了海浪，只有偶尔路过的车。\n\n他想起奏在厨房说的话。他想起照片上那个模糊的女孩轮廓。他想起钟楼。\n\n然后他闭上眼睛，什么都没有想起来。", "title": "搁置的记忆", "act": 2}, "node_08": {"text": "那个周末清晨，秋人醒来的时候家里安静得不对劲。\n\n厨房的灯没开，餐桌上没有便当盒。冰箱门上贴着一张便利贴，奏的圆润字体：\n\n*去买菜。马上回来。——奏*\n\n他看了一眼时钟。九点半。奏一般七点就出门了。\n\n他没有立刻出门。直到十点、十一点，她还没有回来。\n\n秋人套上外套走出家门。光之丘周末的街道空荡荡的，只有几只猫在围墙上晒太阳。他沿着坡道往下走，路过商店街、邮局、理发店。\n\n海边。\n\n奏坐在防波堤最外端的石墩上，膝盖抱着腿，下巴搁在膝盖上。从后面看，她的身形很小——背影看起来不像十五岁，更像是一个被放大了的、被遗忘在某处的洋娃娃。\n\n海风吹着她的栗色短发。购物袋搁在旁边的石头上，里面什么都没装。\n\n秋人在她身后站了一会，然后在旁边坐下。石头被太阳晒得温热，海面在正午的阳光下亮得刺眼。\n\n他什么都没问。\n\n两分钟。五分钟。海浪来了又走了无数次。\n\n奏的声音从膝盖后面传出来，闷闷的，像是从一个很深的地方挖出来的：\n\n\"哥哥。\"\n\n\"嗯。\"\n\n\"如果有一天你想起了所有的事……\"\n\n她停了很久。海浪填满了那段空白。\n\n\"……你还会需要我吗？\"\n\n秋人转过头看她。她的脸埋在膝盖之间，只露出半个额头和一小截发梢。耳朵尖是红的。不是害羞的红——是忍着什么的红。\n\n他忽然明白了。\n\n奏害怕的不是那张照片，不是钟楼，不是什么超自然现象。她害怕的是一个更简单也更沉重的东西：秋人想起过去之后，会不再需要现在。\n\n那张照片里有一个女孩。那个女孩在秋人的过去里，而奏不在。\n\n\"奏。\"\n\n她没有抬头。\n\n\"你的咖喱上次有点咸。\"\n\n\"……什么？\"\n\n\"下次少放半勺盐就好了。\"\n\n奏终于抬起了头。她的眼眶是红的，鼻尖也是。她的嘴唇动了动，大概想说什么反驳的话——但什么都没说出来。\n\n秋人伸出手，按了一下她的头顶。\n\n\"我不知道我会想起什么。但咖喱的味道不会忘的。\"\n\n奏的眼泪终于掉下来了。无声的，一颗一颗地滚过她的脸颊，滴在校服裙子的深蓝色布料上，留下深色的圆点。她用手背擦了一把，使劲点了点头。\n\n他们在防波堤上坐到了中午。然后一起去商店街真的买了菜。路上奏的手一直拽着秋人外套的下摆，像是小时候走丢后被找到的孩子。\n\n秋人让她拽着。", "title": "奏的心事", "act": 2}, "node_09": {"text": "七月的第一个星期一，民俗研究社召开了正式的活动会议——如果三个人挤在旧教室里对着一块小白板算正式的话。\n\n结衣站在白板前，手里握着红色马克笔，在白板上画了三个圈，分别写上了字：\n\n**A. 钟楼传说——九条院家的档案**\n**B. 铃音的身体**\n**C. 远野家的旧物**\n\n\"目前我们有三条调查方向。\"她用笔尖点着白板，表情比平时更严肃。\"A是钟楼的历史和九条院家的关系——旧档案馆那边应该有更多资料。B是……\"她的声音降了一点，\"神尾学姐最近缺课很多。她的身体状况——可能和镇上的超常现象有关联。C是远野前辈你的家族旧物，那个护身符什么的。\"\n\n秋人看着白板。铃音最近确实缺课频繁——上周五天有三天她的座位是空的。她偶尔出现的时候，脸色比之前更白，走路的步子更慢。有一次她在走廊里站住不动，秋人以为她在看窗外的海，走近了才发现她是在喘气——那种安静的、竭力不让人发现的喘气。\n\n活动室的门口传来轻微的脚步声。秋人抬头，看到圣良的身影从门口一闪而过。她没有进来——只是在走廊上走过，视线扫了一眼室内，然后平静地离开了。\n\n每次社团活动她都会这样路过。从不参加，但从不缺席旁听。\n\n\"所以——\"结衣拍了一下白板，\"我们先调查哪个方向？精力有限，一次只能集中力量做一个。\"\n\n秋人看着白板上的三个圈。三条路通向不同的方向，但他隐约觉得，它们最终可能会汇聚到同一个答案。", "title": "七月的调查", "act": 2}, "node_10a": {"text": "旧档案馆藏在镇公所的地下室里，入口是一扇生锈的铁门，门上贴着\"非工作人员禁止入内\"的标签。结衣用\"学校社团活动调查\"的名义说服了管理员——或者说，她用连珠炮般的解释让对方放弃了抵抗。\n\n地下室的灯光昏暗，金属架上堆满了档案盒。秋人和结衣花了两个小时翻到了九条院家的记录——一本薄薄的手抄本，封面用毛笔写着\"�论楼守护志\"，纸张脆弱得像干枯的秋叶。\n\n秋人戴上管理员借的棉手套，一页一页地翻。\n\n手抄本是九条院家某位先祖在明治年间写的。文字是竖排的旧式日语，墨迹已经褪成了浅棕色，但字迹工整，每一笔都像是用尺子量过。\n\n第三页开始出现关键内容。\n\n*——钟楼非报时之器，乃思念之器也。其钟声可共鸣于人心，将强烈之情感凝聚成形——*\n\n结衣在旁边探着头，小声念出来：\"将强烈的情感凝聚成形……这是什么意思？\"\n\n秋人继续翻。下一页的内容更加具体：\n\n*——凝聚之物，名曰思念体。乃人之思念超逾常理时所生。非幽灵，非妖物，乃情感之结晶。生者之悲、逝者之恋、母之忧、子之慕，皆可凝聚。九条院一族世代守护此楼，于盂兰盆之夜主持光之祭，引导思念体归于安宁——*\n\n秋人的手指在这一段上停了很久。\n\n思念体。情感的结晶。\n\n他想起了结衣笔记里记录的十七起超常现象——透明的人影、异常的钟声、光点。如果那些不是幻觉，而是——\n\n结衣已经在旁边疯狂做笔记了。\"所以光之祭不是普通的祭典，是用来处理这些思念体的仪式！而九条院家是——\"\n\n\"守护者。\"秋人说。他想起圣良那个若有若无的微笑，想起她口袋里那把刻着樱花的钥匙。\"九条院圣良是最后的守护者。\"\n\n他翻到手抄本的最后一页。\n\n那一页被人撕去了大半。只剩下最上面两行字的下半部分：\n\n*——若思念体与生者之魂相绑，则——*\n\n之后是空白。齐整的撕口，像是有人故意移除了后面的内容。\n\n秋人和结衣对视了一眼。结衣的嘴巴张了张，但什么都没说出来。\n\n\"若思念体与生者之魂相绑。\"秋人在心里默念这句话。某种冰凉的预感从脊柱底端爬了上来。", "title": "钟楼传说的真相", "act": 2}, "node_10b": {"text": "海滨诊所是一栋白色的两层小楼，院子里种着紫阳花，蓝色的花球在七月的阳光下显得格外饱满。\n\n铃音坐在等候区的长椅上，秋人坐在她旁边。她的挂号单上写着\"定期复查\"，字体是诊所前台的潦草字迹。\n\n等待的时间很长。铃音的手放在膝盖上，手指偶尔无意识地互相缠绕。她今天穿的是私服——浅蓝色的棉布裙，配一件薄薄的白色开衫。开衫的袖子挽到手腕，露出纤细得不像话的前臂。\n\n\"秋人。\"\n\n\"嗯。\"\n\n她没有立刻说下去。院子里传来蝉鸣，不是盛夏时那种聒噪的齐鸣，而是初蝉试探性的、断断续续的独奏。\n\n\"你有没有觉得……\"她的声音比平时更轻。\"我的手，有时候……看起来怪怪的？\"\n\n秋人不理解她在说什么。他转头看她——铃音把右手伸到了两人之间。\n\n午后的阳光从诊所的玻璃窗斜射进来，光线穿过她的手指。\n\n然后秋人看到了。\n\n她的指尖——从指甲到第一个关节的部分——在那道阳光下呈现出一种透明的质感。不是完全透明，更像是一块被磨薄了的毛玻璃——光线可以穿过去，在她手背的另一侧形成淡淡的投影。\n\n秋人的话语堵在了嗓子里。\n\n\"从三年前开始的。\"铃音收回手，把手指交叠放回膝盖上。她的语气平稳得不自然——像是在描述别人的事情。\"一开始只是偶尔，在某些光线角度下才看得到。后来越来越频繁。现在有时候……整只手都会。\"\n\n\"你——去看过医生吗？这个。\"\n\n\"嗯。每次检查都说正常。\"铃音歪了一下头，笑了。那个笑容和她平时的寂寞微笑不一样——这个更深、更平静，是已经接受了什么东西之后才有的表情。\"他们看不到的。只有我能看到——还有你。\"\n\n\"不痛的。\"她补充了一句。像是这能让事情好一点。\n\n诊所的门开了，护士叫铃音的名字。她站起来，走向诊室。她的背影在走廊的日光灯下纤细而苍白，但是稳定的——像一根在风中微微弯曲但不会断的芦苇。\n\n二十分钟后她出来了。走在她身后的医生——一个戴着圆框眼镜的中年男人——叫住了秋人。\n\n\"你是家属吗？\"\n\n\"同学。\"\n\n医生犹豫了一下。\"神尾同学的身体各项指标都很……怎么说呢。\"他推了推眼镜。\"以她的基础身体条件——严格从医学角度来说——她能维持现在这个状态本身就……\"\n\n他没有说完那句话。铃音从走廊那头轻轻喊了一声\"秋人\"，声音像是风铃在无风的下午响了一下。\n\n医生的话断在空气里，像一个没有着陆的句号。", "title": "铃音的真实", "act": 2}, "node_10c": {"text": "光丘神社在镇子东侧的山坡上，要穿过一片竹林才能到达。石阶上长满了青苔，两侧的石灯笼旧得像是从地里长出来的。\n\n奏走在前面，手里拎着两瓶运动饮料和一包小饼干——她对任何出门活动的准备都充分到过分的程度。秋人跟在后面，肩上扛着一个空的纸箱。\n\n神社很小。正殿大概只有两张榻榻米的面积，旁边的仓库更小，门是木板的，挂着一把已经锈住的铜锁。\n\n\"钥匙应该在这里……\"奏从口袋里拿出一个信封——父亲寄来的，里面是远野家在光之丘的旧物存放位置和钥匙。\n\n仓库门打开时，腐旧木头和灰尘的气味扑面而来。秋人弯腰走进去。空间不大，堆着几个木箱和一些看不清的杂物。蜘蛛网从房梁上垂下来，阳光从木板缝隙里挤进来，切出几道光柱。\n\n他们找了半个小时。大部分是老旧的生活用品——碗碟、旧衣服、发黄的账本。直到秋人搬开一个叠在最底层的木盒——\n\n木盒上没有标签，但盖子上刻着一朵樱花的图案。秋人的手在碰到那个图案的瞬间停了一下。\n\n他打开盒子。\n\n里面是一本日记。封面是深蓝色的布面，角落用金色的线绣着两个字母：Y.T。\n\n远野。\n\n秋人拿起日记。纸张已经泛黄，但墨迹还算清晰。他翻开第一页。\n\n是他母亲的字。\n\n他几乎没有关于母亲的记忆——她在他很小的时候就去世了，留下的东西很少，父亲也很少提起。但他认得这个字迹：在家里的某个抽屉里，有一张母亲写给父亲的旧信，他小时候偷偷看过。一样的字——温柔的、圆润的、每个假名都收得很干净。\n\n日记的内容断断续续，不是每天都写。大部分是关于光之丘的日常——天气、花开了、海边的猫又多了一只。但翻到接近末尾的部分时，秋人的手指停住了。\n\n*——九条院家的老夫人今天来看我。她是一个很温柔的人，头发全白了但眼神很亮。她说：如果有一天秋人需要帮助，可以去钟楼许愿。但一定要记住——钟楼给予的一切，都有代价。*\n\n秋人把这段话读了三遍。\n\n*钟楼给予的一切，都有代价。*\n\n奏蹲在旁边，安静地看着他。她不识得秋人母亲的笔迹，但她读到了那段话。她的嘴唇抿成一条线——她好像开始理解什么了。某些碎片在她的脑海里拼合在一起：秋人的记忆缺失、钟楼的传说、那张旧照片。\n\n\"哥哥。\"她的声音很轻。\"你妈妈……知道钟楼的事。\"\n\n\"嗯。\"\n\n阳光从木板缝隙里切进来，光柱中飘浮着细小的灰尘粒子。秋人抱着母亲的日记坐在仓库地板上，感觉自己正站在某条看不见的线的这一端——线的另一端连着过去，连着钟楼，连着他遗失的那一周。\n\n那条线正在慢慢收紧。", "title": "远野家的秘密", "act": 2}, "node_11": {"text": "那天傍晚，海面忽然变得异常平静。\n\n秋人站在海边的坡道上——是去便利店买东西的路上，他被那种不正常的安静拉住了脚步。平时这个时刻应该有海浪拍岸的声音、海鸥的叫声、从远处传来的渔船引擎声。但现在什么都没有。连风都停了。\n\n夕阳挂在海平线上方一指宽的位置，将整个海面烧成深红和金色。\n\n然后他看到了。\n\n海面上。\n\n有人在走路。\n\n不——不是人。是人形的光。数十个半透明的身影从海面深处浮现出来，轮廓柔和而模糊，像是被水稀释的水彩画。它们排成不规则的行列，从海面一直延伸到岸边，再从岸边沿着坡道缓缓向上移动。\n\n向着山顶。向着钟楼。\n\n每一个身影的表情都不一样——如果那算是表情的话。有的像是在微笑，有的像是在哭，有的什么表情都没有，只是走着。它们不发出声音，脚下也不触及地面，只是在离地几寸的空气中移动。\n\n秋人站在原地，手里的便利店袋子几乎要滑落。\n\n\"你也看到了吧！\"\n\n结衣从坡道下方跑上来，气喘吁吁，双马尾散了一半。她的眼睛瞪得很大，但不是恐惧——是某种压抑了三年的东西终于得到证实时的复杂表情。\n\n\"我说的就是这个……！三年来我一直在说的就是这个……！\"\n\n\"安静。\"\n\n第三个声音从他们身后传来。平淡的、带着古语韵味的声调。\n\n圣良走到他们身边，站定。她的长发在无风的黄昏里垂直地落在背后，像一匹不动的黑色绸缎。她的目光扫过海面上的行列，表情没有惊讶——只有某种深沉的、带着疲惫的确认。\n\n\"思念体。\"她说出了那个词。\"那些是被遗留的情感——有些来自逝者，有些来自活着的人。当思念足够强烈，超过了日常世界能够容纳的极限，就会凝聚成你们现在看到的样子。\"\n\n她转过来面对秋人。\n\n\"它们本应在光之祭上被引导安息。但祭典中断了五年，它们一直在积累。越来越多，越来越不稳定。\"\n\n海面上的行列还在移动。一个身影经过秋人面前时，他感到一阵微弱的温度——不是冷，而是一种隔着很远的温暖，像是冬天隔着窗户感受到的阳光。\n\n\"而你，远野同学。\"圣良的目光直直地看着他。\"你是它们中最特别的一个的源头。\"\n\n秋人的心在那句话落下的瞬间沉了一下。\n\n夕阳终于碰到了海平线。思念体的行列在最后一线日光消失的瞬间——也消失了。海面恢复了声音，海浪重新开始拍打堤坝，海鸥的叫声从远处传来，世界回到了日常的轨道上。\n\n但秋人知道，日常的地基已经松动了。", "title": "思念体", "act": 3}, "node_12": {"text": "九条院家的旧宅在镇子最高处的坡道尽头，和钟楼只隔着一条窄窄的石板路。旧宅的木门低矮，屋顶上长着青苔，但门口的石阶打扫得一尘不染。\n\n圣良跪坐在佛龛前，点燃了一支线香。烟丝缓缓升起，在暗室的空气里画出透明的曲线。铃音、结衣、奏分坐在她两侧。秋人坐在最前面，面对着她。\n\n\"五年前的七月七日。\"圣良的声音在昏暗的和室里轻而清晰。\"盂兰盆节前夜。\"\n\n她看着秋人。\n\n\"你跑到了钟楼。\"\n\n秋人感觉太阳穴开始跳。\n\n\"那时铃音已经病了很久。医生说——\"圣良顿了一下，目光移向铃音。铃音只是安静地笑着，歪着头，像是在听一个关于别人的故事。\"没有希望了。你是在铃音被送回家的那天跑去钟楼的。你一个人，光着脚，跑了整座山。\"\n\n她停了停。线香的烟丝在空气中弯折了一下，像是叹了口气。\n\n\"我的祖母在钟楼等着。她是九条院家最后一位完成过完整仪式的守护者。她知道你会来——她说她在梦里看到了一个男孩在哭。\"\n\n\"她引导你完成了许愿仪式。你在钟楼最高层，面对那口铜钟，许下了你的愿望。\"\n\n圣良合上眼睛。\n\n\"'不要让铃音消失。'\"\n\n五个字落在房间里，沉得像石头。\n\n结衣用手捂住了嘴。奏的手指攥紧了裙子的布料。铃音——铃音只是微微低下了头，银灰色的长发垂下来遮住了她的表情。\n\n\"钟楼接受了你的愿望。\"圣良继续说。\"它将你对铃音的思念——那个五岁孩子全部的、毫无保留的、不愿失去青梅竹马的思念——凝聚成了一个思念体，注入了铃音的体内。那个思念体代替了铃音身体里已经衰竭的部分，维持她的生命运转。\"\n\n\"代价——\"\n\n\"代价是你失去了那一周的记忆。\"圣良睁开眼睛。\"许愿仪式消耗的不是金钱或物质。钟楼要的是许愿者最珍贵的东西。对于一个五岁的男孩来说——和铃音一起度过的最后那一周，是他最珍贵的记忆。\"\n\n房间里安静得能听到线香燃烧时纤维断裂的细微声响。\n\n\"我的祖母，\"圣良的声音降了半度，\"在主持完仪式后的第三天离世了。守护者引导大量的思念共鸣，身体会承受巨大的负荷。她知道风险，但她还是做了。\"\n\n\"光之祭也因此中断。没有守护者主持，仪式无法安全进行。思念体失去了安息的途径，开始在镇上积累。这就是你们在海边看到的那些。\"\n\n最后，圣良看向铃音。\n\n\"而铃音——从五年前到现在——一直活在秋人的思念所创造的奇迹之中。\"\n\n铃音抬起头。她的灰蓝色眼睛干净得没有一丝浊度。她对着所有人笑了一下——那个笑容温柔、寂寞、平静，和她第一天在教室里对秋人说\"欢迎回来\"时一模一样。\n\n\"我知道的。\"她的声音很轻。\"一直都知道。\"\n\n秋人的手在膝盖上攥成拳头。指甲陷进掌心。\n\n\"但是，\"圣良的最后一句话落下来的时候，像是一片花瓣落在水面——轻，却改变了整个涟漪的形状。\n\n\"那份力量正在衰减。\"", "title": "消失的祭典", "act": 3}, "node_13": {"text": "圣良说：满月之夜。\n\n七月的满月，是钟楼再次共鸣的时机——一年只有一次，持续到天亮之前。错过了就要再等十二个月。而铃音的思念体能量，等不了十二个月。\n\n还有三天。\n\n那三天里，镇上的空气变得不一样了。不是温度或湿度的变化——是某种更难形容的东西。像是整个小镇的呼吸节奏慢了半拍，像是坡道上的晚樱花瓣比平时掉得更频繁，像是海浪拍岸的声音在夜里多了一层回响。\n\n铃音照常来上课——但她坐在座位上的样子更安静了，安静得像一幅画。她不再打瞌睡。她只是看着窗外的海，偶尔用手指在课本的空白处画圈圈。\n\n满月前一天的傍晚，秋人站在海边的防波堤上。身后传来不同人的脚步声——\n\n铃音的，轻得像猫。她走过来站在他旁边，银灰色的长发在晚风中飘起来。她看着他的侧脸，没有说话。然后，用那种她特有的、轻得像风一样的声音：\n\n\"秋人。不管你怎么选，我都不会怪你。\"\n\n结衣的，急促但故意放慢了的。她站在稍远的地方，双手插在裙子口袋里，别过脸看着海面。\"一个人去太危险了吧。\"她的声音刻意显得不在意，但尾音发颤。\n\n奏的，小心翼翼的。她走到秋人身后，伸出手，轻轻抓住了他外套的下摆。什么都没有说。\n\n圣良站在坡道上方，逆光的剪影像是一尊雕像。她不催促，也不建议。钥匙在她口袋里——只要秋人做出决定，她随时可以交出来。\n\n秋人看着落日。\n\n他想到五年前那个光着脚跑上山的男孩。那个男孩什么都不懂，什么都没想，只是跑。只是不要让铃音消失——这个念头占据了他全部的世界。\n\n现在他不是五岁了。现在他知道钟楼的代价，知道思念体的本质，知道铃音身上发生了什么。他不能再只是跑了。\n\n他必须选择怎么面对。", "title": "钟楼之夜", "act": 3}, "node_14_solo": {"text": "月光将钟楼的石阶染成银白色。\n\n秋人一个人站在铁门前，手里握着圣良交给他的铜钥匙。钥匙上的樱花图案在月光下像是活的——花瓣的线条在他掌心的温度中微微发亮。\n\n他把钥匙插入锁孔，转了一圈。锁芯咔嚓一声弹开，铁门在他推动下缓缓向内退去，发出沉闷的摩擦声。\n\n钟楼内部比他想象的更空旷。螺旋楼梯紧贴着圆形的内壁向上延伸，木板台阶上落满了灰尘和干枯的落叶。月光从钟楼顶部的裂缝和窗口倾泻下来，将楼梯切割成明暗交替的片段。\n\n他开始攀登。\n\n每上一级台阶，空气就冷一度。到第二十级的时候，他的呼吸开始变得白雾般可见。到第三十级的时候，墙壁上出现了光——不是月光，而是从石头内部渗出来的、流动的、带着温度的光。\n\n思念体。\n\n它们在墙壁里流淌，像是液态的记忆。秋人伸出手碰了一下墙面，指尖传来一阵微弱的暖意——然后是一个声音，不是从耳朵听到的，而是直接出现在脑海里的：\n\n*——不要忘记我——*\n\n他缩回手。心跳加速。\n\n继续往上。\n\n钟楼最高层是一个圆形的平台，头顶悬挂着那口巨大的铜钟。钟身已经发绿，表面刻满了看不懂的纹饰。月光从上方的圆孔直射下来，正好照在钟的正中央，让它泛出一种幽蓝色的冷光。\n\n秋人站在钟下。\n\n记忆来了。\n\n不是一点一点地浮现——而是洪水一样涌过来。他看到了五岁的自己光着脚站在这里，脸上全是泪水和鼻涕。看到了一个白发苍苍的老妇人——圣良的祖母——跪在他面前，用皱纹遍布的手握着他的小手。看到了铜钟在不知名的力量下开始振动，发出了不是用耳朵而是用整个身体去感受的声音。\n\n看到了自己闭着眼睛，用尽全力大喊那句话：\n\n*不要让铃音消失——！*\n\n然后是白光。然后是空白。\n\n现在的秋人站在同一个地方，月光照着同一口钟。铜钟在月光中开始振动——像是认出了他。\n\n一个声音在他心里回响——不是语言，而是某种更原始的东西。钟楼在问他：\n\n*你的愿望是什么？*\n\n他闭上眼睛。周围的思念体越来越密集，温暖而沉重地包围着他。如果他的意志不够坚定，它们会将他的意识溶解、带走、融入这个永恒的记忆之海——就像一滴水融入大海，再也找不到自己的形状。\n\n他必须做出选择。", "title": "独行者的愿望", "act": 3}, "node_14_together": {"text": "月光下的山路上，五个人的脚步声参差不齐。\n\n圣良走在最前面，长发在夜风中波浪般起伏。她的步伐沉稳而有节奏，像是走过无数次这条路。手电筒的光柱在石阶上画出一个小小的白色圆圈。\n\n结衣走在她身后，紧紧抓着另一支手电筒，光柱乱晃。\"才、才没有害怕呢。只是手电筒太滑了。\"她的声音比平时高了半个调。\n\n奏走在秋人左边。她没有拿手电筒，两只手抓着秋人的衣袖。她的手指冰凉——不是因为温度，而是紧张。但她一步都没有落后。\n\n铃音走在最后。\n\n当他们走过一段没有树荫遮挡的路面时，月光直接照在铃音身上——然后所有人都停下了脚步。\n\n铃音的身体在月光中发出了淡淡的光。不是反射——是从她身体内部透出来的、柔和的、银白色的光芒。她的轮廓变得柔和，边缘像是被橡皮擦轻轻擦过一样，不再那么清晰。\n\n思念体的特征。\n\n在同伴们面前，第一次毫无遮掩地显现出来。\n\n沉默了几秒。\n\n结衣的手电筒掉在了地上。她弯腰捡起来的时候，手在发抖，但她没有跑。她站在原地，用两只手抱着手电筒，咬着嘴唇，眼眶开始发红。\"这就是……思念体吗。\"\n\n奏抓秋人衣袖的力道紧了一倍。\n\n铃音站在月光里，发着光。她低下头看了一下自己的手——半透明的、在黑夜中泛着银色的手——然后抬起头对大家笑了一下。\n\n\"对不起。\"她说。声音轻得像是随时会被风吹散。\n\n\"你没有什么需要道歉的。\"\n\n秋人的声音出乎所有人的意料——包括他自己。那句话脱口而出，没有犹豫，没有结巴。\n\n铃音看着他。在月光和思念体的光芒中，她的灰蓝色眼睛像两颗透明的玻璃珠。她的嘴唇动了动，最终什么都没有说，只是歪了一下头，笑了。\n\n他们继续前行。\n\n钟楼内部，圣良引导仪式的声音在石壁间回响。铜钟在月光中开始共鸣——不是普通的钟声，而是一种渗透到骨髓里的振动。思念体从四面八方汇聚而来，温暖而沉重的力量像潮水般涌入钟楼。\n\n但这一次，秋人不是一个人承受。\n\n结衣站在他的右边，虽然双腿在发抖，但她攥着笔记本的手没有松开。奏站在他的左边，紧紧握着他的手，指节发白但力道稳定。圣良的声音像一根锚，将所有人固定在现实这一端。\n\n思念体的洪流被分散到每个人的心中。不是一个人扛起全部的重量——而是五个人各自承受五分之一。\n\n仍然沉重。仍然灼热。但可以承受。\n\n铜钟的振动达到了顶峰。秋人感到自己的记忆像是被人打开了一扇门——五年前的一切涌了出来。", "title": "同行者的钟声", "act": 3}, "node_dead_tower": {"text": "记忆来得太快了。\n\n秋人试图站稳，但地板在他脚下消失了——不是物理意义上的消失，而是他的意识已经分不清哪里是钟楼的石地板、哪里是五年前的记忆。铃音的笑脸、钟声、花瓣、眼泪、医院的走廊、白色的病床、连着仪器的细管——所有的画面同时涌入，像是无数张透明胶片叠在一起，什么都看不清了。\n\n他想抓住什么。但手伸出去只碰到了温暖的、柔软的、光一样的东西。\n\n思念体们环绕着他。它们不是恶意的——从来都不是。它们只是在做它们存在的唯一意义：承载思念。而现在，一个满溢着思念的人站在它们中间，门大敞着，它们本能地涌了进去。\n\n秋人的意识被一层又一层的温暖包裹。他看到了无数个不属于自己的记忆——镇上某位母亲对早逝孩子的思念、某对恋人离别时没有说出口的话、某只猫在某个冬天最后的温暖——所有这些被遗留的情感，全部涌入了他一个人的心中。\n\n太重了。\n\n他跪倒在地。或者说，他已经感觉不到自己的膝盖了。\n\n最后一个画面是钟楼内部的永恒月光。铜钟悬在头顶，不再振动。时间在这里停止了——或者说，时间在这里变得没有意义了。他可以在这个温暖的、充满思念的空间里待到永远。\n\n三天后，搜救队在钟楼找到了他。身体完好。心跳正常。呼吸平稳。\n\n但他的眼睛——那双原本会因为吐槽而微微眯起的、带着不耐烦的温柔的眼睛——空了。\n\n奏蹲在他面前，握着他的手，喊他的名字。他看着她，像是在看一个从未见过的人。\n\n【结局：时间的囚徒 · 思念之海】\n*远野秋人的意识永远困在了钟楼的记忆之中。身体还在，但里面已经没有人了。*", "title": "时间的囚徒", "act": 3}, "node_dead_alone": {"text": "\"让她永远留在我身边。\"\n\n铜钟响了。\n\n但那不是之前听到的那种温柔的、渗透到骨髓里的共鸣——这一次，钟声扭曲了。像是一个和弦被弹错了一个音，不和谐的振动在钟楼内部碰撞、反弹、回响，越来越尖锐。\n\n思念体们停止了流动。它们在月光中凝固了一瞬，然后——全部转向了秋人。\n\n不是攻击。是接受。\n\n钟楼接受了他的愿望，但方式和他想的不一样。\"永远留在她身边\"——钟楼的逻辑比人类的逻辑更古老、更直接、更残忍。要永远留在某个人身边，最简单的方式不是让那个人不死——\n\n而是让许愿者变成不会死的东西。\n\n秋人感到自己的身体在变轻。不是失重——是在消散。从脚开始，向上蔓延。他低头看着自己的双手：指尖已经变得半透明，像铃音在诊所给他看的那样。\n\n他想喊叫，但声音从喉咙里出来的时候已经不再是人类的声音了。那只是一缕温暖的风。\n\n第二天清晨，铃音去海边喂猫。阿波罗在防波堤上蹲着，朝着某个方向歪了歪头。\n\n铃音顺着猫的目光看过去。\n\n有一个身影站在堤坝上。半透明的、轮廓柔和的、有着黑色短发和微微低着头的少年的身影。\n\n她认出了他。\n\n铃音的手里的猫粮袋掉在了地上。猫粮撒了一地，阿波罗走过去埋头吃起来，完全不关心人类世界正在崩塌。\n\n铃音伸出手想要碰那个身影。她的指尖穿过了他——像是穿过了空气。\n\n\"笨蛋。\"\n\n她的声音颤抖着，轻得只有海风听到了。\n\n【结局：消失的少年 · 思念的代价】\n*远野秋人成为了思念体——永远留在了铃音身边，但再也无法被触碰、无法说话、无法被除铃音以外的人看到。*", "title": "消失的少年", "act": 3}, "node_15_survive": {"text": "记忆回来了。全部。\n\n不是碎片。不是闪回。是完整的、连续的、像纪录片一样从头到尾播放的——那一周的所有画面。\n\n秋人看到了：\n\n五岁的自己和铃音一起在海边堆沙堡。铃音戴着草帽，脸上有防晒霜没涂匀的白色痕迹。她笑的时候缺了一颗门牙，但笑得比谁都用力。\n\n他看到了铃音在课间突然倒下去的那天。救护车的声音把整个学校都惊动了。他站在走廊上看着担架被推过去，铃音的脸白得像纸，手垂在担架边缘，手指还在微微动——像是在抓什么看不见的东西。\n\n他看到了自己在医院走廊里蹲着哭。铃音的妈妈从病房出来，眼睛肿着，蹲下来摸了摸他的头，什么都没说。那个沉默比任何语言都重。\n\n他看到了自己光着脚跑上山的那个夜晚。月亮很大。石阶上的青苔沾着他的脚底，凉的。他一级一级地跑，喘得快要窒息了也没有停。因为铃音要消失了。铃音要消失了。这件事在他五岁的世界里，比天塌下来还要可怕。\n\n他看到了九条院圣良的祖母。白发苍苍的老妇人跪在钟楼的地面上，用皱纹遍布的手握住他湿漉漉的、沾着泥土的小手。她的声音温柔而苍老：\"你想许什么愿？\"\n\n他看到了自己闭上眼睛。\n\n*不要让铃音消失。*\n\n然后是铜钟的声音。那个声音充满了他整个身体——不是从耳朵进去的，而是从心脏的位置扩散出来的。他感到自己最重要的某些东西被抽走了——不痛，但空。\n\n像是把最喜欢的箱子里的东西全部倒出去。箱子还在，但里面空了。\n\n最后他看到的画面：铃音在病床上睁开眼睛。心电监护仪的蜂鸣声变了，从那种令人窒息的平直变成了有节奏的起伏。护士跑过来。铃音的妈妈哭了——和之前不一样的哭法。秋人跪在走廊地板上，不记得自己为什么在这里，不记得自己是怎么来的。只是哭。\n\n——\n\n回忆结束的时候，秋人睁开眼睛。他的脸上有泪水——什么时候开始流的，他不知道。\n\n月光还在。钟楼还在。他还活着。\n\n五年前失去的记忆，不只是一周的时间表。那些记忆被转化成了维持铃音生命的能量——每一个和铃音一起的笑容、每一次牵手、每一个夏天——全部被钟楼拿走了，变成了铃音体内那个思念体的燃料。\n\n所以他不记得和铃音给猫取名字。所以他不记得那个约定。所以他回到光之丘的时候，铃音对他说\"欢迎回来\"，他只能站在那里，像一个失忆的人面对自己最重要的人。\n\n因为最重要的记忆，正是代价本身。\n\n他用袖子擦了擦脸。站起来。腿有点软，但站得住。\n\n他需要做最后的决定了。", "title": "记忆的洪流", "act": 3}, "node_16": {"text": "仪式结束后的第二天，所有人在九条院旧宅再次聚集。\n\n圣良跪坐在佛龛前。她的脸色比平时更苍白——昨晚的仪式对守护者的身体也有消耗。但她的声音仍然平稳。\n\n\"铃音体内的思念体能量，目前不到最初的十分之一。\"\n\n这句话落下来的时候，房间里所有人的呼吸都停了一拍。\n\n结衣第一个开口：\"十分之一……那是什么意思？\"\n\n\"意思是，按照现在的衰减速度——\"圣良闭了一下眼睛。\"最多到这个夏天结束。\"\n\n奏的手在膝盖上攥紧了。她的目光飘向铃音。\n\n铃音坐在角落里，膝盖抱着腿。银灰色的长发披散下来，在晨光中显出一种近乎透明的质感。她听到圣良的话，没有任何惊讶的表情——她大概比谁都更清楚自己的状况。\n\n\"有三个选择。\"圣良展开一卷旧的卷轴——那是守护者代代相传的仪式指南。\"第一，在盂兰盆节重新举办光之祭。由我主持仪式，引导所有思念体安息——包括铃音体内的那个。\"\n\n她的目光在\"安息\"这个词上停了一下。所有人都知道那意味着什么。\n\n\"第二，用钟楼的力量重新注入思念体。但需要更大的代价——秋人的更多记忆，甚至可能是……更根本的东西。\"\n\n\"第三，什么都不做。让思念体按照自然的节奏衰减。铃音会在夏末——\"\n\n\"圣良。\"铃音的声音轻轻插了进来。圣良停住了。\n\n铃音歪了一下头，笑了。\n\n\"都好。\"\n\n就两个字。轻得像一片花瓣落在水面上。\n\n结衣的眼睛红了。奏低下了头。秋人看着铃音的笑容——那个寂寞的、温柔的、从他们重逢的第一天就一直挂在她脸上的微笑——他终于完全理解了那个微笑的意思。\n\n那不是认命。那是铃音对她所获得的、本不该拥有的五年时光的全部感激。", "title": "全部的真相", "act": 4}, "node_17": {"text": "盂兰盆节前夜。\n\n秋人独自站在海边的防波堤上。太阳正在落下去，海面被染成一半金色一半深蓝。阿波罗蹲在他脚边，黑色的尾巴卷在爪子旁边，深绿色的眼睛望着和他同一个方向。\n\n他听到了脚步声。\n\n铃音从坡道上走下来，步伐很慢。她站在他身旁，间隔一只猫的距离。海风将她的银灰色长发吹向一侧。她没有说话。\n\n结衣从另一个方向跑过来，在距离他三步远的地方停住脚步。她张了张嘴，想说什么，最终只是把双手插进口袋里，别过头看着别处。\n\n奏的脚步声最轻。她走到秋人背后，伸出手，像以前无数次那样，抓住了他外套的下摆。她的手指很凉。\n\n坡道上方，圣良的身影在暮色中静默地站着。她的口袋里装着钟楼的钥匙。她什么都不会替他决定。\n\n太阳触到海平线的边缘。\n\n明天就是盂兰盆节。明天就是满月。明天就是最后的期限。\n\n铃音、结衣、奏、圣良——她们每个人的目光都在他身上，但没有人催促。\n\n秋人的手指在口袋里碰到了那张旧照片的边角——如果他修复过的话。他抬起头，看着海面上最后一线阳光。\n\n他深呼吸了一次。\n\n他必须做出选择了。", "title": "最终的抉择", "act": 4}, "node_18_release": {"text": "盂兰盆节的夜晚。钟楼前的空地上，圣良穿上了白色的巫女装束。\n\n月光将一切染成银蓝色。石阶上、坡道上、从海边到山顶的每一条路上，都飘浮着星星点点的光——思念体们自发地聚集过来，像是无数颗沉默的星辰从天空落到了地面。\n\n铃音站在钟楼的台阶上。她今天穿的是白色的连衣裙——和旧照片里那个小女孩穿的一样。在满月的月光下，她的身体散发出柔和的银白色光芒。不再遮掩了。\n\n圣良的声音在夜空下回响。那不是现代日语——而是更古老的、带着祝词韵律的语言。每一个音节像一颗石子投入水中，在空气中荡开涟漪。\n\n铜钟开始共鸣。\n\n思念体们听到了那个声音。它们从四面八方飞来，化作金色的光点，在钟楼上方旋转、汇聚、然后一颗一颗地升向夜空——像是反向的流星雨。每一个光点消失的瞬间，空气中都会传来一声极轻极轻的叹息。不是悲伤的——是释然的。\n\n结衣站在台阶下方，抬着头看着那些光点。泪水顺着她的脸颊无声地流下来，但她没有低头，没有擦，只是一直看着。\n\n奏跪在地上，双手合十，嘴唇微微动着——不知道在说什么。也许是祈祷，也许只是在让自己的手有个抓住的东西。\n\n铃音的身体开始发出更强烈的光。她的轮廓变得柔和，边缘像水彩画被晕开。她低头看着自己的手——已经完全透明了。透过她的手掌，可以看到她身后台阶上的月光和石纹。\n\n秋人站在她面前。\n\n\"铃音。\"\n\n她抬起头。灰蓝色的眼睛在光芒中闪烁，像是水面上的月亮。\n\n\"谢谢你让我又多活了五年。\"她的声音已经有了回响——不是正常人声应该有的回响，而是像钟声余韵一样的、在空气中扩散的质感。\"那是最好的五年。\"\n\n\"铃——\"\n\n她用已经透明的手抚过他的脸颊。他感受到了温暖。不是人类体温的温暖——更像是阳光穿过棱镜后留在皮肤上的那种暖意。短暂的、稍纵即逝的、但确实存在过的。\n\n\"猫会记住的。\"她最后说。歪了一下头。笑了。\n\n然后铃音化为无数光点。它们在空中停留了一秒——像是在看最后一眼这个她不舍得离开的世界——然后和其他思念体一起，升向夜空。\n\n钟声在最后一个光点消失的时刻，也停了下来。\n\n月光重新变得安静。钟楼前的空地上，只剩下四个人、一口沉默的铜钟、和满地的——\n\n樱花瓣。\n\n七月的夜晚，不应该有樱花。但那些花瓣就在那里——轻柔的、温暖的、像是被谁的手掌握过一样带着余温。", "title": "告别的夏天", "act": 4}, "node_18_preserve": {"text": "秋人站在铜钟下，再次许愿。\n\n他知道代价。这一次他不是五岁的孩子了——他清清楚楚地知道钟楼会拿走什么。\n\n整个夏天的记忆。\n\n和结衣一起在图书馆翻旧资料的下午。和圣良在天台上的对话。和奏在海边坐了一个上午的周末。和铃音一起喂猫的傍晚。民俗研究社。旧照片。钟楼。思念体。所有的一切。\n\n全部拿走。\n\n作为交换，铃音体内的思念体得到了新的能量。她的身体不再透明。她的脸色恢复了些许血色。她活下来了——又一次。\n\n但秋人——\n\n九月一日。开学。\n\n秋人坐在教室里，用手拨了一下额前的碎发，打了个哈欠。他不记得暑假做了什么。好像挺忙的，但具体做了什么全部想不起来。\n\n旁边的座位上，一个银灰色长发的女生正趴在桌上。她抬起头看了他一眼。\n\n她的表情——秋人觉得那个表情很复杂。像是在笑，又像是在忍着什么。\n\n\"你好。\"秋人试探性地说。\"我们——认识吗？\"\n\n她歪了一下头。灰蓝色的眼睛里有什么东西在闪烁——不是光，而是水。\n\n\"嗯。\"她的声音很轻。\"我叫铃音。\"\n\n\"我叫远野秋人。多、多关照。\"\n\n铃音的嘴角动了一下。那个动作非常小，如果不是在看她的嘴唇就会错过。那不是微笑——那是在把某种更深的情感压回去时，嘴角不受控制的颤抖。\n\n然后她把脸埋回了交叠的手臂里。银灰色的长发遮住了一切。\n\n走廊里，结衣经过教室门口，脚步慢了一下。她看着教室里那两个人的背影——一个在发呆，一个趴在桌上——嘴唇抿成一条线，然后别过头，快步走了。\n\n天台上，圣良站在栏杆旁，看着远处的钟楼。她的口袋里，那把铜钥匙的重量比以前更沉了。\n\n教室窗外，最后一片晚樱花瓣飘落下来，落在窗台上，然后被风吹走了。\n\n【结局：夏天的终结 · 循环的代价】\n*铃音活了下来。秋人失去了另一段记忆。一切回到起点——但这一次，铃音的眼角有泪。*", "title": "奇迹的代价", "act": 4}, "node_18_accept": {"text": "秋人选择了什么都不做。\n\n不是放弃——是选择用另一种方式面对。不是用仪式、不是用许愿、不是用超自然的力量——而是用最普通的、最日常的、最人类的方式：陪在她身边。\n\n七月的剩余时间，变成了一件珍贵的容器，装着他们能够创造的全部日常。\n\n他们去海边。不是为了喂猫——当然也喂了猫——而是为了坐在防波堤上看海。铃音靠着他的肩膀，头发散在他的衣袖上。她的重量比正常的十七岁女生轻得多，轻到他有时候要转头确认她还在。\n\n他们去学校。虽然是暑假，但铃音说想看看空无一人的教室。他们坐在各自的位置上，像平时上课一样。铃音趴在桌上假装睡觉，秋人看着窗外的海，手指无意识地在桌面上敲着。\n\n\"你在敲什么？\"铃音问。\n\n\"不知道。\"他回答。\"大概是什么歌。\"\n\n\"很好听。\"\n\n\"你都没有听到旋律。\"\n\n\"节奏好听就够了。\"\n\n他们在商店街买了冰淇淋。铃音选了抹茶味，秋人选了苏打味。她吃得很慢，冰淇淋融化的速度比她吃的速度快，滴在她的手背上。秋人递给她纸巾，她接过去的时候手指碰到了他的——她的手指冰凉的，但不是冰淇淋的凉，是一种更深的、来自身体内部的寒意。\n\n八月的最后一周，铃音开始更频繁地变透明。先是手指，然后是手腕，然后是整条手臂。她穿长袖遮住，但在阳光强烈的时候遮不住。\n\n她仍然笑着。\n\n结衣偶尔来找他们。她不再提超常现象的事，只是安静地坐在旁边，画一些海边的风景速写。有一次她画了铃音的侧脸——画完之后她看了很久，然后把画本合上了。\n\n奏每天早起做便当。四个人份的。铃音的那份配菜比别人多，因为奏觉得\"学姐需要多吃一点\"。铃音每次都会吃完，然后在便当盒盖子里面贴一张小纸条：\"很好吃。谢谢奏酱。\"\n\n这些纸条奏全部留着。", "title": "日常的延续", "act": 4}, "node_end_true": {"text": "光之祭结束后的第一个清晨。\n\n秋人醒得很早。天还没有完全亮，窗外的天空是灰蓝色和浅粉色交接的颜色——介于夜晚和白天之间的、只存在几分钟的颜色。\n\n他穿上外套走出家门。奏还在睡——她昨晚哭了很久，最后在客厅的沙发上睡着了，他给她盖了毯子。\n\n海边的空气带着露水和盐的味道。防波堤上没有人。海面平静得像一面灰色的镜子，水平线在薄雾中若隐若现。\n\n阿波罗从堤坝底部的缝隙里钻出来。黑色的毛在晨光中泛着微微的蓝光，深绿色的眼睛亮得像两颗宝石。它跳到秋人脚边，蹲下来，歪着头看了他一眼——那种眼神，如果猫有表情的话，大概可以叫做\"你来了\"。\n\n然后它叼着什么东西，放在了秋人的脚边。\n\n是一枚贝壳。白色的，指甲盖大小，磨得很光滑。贝壳的凹面里塞着一张小小的纸条，纸条被卷成了极细的卷轴，用一根银灰色的发丝系着。\n\n秋人蹲下来。手指在发抖——不多，只是一点点。他解开那根发丝，展开纸条。\n\n铃音的字。圆润的、一笔一划都很认真的字：\n\n*平行线不会相交，但如果足够长，它们之间的距离会变得无限接近于零。所以我们没有分离，只是换了一种在一起的方式。——铃音*\n\n*P.S. 阿波罗拜托你了。它最喜欢挠下巴。*\n\n秋人把纸条读了三遍。\n\n他抬起头。清晨的海面上，薄雾正在消散，阳光从云层的缝隙里射出来，在海面上画出一道明亮的光带。那道光不是金色的，也不是白色的——而是一种温柔的、介于两者之间的暖色，像是被人用手掌捂过的阳光。\n\n那不是思念体。那是自然现象——晨光穿过薄雾形成的丁达尔效应，任何物理课本都能解释。\n\n但它的温度。\n\n和铃音的笑容一模一样。\n\n秋人用袖子擦了一下眼睛。然后他蹲下来，伸出手指，挠了挠阿波罗的下巴。黑猫半闭起眼睛，喉咙里发出满意的呼噜声。\n\n\"知道了。\"\n\n——\n\n一年后。\n\n光丘学园的校门口贴着社团招新海报。在一众运动社和文化社的宣传页之间，有一张手绘的、排版歪歪斜斜的、带着一个小小的钟楼图案的海报：\n\n**【民俗研究社 · 社员募集中！】**\n**顾问：九条院圣良（大学一年级）**\n**社长：星野结衣**\n**副社长：远野秋人**\n**会计：远野奏**\n\n社团活动室——还是那间旧教室——的窗台上多了一盆小小的樱花盆栽。是谁放的，所有人都心知肚明，但没有人提。\n\n光之祭被恢复为光之丘镇的年度活动。每年盂兰盆节，钟楼前的广场上会举行仪式，圣良从大学回来主持。镇上的人们放飞孔明灯，灯上写着想要传达给已经不在的人的话。\n\n每年七月七日，秋人会在放学后去海边。他会喂猫。阿波罗已经老了，走路没有以前那么像豹子了，但还是会准时出现在防波堤上。\n\n他会在孔明灯上写一句话。每年都是同一句：\n\n*今天也很好。*\n\n然后放手。看着灯升上去，变成夜空中一颗小小的光点，和星星混在一起，分不清哪个是灯，哪个是星。\n\n结衣有一次问他：\"你不写点别的吗？\"\n\n秋人想了一下。\"不用。她知道其他的。\"\n\n\"怎么知道？\"\n\n\"因为平行线。\"他说。\"距离接近于零的时候，不用说出来也能听到。\"\n\n结衣盯着他看了几秒，然后红着眼眶别过头去。\"哼。这才不是什么感人的话。\"\n\n\"我又没说是。\"\n\n奏在旁边拽了拽他的衣袖。\"哥哥，灯歪了。\"\n\n\"哦。\"他把灯扶正。\n\n头顶上，无数孔明灯升向夜空，橘黄色的光点像是一条缓缓流淌的河。在它们中间——也许是错觉，也许不是——有一个光点比其他的亮一点点，颜色偏银白一点点。\n\n秋人没有抬头去看。他知道她在。\n\n他蹲下来摸了摸阿波罗的头。\n\n\"走吧，回家。奏做了咖喱。\"\n\n【结局：平行线的交汇 · 完整的约定】\n*铃音安息了。光之祭恢复了。远野秋人带着全部的记忆和全部的温柔，继续在光之丘生活。平行线没有相交——但它们之间的距离，已经接近于零。*", "title": "平行线的交汇", "act": 4}, "node_end_sacrifice": {"text": "铃音消散后，秋人在钟楼前的台阶上坐了一整夜。\n\n他没有哭。他以为自己会哭的——昨晚看到铃音化为光点的时候，眼泪确实涌上来过。但现在，在天色从黑变成深蓝再变成灰白的过程中，他的眼睛是干的。\n\n不是因为不悲伤。是因为某种更深的东西代替了悲伤——他一时间找不到那种感觉的名字。\n\n天亮的时候，他低头看到了台阶上的樱花瓣。\n\n六月的樱花。在盂兰盆节之后、在所有思念体都已经安息之后、在不应该有任何超自然现象存在的清晨——那些花瓣就在那里。白色和淡粉色的，落了一层，像是谁在夜里悄悄铺上的毯子。\n\n他伸手捡起一片。花瓣是温暖的——不是被阳光晒过的温暖，而是被人手握过的温暖。\n\n脚步声从坡道下方传来。\n\n奏出现在视野里。她穿着家居服和拖鞋，头发乱蓬蓬的，显然是一醒来发现他不在就跑出来了。她手里拎着一个便当盒——不知道什么时候做的，也许是昨晚就准备好了。\n\n她走到秋人身边，什么都没有说，在台阶上坐下。把便当盒放在两人之间。\n\n过了很久，秋人从口袋里拿出那张修复好的旧照片。照片上两个孩子笑着站在钟楼前——幼年的他和幼年的铃音。照片背面写着那行字：*和铃音的约定　七月七日　在钟楼许愿*。\n\n\"约定完成了。\"他说。声音很轻，但没有发抖。\n\n奏看着那张照片，然后看着他。她的眼眶红了，但她忍住了，只是用力点了一下头。\n\n他们在台阶上吃了那顿便当。奏做的煎蛋卷，配上白饭和味增汤——还是她一贯的味道，只是盐放对了。\n\n樱花瓣在他们周围继续飘落。\n\n新的学期开始了。铃音的座位空着。教室里少了一个总在打瞌睡的银发女孩，多了一束阳光——从那个位置的窗户照进来的阳光，以前总是被铃音的身影挡住，现在畅通无阻地铺在桌面上。\n\n秋人偶尔会看向那个空位。阳光在空桌面上画出格子窗的影子。他会笑一下——非常小的、几乎只是嘴角动了动的弧度——然后转回头继续听课。\n\n那不是释然。也不是悲伤。\n\n是某种更深的东西。他想，大概就是记住一个人之后、接受她离开之后、仍然选择好好生活的那种感觉。\n\n放学后他去海边。阿波罗在防波堤上等着。\n\n\"你吃了没？\"秋人问猫。猫歪了歪头。\n\n他从书包里拿出猫粮。倒在铃音以前放猫粮的那个位置。\n\n海面上，夕阳像往常一样落下去。\n\n【结局：樱花的约定 · 告别之后】\n*铃音安息了。秋人带着不完整但真实的记忆，在光之丘继续生活。海边的猫还在。那个约定——已经完成了。*", "title": "樱花的约定", "act": 4}, "node_end_bittersweet": {"text": "秋天开学了。\n\n远野秋人坐在教室里，用手拨了一下额前的碎发，打了个哈欠。九月的阳光从窗户照进来，在课本上留下明亮的长方形。他看着那块光斑发了一会呆。\n\n他不记得暑假发生了什么。\n\n这很奇怪。他记得六月转学来到光之丘。记得第一天上学、记得教室的位置、记得班主任的脸。但从七月初开始，记忆就变成了一片柔和的空白——不是黑暗的那种空白，而是被阳光照得太亮以至于什么都看不清的那种。\n\n旁边的座位上，银灰色长发的女生又在趴着睡觉。她的脸埋在交叠的手臂里，呼吸很轻。\n\n秋人盯着她看了一会。他有一种奇怪的感觉：觉得自己应该认识她。不是\"邻座同学\"那种程度的认识——是更深的、更旧的、埋在记忆底层某个他够不到的地方的熟悉感。\n\n她抬起头。灰蓝色的眼睛。\n\n她看着他。表情很复杂——嘴角在笑，但眼睛不是。她的目光在他脸上停留了很久，像是在确认什么，又像是在告别什么。\n\n\"怎么了？\"秋人问。\n\n她歪了一下头。\n\n\"没什么。\"她说。声音轻得像风。\"你好，远野同学。我是神尾铃音。\"\n\n\"……多关照。\"秋人回答。那个名字在他嘴里转了一圈，有一种说不清的味道——像是一个吃过很多次但忘记了名字的食物。\n\n下课后，他在口袋里摸到了一张照片。不知道什么时候放进去的——上面是他幼年的样子，和一个笑容灿烂的女孩。照片背面写着一行字：\n\n*和铃音的约定*\n\n他看着照片，又看着走廊那头铃音的背影。银灰色的长发在走廊的阳光里飘动。她走路的步子很慢，像是在等什么人跟上来。\n\n有什么很重要的事情。像是停在舌尖却说不出的名字，像是梦醒后消散的画面——他知道那里有什么，但就是抓不住。\n\n铃音在走廊尽头转过头来，对他微微笑了一下。\n\n那个笑容——温柔的、寂寞的、和所有秋天的风一样轻的笑容——让他的胸口忽然很痛。不是生理上的痛。是某种已经不在那里的东西留下的空缺被风吹过时产生的、空洞的共鸣。\n\n窗外，最后一片晚樱花瓣落在窗台上。\n\n他伸手去接。花瓣落在他的掌心，温暖的。\n\n【结局：夏天的终结 · 重复的季节】\n*铃音活了下来。秋人失去了又一段记忆。他们重新成为邻座，重新从陌生开始。但这一次——铃音的眼角有泪，而秋人手里有一张照片。也许，在某一天，他会再次记起。*", "title": "夏天的终结", "act": 4}, "node_end_daily": {"text": "夏天结束的那天，夕阳格外漂亮。\n\n海面被染成了一整片融化的金色，像是有人把太阳直接倒进了海里。天空从西到东，依次是橙红、玫瑰粉、浅紫、深蓝——完整的光谱，没有一丝云彩遮挡。\n\n铃音坐在海边的长椅上。\n\n她穿着那件白色的连衣裙。银灰色的长发在晚风中轻轻飘动。她的身体在夕阳的光线下呈现出一种透明的、像琥珀一样的质感——不再是隐约的、需要特定角度才能看到的透明，而是整个人都在发光。\n\n她的脸转向海面。表情平静得像水面——不是空洞的平静，而是什么都看过了、什么都接受了之后的平静。\n\n远处的坡道上传来奔跑的脚步声。\n\n秋人跑过来。跑得很快，快到鞋子在沙地上打滑。他在长椅旁停下来，弯着腰喘气，手撑在膝盖上。\n\n铃音转过头看他。歪了一下头。笑了。\n\n\"你来啦。\"\n\n\"当、当然来了——\"他还在喘。\n\n她又转向海面。夕阳已经碰到了海平线的边缘。\n\n\"很漂亮。\"\n\n\"嗯。\"\n\n\"这五年——也很漂亮。\"\n\n秋人在长椅的另一头坐下。中间隔着一只猫的距离——阿波罗不知道什么时候跳上了长椅，蹲在两人之间。\n\n太阳沉入了海平面。最后一线光消失的瞬间——\n\n长椅上只剩下一件叠得整整齐齐的白色外套。\n\n和一只橘色的流浪猫。猫蜷在外套上，用鼻子蹭了蹭白色的布料，然后安静地趴下来。\n\n秋人盯着那件外套看了很久很久。\n\n然后他伸出手，把外套拿起来，叠好，抱在怀里。它还带着铃音的温度——不是人类体温的温度，而是阳光在布料上留下的余温。\n\n橘色的猫跳到他膝盖上，把脑袋拱进他的手心。他摸了摸猫的头。\n\n\"好了。\"他对猫说。\"回家吧。\"\n\n——\n\n此后的日子里，秋人每天放学后都会去海边。\n\n喂猫。看夕阳。坐在那把长椅上。\n\n橘色的猫成了他的固定伙伴——他给它取了名字，叫\"铃\"。阿波罗年纪大了，来得没有以前勤快，但每周至少出现两三次，蹲在堤坝上用深绿色的眼睛看着海面。\n\n奏陪他走过了最难的几个月。她不多说什么，只是每天早上做便当，每天晚上做晚饭，每个周末问他要不要一起去商店街。\n\n结衣偶尔来海边坐一坐。她也不说话。只是坐在旁边画速写。有一次她画了那把长椅——空的长椅。画完之后她在空白处写了一行字，然后把那页撕下来，叠好，塞进了长椅的木板缝隙里。\n\n秋人没有去看那行字写的什么。他觉得那是结衣自己的事。\n\n生活继续了。\n\n不是因为遗忘——而是因为记住。\n\n记住一个人最好的方式，不是把她供在记忆的神坛上不敢触碰——而是在日常的每一个细节里，让她曾经存在过的痕迹自然地融入进去。就像海风里永远带着盐的味道。你不需要特别去闻。它一直在那里。\n\n【结局：光之丘的日常 · 记住的方式】\n*铃音在最美的夕阳中消散了。秋人没有遗忘她——他将她融入了日常。海边的猫还在。长椅还在。夕阳每天都会落下。而他每天都在。*", "title": "光之丘的日常", "act": 4}, "node_end_cold": {"text": "夏天结束了。\n\n秋人不记得夏天是怎么结束的。更准确地说，他不记得夏天里有什么值得记住的事。好像一直在上课、吃饭、睡觉——日子过得平平无奇，没有任何波澜。\n\n九月开学。教室里，靠窗倒数第二排的座位空了。旁边没有人坐。\n\n秋人经过那个空位的时候，脚步停了一下。他看着空桌面上的阳光，觉得有什么地方不对——那种感觉说不清，像是一件家具被搬走之后，墙上留下了颜色不一样的方块。你说不出那里原来放的是什么，但你知道那里曾经有过东西。\n\n\"远野同学。\"班主任在点名。\"远野同学？\"\n\n\"在。\"他回过神来，坐到自己的位置上。左手边是窗户，右手边是空桌子。\n\n他看着那张空桌子发了一会呆，然后翻开了课本。\n\n放学后，奏在校门口等他。她的表情有些奇怪——看着他的时候欲言又止，嘴唇动了好几次。\n\n\"怎么了？\"秋人问。\n\n\"……没什么。\"奏最终什么都没有说。她只是伸出手，轻轻拽住了他外套的衣角。\n\n他们一起走回家。路上经过海边的防波堤，秋人忽然站住了。\n\n堤坝上蹲着一只黑猫。毛色乌亮，眼睛是深绿色的。它看着秋人——那种目光，如果一只猫能表达\"我认识你但你不记得我\"的话，大概就是这种。\n\n\"这只猫——\"\n\n秋人蹲下来伸出手。黑猫犹豫了一下，用脑袋蹭了蹭他的手指。\n\n\"它好像认识我。\"\n\n奏站在他身后，看着他和黑猫的互动。她的手指攥紧了购物袋的提手，指节发白。\n\n她想告诉他。想告诉他那只猫叫什么名字、是谁给它取的名字、他们以前在这里喂过多少次猫、那个总是蹲在猫群中间的银发女孩是谁——\n\n但她什么都没有说。\n\n也许遗忘本身也是一种温柔。也许有些伤口，不去碰就不会痛。也许——\n\n也许有一天，他会自己想起来的。\n\n秋人站起来，拍了拍手上的猫毛。\"走吧。\"\n\n他们继续走。海风从背后吹来。\n\n窗外的海面一如既往地蓝。\n\n但少了什么。\n\n他说不清，少了什么。\n\n【结局：遗忘的再临 · 空白的海】\n*铃音消散了。与她相关的记忆也跟着消散了。秋人不记得她的名字、不记得她的笑容、不记得那个约定。只是觉得海边少了什么。而奏什么都没有说。*", "title": "遗忘的再临", "act": 4}}, "assets": {"backgrounds": {"node_03": "assets/seed003/backgrounds/node_03.webp", "node_02": "assets/seed003/backgrounds/node_02.webp", "node_04a": "assets/seed003/backgrounds/node_04a.webp", "node_05": "assets/seed003/backgrounds/node_05.webp", "node_06": "assets/seed003/backgrounds/node_06.webp", "node_01": "assets/seed003/backgrounds/node_01.webp", "node_07a": "assets/seed003/backgrounds/node_07a.webp", "node_08": "assets/seed003/backgrounds/node_08.webp", "node_04b": "assets/seed003/backgrounds/node_04b.webp", "node_07b": "assets/seed003/backgrounds/node_07b.webp", "node_09": "assets/seed003/backgrounds/node_09.webp", "node_10a": "assets/seed003/backgrounds/node_10a.webp", "node_10b": "assets/seed003/backgrounds/node_10b.webp", "node_11": "assets/seed003/backgrounds/node_11.webp", "node_13": "assets/seed003/backgrounds/node_13.webp", "node_14_solo": "assets/seed003/backgrounds/node_14_solo.webp", "node_14_together": "assets/seed003/backgrounds/node_14_together.webp", "node_dead_tower": "assets/seed003/backgrounds/node_dead_tower.webp", "node_10c": "assets/seed003/backgrounds/node_10c.webp", "node_15_survive": "assets/seed003/backgrounds/node_15_survive.webp", "node_12": "assets/seed003/backgrounds/node_12.webp", "node_dead_alone": "assets/seed003/backgrounds/node_dead_alone.webp", "node_17": "assets/seed003/backgrounds/node_17.webp", "node_16": "assets/seed003/backgrounds/node_16.webp", "node_18_release": "assets/seed003/backgrounds/node_18_release.webp", "node_18_preserve": "assets/seed003/backgrounds/node_18_preserve.webp", "node_18_accept": "assets/seed003/backgrounds/node_18_accept.webp", "node_end_true": "assets/seed003/backgrounds/node_end_true.webp", "node_end_sacrifice": "assets/seed003/backgrounds/node_end_sacrifice.webp", "node_end_bittersweet": "assets/seed003/backgrounds/node_end_bittersweet.webp", "node_end_daily": "assets/seed003/backgrounds/node_end_daily.webp", "node_end_cold": "assets/seed003/backgrounds/node_end_cold.webp"}, "characters": {"char_akito": {"name": "远野秋人", "url": "assets/seed003/characters/char_akito.webp"}, "char_suzune": {"name": "神尾铃音", "url": "assets/seed003/characters/char_suzune.webp"}, "char_yui": {"name": "星野结衣", "url": "assets/seed003/characters/char_yui.webp"}, "char_seiran": {"name": "九条院圣良", "url": "assets/seed003/characters/char_seiran.webp"}, "char_kanade": {"name": "远野奏", "url": "assets/seed003/characters/char_kanade.webp"}}, "videos": {}}};
+</script>
+
+<script>
+(function() {
+'use strict';
+
+const ACT_NAMES = { 1: '第一幕 · 调查开端', 2: '第二幕 · 深入调查', 3: '第三幕 · 地下室危机', 4: '第四幕 · 终局' };
+const ENDING_LABELS = {
+  true_ending: '完整正义', bittersweet_ending: '苦甜正义',
+  neutral: '中性结局', cold_ending: '未竟之案', bad_ending: '死亡结局'
+};
+const ENDING_ICONS = {
+  true_ending: '☀️', bittersweet_ending: '🌤️',
+  neutral: '🌫️', cold_ending: '❄️', bad_ending: '💀'
+};
+
+const story = GAME_DATA.story;
+const narratives = GAME_DATA.narratives;
+const assets = GAME_DATA.assets;
+const nodes = story.nodes;
+const entryId = story.entry_node_id;
+
+/* ===== STATE ===== */
+let state = {
+  currentNode: null,
+  values: { clues: 0, courage: 0, trust_isabella: 0 },
+  visited: [],
+  history: [],
+  currentAct: 0,
+  textQueue: [],
+  textIdx: 0,
+  typing: false,
+  typeTimer: null,
+  autoMode: false,
+  autoTimer: null,
+};
+
+/* ===== DOM REFS ===== */
+const $ = id => document.getElementById(id);
+const titleScreen = $('title-screen');
+const sceneLayer = $('scene-layer');
+const sceneBg = $('scene-bg');
+const sceneBgNext = $('scene-bg-next');
+const sceneTitleOverlay = $('scene-title-overlay');
+const actTransition = $('act-transition');
+const textbox = $('textbox');
+const textContent = $('text-content');
+const speakerName = $('speaker-name');
+const clickIndicator = $('click-indicator');
+const choicePanel = $('choice-panel');
+const choiceButtons = $('choice-buttons');
+const hud = $('hud');
+const hudRight = $('hud-right');
+const endingScreen = $('ending-screen');
+const modalOverlay = $('modal-overlay');
+const historyPanel = $('history-panel');
+const charLeft = $('char-left');
+const charRight = $('char-right');
+const charLeftWrap = $('char-left-wrap');
+const charRightWrap = $('char-right-wrap');
+const charLeftName = $('char-left-name');
+const charRightName = $('char-right-name');
+
+/* ===== INIT ===== */
+function init() {
+  if (hasSaveData()) $('btn-continue').disabled = false;
+  $('btn-start').addEventListener('click', () => startGame(false));
+  $('btn-continue').addEventListener('click', () => startGame(true));
+  $('btn-save').addEventListener('click', () => openModal('save'));
+  $('btn-load').addEventListener('click', () => openModal('load'));
+  $('btn-history').addEventListener('click', toggleHistory);
+  $('btn-auto').addEventListener('click', toggleAuto);
+  $('btn-restart').addEventListener('click', () => { endingScreen.style.display = 'none'; startGame(false); });
+  $('btn-title-return').addEventListener('click', () => { endingScreen.style.display = 'none'; returnToTitle(); });
+  $('modal-close').addEventListener('click', closeModal);
+  $('history-close').addEventListener('click', () => historyPanel.style.display = 'none');
+  textbox.addEventListener('click', onTextClick);
+  document.addEventListener('keydown', e => { if (e.code === 'Space' || e.code === 'Enter') onTextClick(); });
+}
+
+/* ===== START ===== */
+function startGame(continued) {
+  if (continued && hasSaveData()) {
+    loadFromSlot('auto');
+  } else {
+    state.currentNode = null;
+    const attrs = GAME_DATA.story.value_system?.attributes || {};
+    state.values = {};
+    for (const k of Object.keys(attrs)) state.values[k] = 0;
+    state.visited = [];
+    state.history = [];
+    state.currentAct = 0;
+  }
+  titleScreen.classList.add('hidden');
+  setTimeout(() => {
+    titleScreen.style.display = 'none';
+    sceneLayer.style.display = 'block';
+    hud.style.display = 'flex';
+    hudRight.style.display = 'flex';
+    updateHUD();
+    if (state.currentNode && nodes[state.currentNode]) {
+      enterNode(state.currentNode);
+    } else {
+      enterNode(entryId);
+    }
+  }, 800);
+}
+
+function returnToTitle() {
+  sceneLayer.style.display = 'none';
+  hud.style.display = 'none';
+  hudRight.style.display = 'none';
+  titleScreen.style.display = 'flex';
+  titleScreen.classList.remove('hidden');
+  if (hasSaveData()) $('btn-continue').disabled = false;
+}
+
+/* ===== NODE ENTRY ===== */
+function enterNode(nodeId) {
+  const node = nodes[nodeId];
+  if (!node) return;
+
+  state.currentNode = nodeId;
+  if (!state.visited.includes(nodeId)) state.visited.push(nodeId);
+
+  const newAct = node.act || 1;
+  if (newAct !== state.currentAct) {
+    state.currentAct = newAct;
+    showActTransition(newAct, () => showScene(nodeId, node));
+  } else {
+    showScene(nodeId, node);
+  }
+
+  autoSave();
+}
+
+/* ===== ACT TRANSITION ===== */
+function showActTransition(act, cb) {
+  $('act-number').textContent = `第 ${['一','二','三','四'][act-1]} 幕`;
+  $('act-title').textContent = ACT_NAMES[act] || '';
+  actTransition.classList.add('visible');
+  setTimeout(() => {
+    actTransition.classList.remove('visible');
+    setTimeout(cb, 600);
+  }, 2500);
+}
+
+/* ===== SCENE ===== */
+function showScene(nodeId, node) {
+  choicePanel.style.display = 'none';
+  clickIndicator.style.display = 'block';
+
+  const bgUrl = assets.backgrounds[nodeId];
+  if (bgUrl) {
+    sceneBgNext.style.backgroundImage = `url('${bgUrl}')`;
+    sceneBgNext.style.opacity = '1';
+    setTimeout(() => {
+      sceneBg.style.backgroundImage = `url('${bgUrl}')`;
+      sceneBgNext.style.opacity = '0';
+    }, 900);
+  } else {
+    sceneBg.className = '';
+    sceneBg.classList.add('bg-fallback');
+    sceneBg.style.backgroundImage = '';
+  }
+
+  showCharacters(node);
+
+  const narr = narratives[nodeId];
+  const title = narr ? narr.title : node.title;
+  const act = narr ? narr.act : node.act;
+
+  $('scene-act-label').textContent = `第 ${['一','二','三','四'][(act||1)-1]} 幕`;
+  $('scene-title-text').textContent = title || '';
+  sceneTitleOverlay.classList.add('visible');
+  setTimeout(() => sceneTitleOverlay.classList.remove('visible'), 2000);
+
+  setTimeout(() => {
+    const fullText = narr ? narr.text : (node.scene_description || node.title);
+    startTextDisplay(fullText, node);
+  }, 1800);
+}
+
+/* ===== CHARACTERS ===== */
+function showCharacters(node) {
+  charLeftWrap.classList.remove('visible');
+  charRightWrap.classList.remove('visible');
+  charLeft.src = '';
+  charRight.src = '';
+  charLeftName.textContent = '';
+  charRightName.textContent = '';
+
+  const witnesses = node.witnesses || [];
+  const chars = GAME_DATA.story.characters || [];
+  const protagonistId = (chars.find(c => c.role === 'protagonist') || chars[0] || {}).char_id || '';
+  const nonPlayer = witnesses.filter(c => c !== protagonistId);
+  const playerInScene = witnesses.includes(protagonistId);
+
+  if (playerInScene && assets.characters[protagonistId]) {
+    charLeft.src = assets.characters[protagonistId].url;
+    charLeftName.textContent = assets.characters[protagonistId].name;
+    setTimeout(() => charLeftWrap.classList.add('visible'), 400);
+  }
+  if (nonPlayer.length > 0) {
+    const npc = nonPlayer[0];
+    if (assets.characters[npc]) {
+      charRight.src = assets.characters[npc].url;
+      charRightName.textContent = assets.characters[npc].name;
+      setTimeout(() => charRightWrap.classList.add('visible'), 600);
+    }
+  }
+}
+
+/* ===== TEXT DISPLAY ===== */
+function startTextDisplay(fullText, node) {
+  const paragraphs = splitIntoParagraphs(fullText);
+  state.textQueue = paragraphs;
+  state.textIdx = 0;
+  state.currentNodeObj = node;
+  displayNextParagraph();
+}
+
+function splitIntoParagraphs(text) {
+  if (!text) return ['...'];
+  const raw = text.split(/\n\s*\n/);
+  const result = [];
+  let buffer = '';
+  for (const para of raw) {
+    const trimmed = para.trim();
+    if (!trimmed) continue;
+    if (buffer.length + trimmed.length > 300 && buffer.length > 0) {
+      result.push(buffer.trim());
+      buffer = trimmed;
+    } else {
+      buffer += (buffer ? '\n\n' : '') + trimmed;
+    }
+  }
+  if (buffer.trim()) result.push(buffer.trim());
+  if (result.length === 0) result.push(text.trim() || '...');
+  return result;
+}
+
+function displayNextParagraph() {
+  if (state.textIdx >= state.textQueue.length) {
+    onTextComplete();
+    return;
+  }
+  const para = state.textQueue[state.textIdx];
+  state.textIdx++;
+
+  const speaker = extractSpeaker(para);
+  speakerName.textContent = speaker || '';
+  const displayText = speaker ? para.replace(/^"[^"]*"\s*/, '').replace(/^「[^」]*」\s*/, '') : para;
+
+  typeText(formatText(displayText));
+}
+
+function extractSpeaker(text) {
+  const dialogMatch = text.match(/^["「](.+?)["」]/);
+  if (dialogMatch) {
+    const said = dialogMatch[1];
+    if (said.length < 20) return '';
+  }
+  return '';
+}
+
+function formatText(text) {
+  return text
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+    .replace(/---/g, '—');
+}
+
+function typeText(html) {
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = html;
+  const plainText = tempDiv.textContent;
+
+  state.typing = true;
+  textContent.innerHTML = '';
+  clickIndicator.style.display = 'none';
+
+  let charIdx = 0;
+  const speed = 30;
+
+  clearInterval(state.typeTimer);
+  state.typeTimer = setInterval(() => {
+    if (charIdx >= plainText.length) {
+      clearInterval(state.typeTimer);
+      textContent.innerHTML = html;
+      state.typing = false;
+      clickIndicator.style.display = 'block';
+      if (state.autoMode) {
+        clearTimeout(state.autoTimer);
+        state.autoTimer = setTimeout(onTextClick, 2500);
+      }
+      return;
+    }
+    charIdx++;
+    const partial = plainText.substring(0, charIdx);
+    let reconstructed = html;
+    const emMatches = [...html.matchAll(/<em>([^<]*)<\/em>/g)];
+    if (emMatches.length === 0) {
+      textContent.textContent = partial;
+    } else {
+      textContent.innerHTML = buildPartialHTML(html, charIdx);
+    }
+  }, speed);
+}
+
+function buildPartialHTML(html, charCount) {
+  let result = '';
+  let count = 0;
+  let inTag = false;
+  for (let i = 0; i < html.length && count < charCount; i++) {
+    const ch = html[i];
+    if (ch === '<') { inTag = true; const end = html.indexOf('>', i); if (end >= 0) { result += html.substring(i, end + 1); i = end; } inTag = false; continue; }
+    result += ch;
+    count++;
+  }
+  const openEm = (result.match(/<em>/g) || []).length;
+  const closeEm = (result.match(/<\/em>/g) || []).length;
+  if (openEm > closeEm) result += '</em>';
+  return result;
+}
+
+function skipTypewriter() {
+  if (!state.typing) return false;
+  clearInterval(state.typeTimer);
+  const html = formatText(state.textQueue[state.textIdx - 1] || '');
+  textContent.innerHTML = html;
+  state.typing = false;
+  clickIndicator.style.display = 'block';
+  return true;
+}
+
+function onTextClick() {
+  if (choicePanel.style.display === 'flex') return;
+  if (skipTypewriter()) return;
+  displayNextParagraph();
+}
+
+function onTextComplete() {
+  const node = state.currentNodeObj;
+  if (!node) return;
+
+  state.history.push({ nodeId: node.node_id, title: node.title });
+
+  clickIndicator.style.display = 'none';
+
+  const isEnding = node.node_type === 'ending' || node.node_type === 'dead_end';
+  if (isEnding) {
+    setTimeout(() => showEnding(node), 800);
+    return;
+  }
+
+  if (node.choices && node.choices.length > 0) {
+    setTimeout(() => showChoices(node), 400);
+    return;
+  }
+
+  if (node.next_nodes && node.next_nodes.length > 0) {
+    let targetNode = node.next_nodes[0];
+    if (node.auto_route && node.next_nodes.length > 1) {
+      targetNode = resolveAutoRouteTarget(node);
+    }
+    clickIndicator.style.display = 'block';
+    textbox.onclick = () => {
+      textbox.onclick = onTextClick;
+      enterNode(targetNode);
+    };
+    return;
+  }
+
+  showEnding(node);
+}
+
+/* ===== CHOICES ===== */
+function showChoices(node) {
+  textbox.style.display = 'none';
+  choicePanel.style.display = 'flex';
+  choicePanel.style.flexDirection = 'column';
+  choiceButtons.innerHTML = '';
+
+  node.choices.forEach((choice, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+
+    let locked = false;
+    let lockReason = '';
+
+    if (choice.gate_condition) {
+      for (const [attr, cond] of Object.entries(choice.gate_condition)) {
+        const match = cond.match(/(>=|<=|>|<|==)(\d+)/);
+        if (match) {
+          const op = match[1];
+          const threshold = parseInt(match[2]);
+          const val = state.values[attr] || 0;
+          if (op === '>=' && val < threshold) locked = true;
+          else if (op === '<=' && val > threshold) locked = true;
+          else if (op === '>' && val <= threshold) locked = true;
+          else if (op === '<' && val >= threshold) locked = true;
+          else if (op === '==' && val !== threshold) locked = true;
+        }
+      }
+      if (locked) lockReason = choice.locked_hint || '条件未满足';
+    }
+
+    let label = `${idx + 1}. ${choice.text}`;
+    if (choice.is_dead_end) label += ' <span class="dead-end-icon">💀</span>';
+
+    btn.innerHTML = label;
+    if (locked) {
+      btn.classList.add('locked');
+      btn.innerHTML += `<span class="lock-reason">🔒 ${lockReason}</span>`;
+    }
+
+    if (!locked) {
+      btn.addEventListener('click', () => makeChoice(choice));
+    }
+
+    choiceButtons.appendChild(btn);
+  });
+}
+
+function makeChoice(choice) {
+  choicePanel.style.display = 'none';
+  textbox.style.display = 'block';
+  textbox.onclick = onTextClick;
+
+  if (choice.value_effects) {
+    choice.value_effects.forEach(eff => {
+      const attr = eff.attribute;
+      const delta = eff.delta || 0;
+      if (state.values.hasOwnProperty(attr)) {
+        state.values[attr] += delta;
+        flashStat(attr, delta);
+      }
+    });
+    updateHUD();
+  }
+
+  let targetNode = choice.target_node_id;
+
+  if (choice.gate_branch) {
+    const gb = choice.gate_branch;
+    let pass = true;
+    if (gb.condition) {
+      for (const [attr, cond] of Object.entries(gb.condition)) {
+        const match = cond.match(/(>=|<=|>|<|==)(\d+)/);
+        if (match) {
+          const op = match[1];
+          const threshold = parseInt(match[2]);
+          const val = state.values[attr] || 0;
+          if (op === '>=' && val < threshold) pass = false;
+          else if (op === '<=' && val > threshold) pass = false;
+          else if (op === '>' && val <= threshold) pass = false;
+          else if (op === '<' && val >= threshold) pass = false;
+        }
+      }
+    }
+    targetNode = pass ? gb.true_target : gb.false_target;
+  }
+
+  state.history.push({ nodeId: state.currentNode, choice: choice.text });
+
+  enterNode(targetNode);
+}
+
+/* ===== AUTO ROUTE ===== */
+function resolveAutoRouteTarget(node) {
+  const nid = node.node_id;
+  const v = state.values;
+
+  if (nid === 'node_12_public') {
+    return (v.courage >= 3 && v.clues >= 4 && v.trust_isabella >= 1)
+      ? 'node_end_true' : 'node_end_bittersweet';
+  }
+  if (nid === 'node_12_legal') {
+    return v.clues >= 3 ? 'node_end_neutral' : 'node_end_cold';
+  }
+
+  return node.next_nodes[0];
+}
+
+/* ===== HUD ===== */
+function updateHUD() {
+  $('val-clues').textContent = state.values.clues;
+  $('val-courage').textContent = state.values.courage;
+  $('val-trust').textContent = state.values.trust_isabella;
+}
+
+function flashStat(attr, delta) {
+  const map = { clues: 'hud-clues', courage: 'hud-courage', trust_isabella: 'hud-trust' };
+  const el = $(map[attr]);
+  if (!el) return;
+  el.classList.add('flash');
+  setTimeout(() => el.classList.remove('flash'), 1200);
+}
+
+/* ===== ENDING ===== */
+function showEnding(node) {
+  sceneLayer.style.display = 'none';
+
+  const isBad = node.ending_type === 'bad_ending' || node.node_type === 'dead_end';
+  endingScreen.className = isBad ? 'bad-end' : '';
+  endingScreen.style.display = 'flex';
+
+  const endType = node.ending_type || (node.node_type === 'dead_end' ? 'bad_ending' : 'neutral');
+  $('ending-icon').textContent = ENDING_ICONS[endType] || '🌫️';
+  $('ending-title').textContent = node.title || '结局';
+  $('ending-type-label').textContent = ENDING_LABELS[endType] || '';
+
+  const narr = narratives[node.node_id];
+  const endText = narr ? narr.text : (node.scene_description || '');
+  const shortText = endText.length > 200 ? endText.substring(0, 200) + '...' : endText;
+  $('ending-text').textContent = shortText;
+
+  $('ending-stats').innerHTML =
+    `线索: ${state.values.clues} | 勇气: ${state.values.courage} | 信任: ${state.values.trust_isabella}<br>` +
+    `经过节点: ${state.visited.length}/${Object.keys(nodes).length}`;
+
+  autoSave();
+}
+
+/* ===== SAVE / LOAD ===== */
+function getSaveKey(slot) { return `avg_save_${story.story_id}_${slot}`; }
+
+function hasSaveData() {
+  return !!localStorage.getItem(getSaveKey('auto'));
+}
+
+function autoSave() {
+  saveToSlot('auto');
+}
+
+function saveToSlot(slot) {
+  const data = {
+    currentNode: state.currentNode,
+    values: { ...state.values },
+    visited: [...state.visited],
+    history: [...state.history],
+    currentAct: state.currentAct,
+    timestamp: new Date().toISOString(),
+    nodeTitle: nodes[state.currentNode]?.title || '',
+  };
+  localStorage.setItem(getSaveKey(slot), JSON.stringify(data));
+}
+
+function loadFromSlot(slot) {
+  const raw = localStorage.getItem(getSaveKey(slot));
+  if (!raw) return false;
+  try {
+    const data = JSON.parse(raw);
+    state.currentNode = data.currentNode;
+    state.values = data.values || { clues: 0, courage: 0, trust_isabella: 0 };
+    state.visited = data.visited || [];
+    state.history = data.history || [];
+    state.currentAct = data.currentAct || 0;
+    return true;
+  } catch { return false; }
+}
+
+function openModal(mode) {
+  $('modal-title').textContent = mode === 'save' ? '存 档' : '读 档';
+  const slots = $('modal-slots');
+  slots.innerHTML = '';
+
+  ['slot1', 'slot2', 'slot3'].forEach((slot, i) => {
+    const div = document.createElement('div');
+    div.className = 'save-slot';
+    const raw = localStorage.getItem(getSaveKey(slot));
+    let info = '空';
+    if (raw) {
+      try {
+        const d = JSON.parse(raw);
+        info = `${d.nodeTitle || '?'} — ${new Date(d.timestamp).toLocaleString('zh-CN')}`;
+      } catch { info = '损坏'; }
+    }
+    div.innerHTML = `<span class="slot-label">存档 ${i + 1}</span><span class="slot-info">${info}</span>`;
+    div.addEventListener('click', () => {
+      if (mode === 'save') {
+        saveToSlot(slot);
+        closeModal();
+      } else {
+        if (loadFromSlot(slot)) {
+          closeModal();
+          endingScreen.style.display = 'none';
+          sceneLayer.style.display = 'block';
+          updateHUD();
+          enterNode(state.currentNode);
+        }
+      }
+    });
+    slots.appendChild(div);
+  });
+
+  modalOverlay.style.display = 'flex';
+}
+
+function closeModal() { modalOverlay.style.display = 'none'; }
+
+/* ===== HISTORY ===== */
+function toggleHistory() {
+  if (historyPanel.style.display === 'block') {
+    historyPanel.style.display = 'none';
+    return;
+  }
+  const content = $('history-content');
+  content.innerHTML = '';
+  state.history.forEach(entry => {
+    const div = document.createElement('div');
+    div.className = 'history-entry';
+    if (entry.choice) {
+      div.innerHTML = `<div class="h-title">选择</div>${entry.choice}`;
+    } else {
+      div.innerHTML = `<div class="h-title">${entry.title || entry.nodeId}</div>`;
+    }
+    content.appendChild(div);
+  });
+  historyPanel.style.display = 'block';
+}
+
+/* ===== AUTO MODE ===== */
+function toggleAuto() {
+  state.autoMode = !state.autoMode;
+  $('btn-auto').textContent = state.autoMode ? '停止' : '自动';
+  $('btn-auto').style.borderColor = state.autoMode ? 'var(--gold)' : '';
+  if (state.autoMode && !state.typing) {
+    state.autoTimer = setTimeout(onTextClick, 2000);
+  }
+  if (!state.autoMode) clearTimeout(state.autoTimer);
+}
+
+/* ===== BOOT ===== */
+init();
+
+})();
+</script>
+</body>
+</html>

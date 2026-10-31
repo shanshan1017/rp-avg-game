@@ -1,0 +1,162 @@
+{
+  "results": [
+    {
+      "name": "icon_chapters",
+      "source": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/icon_chapters_green_source.png",
+      "final": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/icon_chapters.png",
+      "seconds": 77.1,
+      "size": [
+        951,
+        972
+      ],
+      "nonzero_alpha": 429011,
+      "transparent": 495361
+    },
+    {
+      "name": "icon_continue",
+      "source": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/icon_continue_green_source.png",
+      "final": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/icon_continue.png",
+      "seconds": 77.9,
+      "size": [
+        926,
+        929
+      ],
+      "nonzero_alpha": 390659,
+      "transparent": 469595
+    },
+    {
+      "name": "icon_endings",
+      "source": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/icon_endings_green_source.png",
+      "final": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/icon_endings.png",
+      "seconds": 64.2,
+      "size": [
+        871,
+        989
+      ],
+      "nonzero_alpha": 404476,
+      "transparent": 456943
+    },
+    {
+      "name": "icon_gallery",
+      "source": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/icon_gallery_green_source.png",
+      "final": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/icon_gallery.png",
+      "seconds": 75.0,
+      "size": [
+        900,
+        917
+      ],
+      "nonzero_alpha": 456949,
+      "transparent": 368351
+    },
+    {
+      "name": "icon_import",
+      "source": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/icon_import_green_source.png",
+      "final": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/icon_import.png",
+      "seconds": 67.5,
+      "size": [
+        852,
+        877
+      ],
+      "nonzero_alpha": 340434,
+      "transparent": 406770
+    },
+    {
+      "name": "icon_new_story",
+      "source": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/icon_new_story_green_source.png",
+      "final": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/icon_new_story.png",
+      "seconds": 68.9,
+      "size": [
+        894,
+        927
+      ],
+      "nonzero_alpha": 363664,
+      "transparent": 465074
+    },
+    {
+      "name": "icon_save",
+      "source": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/icon_save_green_source.png",
+      "final": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/icon_save.png",
+      "seconds": 72.4,
+      "size": [
+        864,
+        956
+      ],
+      "nonzero_alpha": 366845,
+      "transparent": 459139
+    },
+    {
+      "name": "icon_settings",
+      "source": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/icon_settings_green_source.png",
+      "final": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/icon_settings.png",
+      "seconds": 77.0,
+      "size": [
+        860,
+        871
+      ],
+      "nonzero_alpha": 366597,
+      "transparent": 382463
+    },
+    {
+      "name": "icon_worldline",
+      "source": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/icon_worldline_green_source.png",
+      "final": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/icon_worldline.png",
+      "seconds": 68.9,
+      "size": [
+        967,
+        961
+      ],
+      "nonzero_alpha": 424031,
+      "transparent": 505256
+    },
+    {
+      "name": "menu_item_frame",
+      "source": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/menu_item_frame_green_source.png",
+      "final": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/menu_item_frame.png",
+      "seconds": 50.1,
+      "size": [
+        1476,
+        240
+      ],
+      "nonzero_alpha": 185305,
+      "transparent": 168935
+    },
+    {
+      "name": "right_menu_outer_frame",
+      "source": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/right_menu_outer_frame_green_source.png",
+      "final": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/right_menu_outer_frame.png",
+      "seconds": 53.7,
+      "size": [
+        518,
+        1024
+      ],
+      "nonzero_alpha": 139783,
+      "transparent": 390649
+    },
+    {
+      "name": "save_card_crystal",
+      "source": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/save_card_crystal_green_source.png",
+      "final": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/save_card_crystal.png",
+      "seconds": 69.1,
+      "size": [
+        745,
+        785
+      ],
+      "nonzero_alpha": 303012,
+      "transparent": 281813
+    },
+    {
+      "name": "save_card_frame",
+      "source": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/save_card_frame_green_source.png",
+      "final": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/menu_assets_20260522/save_card_frame.png",
+      "seconds": 50.6,
+      "size": [
+        1492,
+        500
+      ],
+      "nonzero_alpha": 636431,
+      "transparent": 109569
+    }
+  ],
+  "errors": [],
+  "created_at": "2026-05-22 18:07:14"
+}

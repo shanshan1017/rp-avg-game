@@ -1,0 +1,1523 @@
+{
+  "story_id": "eternal_train_2087",
+  "title": "末日列车·永恒号",
+  "genre": "科幻生存",
+  "language": "zh",
+  "total_acts": 4,
+  "world_setting": "2087年，核战争引发的核冬天覆盖了整个地球表面。极端低温与辐射尘埃使地表不再适合人类生存。人类最后约四万名幸存者居住在一列名为「永恒号」的环球磁悬浮列车上，这列车沿着赤道附近残存的铁轨永不停歇地运行。列车分为三个严格的阶层区域：头等舱是精英阶层的乐园，拥有充足的食物与医疗资源；二等舱是技术人员的居所，维持着列车的日常运转；三等舱是劳工阶层的栖身之地，拥挤、昏暗、物资匮乏。阶层之间的流动几乎不可能，车厢之间的边界由武装守卫把守。列车本身既是人类文明最后的诺亚方舟，也是一座移动的阶级囚笼。",
+  "time_period": "2087年，核冬天第十二年",
+  "location": "环球列车·永恒号，赤道轨道线",
+  "characters": [
+    {
+      "char_id": "char_lin",
+      "name": "林晓",
+      "role": "主角",
+      "description": "28岁，三等舱工程师。身形消瘦，双手布满油污与烫伤疤痕。眼神深邃而警觉，极少说话，但观察力惊人。从小在引擎室长大，对机械有近乎直觉的感知。内心深处渴望公平，但被现实打磨得谨慎而压抑。",
+      "speech_style": "言简意赅，用词精准，偶尔用技术术语。沉默时比说话时更多。",
+      "hidden_agenda": "希望通过修复引擎证明三等舱的人同样有价值，但内心也对整个阶层制度感到愤怒。",
+      "knowledge": [
+        "引擎存在核心冷却回路裂缝",
+        "裂缝将在约30天内导致引擎过热停机",
+        "三等舱的修复工具不足以独立完成修复"
+      ]
+    },
+    {
+      "char_id": "char_zhao",
+      "name": "赵明远",
+      "role": "反派",
+      "description": "55岁，列车长。身着笔挺制服，银发梳理整齐，举止温文尔雅。表面上以公正仲裁者自居，实际上是维护头等舱特权的铁腕统治者。他深知引擎问题，但认为告知大众只会引发恐慌与动乱。",
+      "speech_style": "措辞优雅，每句话都经过计算，善用官方语言回避实质问题。",
+      "hidden_agenda": "知道引擎问题已久，秘密委托叶婷研究解决方案，但方案中包含一个他不愿公开的代价——必须抛弃三等舱的部分区段以减轻负载。",
+      "knowledge": [
+        "引擎裂缝已知晓三个月",
+        "叶婷的修复方案存在",
+        "方案需要牺牲三等舱后段车厢",
+        "林晓已发现引擎问题"
+      ]
+    },
+    {
+      "char_id": "char_ye",
+      "name": "叶婷",
+      "role": "NPC",
+      "description": "42岁，头等舱首席热力学工程师。短发，戴金属框眼镜，说话时习惯性地摩挲手腕上的一道旧疤。技术能力是列车上最强的，但长期被赵明远控制，家人被用作要挟筹码。内心挣扎于良知与恐惧之间。",
+      "speech_style": "说话时常停顿，像在权衡每个词的风险。技术描述精确，情感表达含糊。",
+      "hidden_agenda": "修复方案中有一个赵明远不知道的隐藏变量——她设计了一个备用路径，可以不牺牲任何车厢完成修复，但需要三等舱工程师的协助，且风险极高。",
+      "knowledge": [
+        "完整的引擎裂缝数据",
+        "赵明远的牺牲三等舱方案",
+        "自己的备用修复方案",
+        "备用方案需要三等舱工程师配合"
+      ]
+    },
+    {
+      "char_id": "char_chen",
+      "name": "陈浩",
+      "role": "配角",
+      "description": "36岁，二等舱医生。面容疲惫，眼袋深重，白大褂永远有洗不干净的污迹。同情三等舱的处境，但又依赖二等舱的特权维持自己的医疗工作。是列车上少数能在车厢之间自由走动的人之一，因此掌握大量非正式情报。",
+      "speech_style": "语速偏快，说话时常用反问句，习惯用医学比喻来描述社会问题。",
+      "hidden_agenda": "暗中记录着列车上的死亡数据，知道三等舱的死亡率是头等舱的七倍，正在寻找机会将这些数据公开。",
+      "knowledge": [
+        "列车各舱的死亡率数据",
+        "陈浩能在各车厢间通行",
+        "叶婷曾秘密找过他寻求帮助",
+        "老王的革命计划初步轮廓"
+      ]
+    },
+    {
+      "char_id": "char_wang",
+      "name": "老王",
+      "role": "NPC",
+      "description": "52岁，三等舱非正式领袖。络腮胡，手掌宽厚如铁锹，声音洪亮。曾是地面时代的工会组织者，核战后失去了整个家庭。对现有秩序充满仇恨，但对跟随他的人有真实的责任感。",
+      "speech_style": "说话直接，带有煽动性，善用「我们」和「他们」的对立框架。情绪激动时会压低声音，反而更有威慑力。",
+      "hidden_agenda": "革命计划已准备了两年，等待一个能让三等舱团结起来的导火索。引擎危机正是他需要的机会。",
+      "knowledge": [
+        "三等舱的人员组织网络",
+        "车厢边界守卫的换班规律",
+        "部分武器藏匿地点",
+        "林晓发现了引擎问题"
+      ]
+    }
+  ],
+  "nodes": {
+    "node_01": {
+      "node_id": "node_01",
+      "node_type": "narrative",
+      "title": "裂缝",
+      "act": 1,
+      "branch_id": "main",
+      "scene_description": "深夜，引擎舱。林晓独自进行例行检修，在第七号冷却管道的焊接处发现了一条细微但致命的热应力裂缝。通过计算，她确认：如果不修复，30天内引擎将过热停机。列车停止意味着所有人在72小时内冻死。引擎舱嘈杂而昏暗，只有林晓一人在场。她必须决定第一步：向谁报告这件事。",
+      "key_events": [
+        "林晓发现冷却回路裂缝",
+        "林晓计算出30天倒计时",
+        "林晓意识到三等舱的工具无法独立修复"
+      ],
+      "emotional_tone": "压抑的恐惧，孤独的重量，沉默中的紧迫",
+      "pov_character": "",
+      "choices": [
+        {
+          "option_id": "opt_01a",
+          "text": "向三等舱领袖老王报告——他有组织能力，也许能推动上层重视",
+          "target_node_id": "node_02a",
+          "is_dead_end": false,
+          "branch_type": "strong",
+          "value_effects": [
+            {
+              "attribute": "revolution",
+              "delta": 2
+            },
+            {
+              "attribute": "trust_ye",
+              "delta": 0
+            }
+          ],
+          "hint": "走革命路线的起点。老王会将引擎危机视为革命的导火索。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        },
+        {
+          "option_id": "opt_01b",
+          "text": "通过陈浩医生传递消息——他能在车厢间走动，或许能联系到头等舱的技术人员",
+          "target_node_id": "node_02b",
+          "is_dead_end": false,
+          "branch_type": "strong",
+          "value_effects": [
+            {
+              "attribute": "trust_ye",
+              "delta": 1
+            },
+            {
+              "attribute": "revolution",
+              "delta": 0
+            }
+          ],
+          "hint": "走外交斡旋路线的起点。陈浩会将林晓引向叶婷，但也会惊动赵明远。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        }
+      ],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": [
+        "node_02a",
+        "node_02b"
+      ],
+      "prev_nodes": [],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "引擎冷却回路存在裂缝",
+        "30天倒计时",
+        "修复需要跨越车厢"
+      ],
+      "witnesses": [
+        "char_lin"
+      ]
+    },
+    "node_02a": {
+      "node_id": "node_02a",
+      "node_type": "narrative",
+      "title": "老王的算盘",
+      "act": 1,
+      "branch_id": "branch_revolution",
+      "scene_description": "三等舱深处的一个隐蔽储物间，老王的非正式指挥室。林晓向老王展示了裂缝的数据。老王沉默片刻，然后眼睛里燃起了林晓从未见过的光。他不把这当作灾难，而是把它当作机会：「告诉所有人引擎要坏了，然后告诉他们，头等舱早就知道了，却什么都没做。」他已经准备了两年，现在只需要一个理由。林晓感到一阵不安——她想修复引擎，不是点燃战火。但老王的话里有一句是真的：如果上层早就知道，为什么没有行动？",
+      "key_events": [
+        "老王获知引擎危机",
+        "老王提出将危机作为革命导火索",
+        "林晓得知老王已准备革命计划两年",
+        "林晓开始怀疑上层是否早已知情"
+      ],
+      "emotional_tone": "不安的共鸣，被利用的危险感，正义与手段的张力",
+      "pov_character": "",
+      "choices": [
+        {
+          "option_id": "opt_02a_1",
+          "text": "同意老王的框架：先公开危机，用舆论压力逼迫上层行动",
+          "target_node_id": "node_03a",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "revolution",
+              "delta": 2
+            },
+            {
+              "attribute": "trust_ye",
+              "delta": -1
+            }
+          ],
+          "hint": "林晓选择与老王合作，革命路线加深。叶婷会对林晓产生戒备。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        },
+        {
+          "option_id": "opt_02a_2",
+          "text": "拒绝老王的策略：只要求他帮忙联系二等舱技术人员，不公开危机",
+          "target_node_id": "node_03b",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "revolution",
+              "delta": 0
+            },
+            {
+              "attribute": "trust_ye",
+              "delta": 1
+            }
+          ],
+          "hint": "林晓试图走中间路线。老王失望，但仍提供有限帮助。林晓将通过老王的渠道联系陈浩。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        }
+      ],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": [
+        "node_03a",
+        "node_03b"
+      ],
+      "prev_nodes": [
+        "node_01"
+      ],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "老王的革命计划已准备两年",
+        "老王知道守卫换班规律"
+      ],
+      "witnesses": [
+        "char_lin",
+        "char_wang"
+      ]
+    },
+    "node_02b": {
+      "node_id": "node_02b",
+      "node_type": "narrative",
+      "title": "医生的情报",
+      "act": 1,
+      "branch_id": "branch_diplomacy",
+      "scene_description": "二等舱医务室，凌晨三点。陈浩正在整理死亡记录，看到林晓出现时明显一惊。林晓展示了裂缝数据，陈浩的表情从惊讶变为复杂的痛苦——他从抽屉里取出一份文件，是三个月前叶婷秘密找他时留下的一个密码联络方式。「她说如果有人从下面发现了这件事，让我把这个给那个人。」陈浩同时分享了他掌握的死亡率数据，三等舱的死亡率是头等舱七倍。他给了林晓一个选择：直接联系叶婷，或者先把死亡率数据公开，制造压力。",
+      "key_events": [
+        "陈浩透露叶婷三个月前就预留了联络方式",
+        "林晓获得叶婷的密码联络信息",
+        "陈浩分享死亡率数据（三等舱死亡率是头等舱七倍）",
+        "林晓确认上层早已知情"
+      ],
+      "emotional_tone": "震惊与愤怒交织，信息的重量，谨慎的希望",
+      "pov_character": "",
+      "choices": [
+        {
+          "option_id": "opt_02b_1",
+          "text": "立即通过密码联络叶婷，争取直接沟通",
+          "target_node_id": "node_03c",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "trust_ye",
+              "delta": 2
+            },
+            {
+              "attribute": "revolution",
+              "delta": 0
+            }
+          ],
+          "hint": "林晓走最直接的技术合作路线。叶婷会秘密安排见面。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        },
+        {
+          "option_id": "opt_02b_2",
+          "text": "先要陈浩的死亡率数据，将其与引擎危机一起公开，制造舆论压力",
+          "target_node_id": "node_03b",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "revolution",
+              "delta": 1
+            },
+            {
+              "attribute": "trust_ye",
+              "delta": 0
+            }
+          ],
+          "hint": "林晓选择信息战。这条路与革命路线在node_03b汇合，但带着陈浩的数据进入。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        }
+      ],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": [
+        "node_03c",
+        "node_03b"
+      ],
+      "prev_nodes": [
+        "node_01"
+      ],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "叶婷三个月前就预留联络方式",
+        "三等舱死亡率是头等舱七倍",
+        "上层早已知情"
+      ],
+      "witnesses": [
+        "char_lin",
+        "char_chen"
+      ]
+    },
+    "node_03a": {
+      "node_id": "node_03a",
+      "node_type": "narrative",
+      "title": "火种蔓延",
+      "act": 2,
+      "branch_id": "branch_revolution",
+      "scene_description": "三等舱公共区域，引擎危机的消息已经通过老王的网络扩散。人群聚集，愤怒与恐惧混杂。老王站在高处演讲，把林晓的技术发现转化为政治檄文。守卫开始紧张。与此同时，赵明远派人来找林晓「谈谈」。林晓站在人群边缘，感受到局势正在脱离她的控制。一个守卫悄悄靠近她，低声说：「叶博士想见你。现在。」",
+      "key_events": [
+        "引擎危机在三等舱公开扩散",
+        "老王发表煽动性演讲",
+        "赵明远派人监控林晓",
+        "叶婷秘密传话要求见面"
+      ],
+      "emotional_tone": "失控的紧迫感，被裹挟的无力，机会与危险并存",
+      "pov_character": "",
+      "choices": [
+        {
+          "option_id": "opt_03a_1",
+          "text": "跟随守卫去见叶婷——即使这可能是赵明远设的陷阱",
+          "target_node_id": "node_04a",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "trust_ye",
+              "delta": 1
+            }
+          ],
+          "hint": "林晓选择冒险接触叶婷。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        },
+        {
+          "option_id": "opt_03a_2",
+          "text": "拒绝，留在人群中，与老王一起推动革命行动",
+          "target_node_id": "node_04b",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "revolution",
+              "delta": 2
+            }
+          ],
+          "hint": "林晓彻底投入革命路线，放弃与叶婷合作的可能。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        }
+      ],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": [
+        "node_04a",
+        "node_04b"
+      ],
+      "prev_nodes": [
+        "node_02a"
+      ],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "老王的演讲使危机公开化",
+        "赵明远开始监控林晓"
+      ],
+      "witnesses": [
+        "char_lin",
+        "char_wang",
+        "char_zhao"
+      ]
+    },
+    "node_03b": {
+      "node_id": "node_03b",
+      "node_type": "narrative",
+      "title": "数据的重量",
+      "act": 2,
+      "branch_id": "branch_middle",
+      "scene_description": "二等舱与三等舱边界的检查站附近，一个废弃的通风管道入口。林晓（无论经由老王还是陈浩来到这里）手中握着引擎数据和死亡率数据，正在考虑如何利用这些信息。陈浩出现了——如果林晓是经由他来的，他已经安排好了；如果是经由老王，陈浩是被老王的人联系来的。无论如何，陈浩带来了一个消息：叶婷知道林晓的存在，并且主动要求通过陈浩安排一次秘密会面。同时，老王的人也在等待林晓的回音——革命的时机窗口不会无限期开放。",
+      "key_events": [
+        "林晓掌握了引擎数据与死亡率数据",
+        "陈浩传达叶婷的见面请求",
+        "老王的革命计划等待林晓表态",
+        "林晓面临技术合作与革命行动的抉择"
+      ],
+      "emotional_tone": "两难的压力，信息即权力的清醒感，时间紧迫",
+      "pov_character": "",
+      "choices": [
+        {
+          "option_id": "opt_03b_1",
+          "text": "答应叶婷的见面请求，优先寻求技术解决方案",
+          "target_node_id": "node_04a",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "trust_ye",
+              "delta": 1
+            },
+            {
+              "attribute": "revolution",
+              "delta": -1
+            }
+          ],
+          "hint": "走向技术合作路线。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        },
+        {
+          "option_id": "opt_03b_2",
+          "text": "将死亡率数据交给老王，同时回应叶婷见面请求——两边都不放弃",
+          "target_node_id": "node_04c",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "trust_ye",
+              "delta": 0
+            },
+            {
+              "attribute": "revolution",
+              "delta": 1
+            }
+          ],
+          "hint": "走双线并行路线，风险最高但可能性最多。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        }
+      ],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": [
+        "node_04a",
+        "node_04c"
+      ],
+      "prev_nodes": [
+        "node_02a",
+        "node_02b"
+      ],
+      "merge_to": "",
+      "auto_route": {
+        "description": "根据来路不同，陈浩的态度和掌握的信息有差异",
+        "from_node_02a": "陈浩是被老王联系来的，态度谨慎，掌握信息较少",
+        "from_node_02b": "陈浩是主动安排，态度更开放，已共享死亡率数据"
+      },
+      "facts_introduced": [
+        "叶婷主动寻求与林晓见面",
+        "革命窗口期有限"
+      ],
+      "witnesses": [
+        "char_lin",
+        "char_chen"
+      ]
+    },
+    "node_03c": {
+      "node_id": "node_03c",
+      "node_type": "narrative",
+      "title": "密室会面",
+      "act": 2,
+      "branch_id": "branch_diplomacy",
+      "scene_description": "头等舱与二等舱之间的一个设备维护夹层，叶婷已经等在那里。她的手在颤抖。她直接展示了完整的引擎裂缝数据——比林晓发现的还要详细三倍——然后展示了两个修复方案：方案A是赵明远批准的，需要切断三等舱后段六节车厢（约八千人）以减少热负载；方案B是她自己秘密设计的，不需要牺牲任何人，但需要三等舱引擎室的工程师在最危险的位置手动操作，存在极高的操作员死亡风险。她看着林晓说：「我一直在等一个愿意听我说完的人。」",
+      "key_events": [
+        "叶婷展示完整引擎数据",
+        "林晓得知方案A：切断三等舱后段八千人",
+        "林晓得知方案B：高风险手动修复，操作员可能死亡",
+        "叶婷表明自己受赵明远控制"
+      ],
+      "emotional_tone": "震惊与愤怒，绝望中的希望，沉重的选择预感",
+      "pov_character": "",
+      "choices": [
+        {
+          "option_id": "opt_03c_1",
+          "text": "完全信任叶婷，承诺执行方案B，要求她提供完整技术资料",
+          "target_node_id": "node_04a",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "trust_ye",
+              "delta": 2
+            }
+          ],
+          "hint": "高信任路线，直接进入技术准备阶段。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        },
+        {
+          "option_id": "opt_03c_2",
+          "text": "半信半疑：要求叶婷先提供方案B的部分数据，自己验证后再决定",
+          "target_node_id": "node_04c",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "trust_ye",
+              "delta": 1
+            }
+          ],
+          "hint": "谨慎路线，进入双线并行节点，同时保留革命选项。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        }
+      ],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": [
+        "node_04a",
+        "node_04c"
+      ],
+      "prev_nodes": [
+        "node_02b"
+      ],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "方案A：牺牲三等舱后段八千人",
+        "方案B：高风险手动修复",
+        "叶婷受赵明远控制"
+      ],
+      "witnesses": [
+        "char_lin",
+        "char_ye"
+      ]
+    },
+    "node_04a": {
+      "node_id": "node_04a",
+      "node_type": "narrative",
+      "title": "穿越边界",
+      "act": 2,
+      "branch_id": "branch_technical",
+      "scene_description": "林晓与叶婷的合作正式开始。叶婷提供了通行许可（伪造的维修证件），林晓需要独自穿越二等舱进入头等舱的核心引擎控制区，取得一个关键的热交换模块。路途中，林晓会遭遇三道检查关卡。陈浩提前在二等舱医务室留了一个备用路线标记。然而，赵明远的特工已经开始跟踪林晓。在第二道关卡，一个守卫拦住了林晓，仔细审查她的证件。证件是真实的，但林晓的三等舱口音和粗糙的双手出卖了她的身份。",
+      "key_events": [
+        "林晓获得伪造通行证件",
+        "林晓开始穿越车厢的旅程",
+        "赵明远的特工开始跟踪",
+        "第二道关卡守卫对林晓产生怀疑"
+      ],
+      "emotional_tone": "步步为营的紧张，阶级边界的压迫感，身份暴露的恐惧",
+      "pov_character": "",
+      "choices": [
+        {
+          "option_id": "opt_04a_1",
+          "text": "用技术知识说服守卫：详细描述维修任务，展示引擎数据",
+          "target_node_id": "node_05",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "trust_ye",
+              "delta": 1
+            }
+          ],
+          "hint": "技术说服，成功概率较高，但引擎数据暴露。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        },
+        {
+          "option_id": "opt_04a_2",
+          "text": "走陈浩标记的备用路线，绕过守卫",
+          "target_node_id": "node_05",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "trust_ye",
+              "delta": 0
+            }
+          ],
+          "hint": "需要与陈浩有足够的信任积累才能使用此路线。",
+          "gate_condition": {
+            "trust_ye": ">=2"
+          },
+          "gate_branch": null,
+          "locked_hint": "你对陈浩的路线标记了解不足，无法确认备用路线的位置。"
+        },
+        {
+          "option_id": "opt_04a_3",
+          "text": "强行通过——趁守卫分心时冲过关卡",
+          "target_node_id": "node_dead_01",
+          "is_dead_end": true,
+          "branch_type": "value_based",
+          "value_effects": [],
+          "hint": "鲁莽选择，直接触发死结局。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        }
+      ],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": [
+        "node_05",
+        "node_dead_01"
+      ],
+      "prev_nodes": [
+        "node_03a",
+        "node_03b",
+        "node_03c"
+      ],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "赵明远已开始跟踪林晓",
+        "陈浩在二等舱留有备用路线标记"
+      ],
+      "witnesses": [
+        "char_lin",
+        "char_ye",
+        "char_chen"
+      ]
+    },
+    "node_04b": {
+      "node_id": "node_04b",
+      "node_type": "narrative",
+      "title": "革命的代价",
+      "act": 2,
+      "branch_id": "branch_revolution",
+      "scene_description": "三等舱，革命运动正式爆发。老王率领人群冲击第一道车厢边界。林晓被推到了前线——她是唯一懂得如何破解边界门锁的人。守卫开始使用非致命武器镇压。在混乱中，林晓看到了两件事：第一，赵明远通过广播宣布「引擎运行正常，谣言制造者将被处置」；第二，一个三等舱的孩子在混乱中受伤倒地。林晓必须在这一刻做出选择。",
+      "key_events": [
+        "革命运动正式爆发",
+        "林晓被要求破解边界门锁",
+        "赵明远公开否认引擎问题",
+        "平民在冲突中受伤"
+      ],
+      "emotional_tone": "混乱的愤怒，道德的撕裂，暴力的真实代价",
+      "pov_character": "",
+      "choices": [
+        {
+          "option_id": "opt_04b_1",
+          "text": "破解门锁，帮助革命者冲入二等舱",
+          "target_node_id": "node_04c",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "revolution",
+              "delta": 2
+            }
+          ],
+          "hint": "革命路线继续，林晓获得革命军的信任，进入双线并行节点。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        },
+        {
+          "option_id": "opt_04b_2",
+          "text": "拒绝破解门锁，去救那个受伤的孩子",
+          "target_node_id": "node_dead_02",
+          "is_dead_end": true,
+          "branch_type": "value_based",
+          "value_effects": [],
+          "hint": "如果革命值足够高，老王会保护林晓；否则，林晓在混乱中被守卫逮捕。",
+          "gate_condition": null,
+          "gate_branch": {
+            "condition": {
+              "revolution": ">=3"
+            },
+            "true_target": "node_04c",
+            "false_target": "node_dead_02"
+          },
+          "locked_hint": ""
+        }
+      ],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": [
+        "node_04c",
+        "node_dead_02"
+      ],
+      "prev_nodes": [
+        "node_03a"
+      ],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "赵明远公开否认引擎问题",
+        "革命运动已公开化"
+      ],
+      "witnesses": [
+        "char_lin",
+        "char_wang",
+        "char_zhao"
+      ]
+    },
+    "node_04c": {
+      "node_id": "node_04c",
+      "node_type": "branch_point",
+      "title": "双线交汇",
+      "act": 2,
+      "branch_id": "branch_middle",
+      "scene_description": "无论林晓经由何种路径到达这里，她现在同时持有两张牌：叶婷的方案B技术数据（部分或全部），以及老王的革命力量（部分或全部支持）。赵明远的特工正在收紧包围圈。陈浩秘密带来消息：赵明远已经签署了方案A的执行令，计划在72小时内切断三等舱后段车厢。时间窗口骤然收缩。林晓必须在这一刻决定：是利用叶婷的技术数据单独行动修复引擎，还是将方案A的消息公开，引爆更大规模的革命。",
+      "key_events": [
+        "赵明远签署方案A执行令",
+        "72小时倒计时开始",
+        "林晓掌握技术方案与革命力量两张牌",
+        "陈浩传递紧急情报"
+      ],
+      "emotional_tone": "极度紧迫，抉择的重量，没有完美答案",
+      "pov_character": "",
+      "choices": [
+        {
+          "option_id": "opt_04c_1",
+          "text": "立即执行方案B：带着叶婷的数据独自前往引擎核心",
+          "target_node_id": "node_05",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "trust_ye",
+              "delta": 1
+            }
+          ],
+          "hint": "需要足够的信任积累才能独立执行方案B。",
+          "gate_condition": {
+            "trust_ye": ">=2"
+          },
+          "gate_branch": null,
+          "locked_hint": "你对叶婷的方案了解不足，贸然行动只会失败。"
+        },
+        {
+          "option_id": "opt_04c_2",
+          "text": "公开方案A的内容：让所有人知道赵明远要牺牲八千人",
+          "target_node_id": "node_05_rev",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "revolution",
+              "delta": 2
+            }
+          ],
+          "hint": "信息公开引爆全列车危机，进入革命高潮节点。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        },
+        {
+          "option_id": "opt_04c_3",
+          "text": "找赵明远摊牌：用方案A的内容和引擎数据作为筹码，逼他接受方案B",
+          "target_node_id": "node_05_negotiate",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "trust_ye",
+              "delta": 0
+            },
+            {
+              "attribute": "revolution",
+              "delta": 0
+            }
+          ],
+          "hint": "外交谈判路线，风险极高。",
+          "gate_condition": {
+            "trust_ye": ">=1"
+          },
+          "gate_branch": null,
+          "locked_hint": "你没有足够的证据支撑谈判，赵明远不会认真对待你。"
+        }
+      ],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": [
+        "node_05",
+        "node_05_rev",
+        "node_05_negotiate"
+      ],
+      "prev_nodes": [
+        "node_03b",
+        "node_03c",
+        "node_04b"
+      ],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "赵明远签署方案A执行令",
+        "72小时倒计时"
+      ],
+      "witnesses": [
+        "char_lin",
+        "char_chen"
+      ]
+    },
+    "node_05": {
+      "node_id": "node_05",
+      "node_type": "narrative",
+      "title": "引擎核心",
+      "act": 3,
+      "branch_id": "branch_technical",
+      "scene_description": "永恒号最深处的引擎核心区，温度高达60摄氏度，噪音震耳欲聋。林晓根据叶婷的方案B数据，找到了需要手动操作的热交换旁路阀。操作流程需要三个步骤，每一步都要求操作员承受极高温度和辐射暴露。叶婷通过一个秘密无线电频道远程指导。就在第二步完成时，赵明远的特工破门而入。林晓只有几秒钟的时间：完成第三步需要双手，无法同时应对特工。",
+      "key_events": [
+        "林晓进入引擎核心区",
+        "方案B修复操作开始",
+        "赵明远特工闯入",
+        "最关键的操作时刻被打断"
+      ],
+      "emotional_tone": "极限紧张，身体的极限，命运的一刻",
+      "pov_character": "",
+      "choices": [
+        {
+          "option_id": "opt_05_1",
+          "text": "继续完成第三步操作，忽视特工——用身体挡住控制台",
+          "target_node_id": "node_06",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "trust_ye",
+              "delta": 1
+            }
+          ],
+          "hint": "林晓完成修复，但会受伤。进入高潮节点。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        },
+        {
+          "option_id": "opt_05_2",
+          "text": "先制服特工，再完成操作",
+          "target_node_id": "node_dead_03",
+          "is_dead_end": true,
+          "branch_type": "value_based",
+          "value_effects": [],
+          "hint": "如果革命值足够高，老王的人会及时出现帮助制服特工；否则林晓在搏斗中失去操作窗口，引擎过热。",
+          "gate_condition": null,
+          "gate_branch": {
+            "condition": {
+              "revolution": ">=4"
+            },
+            "true_target": "node_06",
+            "false_target": "node_dead_03"
+          },
+          "locked_hint": ""
+        }
+      ],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": [
+        "node_06",
+        "node_dead_03"
+      ],
+      "prev_nodes": [
+        "node_04a",
+        "node_04c"
+      ],
+      "merge_to": "",
+      "auto_route": {
+        "description": "根据来路，叶婷的远程指导质量不同",
+        "from_node_04a_opt_04a_1": "叶婷指导详尽，操作更顺利",
+        "from_node_04c": "叶婷指导有所保留，操作难度更高"
+      },
+      "facts_introduced": [
+        "方案B修复操作的三个步骤",
+        "赵明远特工已锁定引擎核心区"
+      ],
+      "witnesses": [
+        "char_lin",
+        "char_ye",
+        "char_zhao"
+      ]
+    },
+    "node_05_rev": {
+      "node_id": "node_05_rev",
+      "node_type": "narrative",
+      "title": "全车厢震动",
+      "act": 3,
+      "branch_id": "branch_revolution",
+      "scene_description": "方案A的内容通过老王的网络在全列车广播。所有车厢同时陷入混乱：三等舱的愤怒，二等舱的恐慌，头等舱的紧急戒严。赵明远在广播中宣布进入紧急状态，同时秘密命令立即执行方案A——提前切断车厢，不等72小时。林晓意识到她的公开行动反而加速了灾难。老王的革命军已经控制了二等舱的一半，但引擎核心区仍在赵明远手中。叶婷通过秘密频道联系林晓：「你还有机会。但你必须现在进入引擎核心区，不是明天，是现在。」",
+      "key_events": [
+        "方案A内容全车厢公开",
+        "赵明远宣布紧急状态",
+        "赵明远命令提前执行方案A",
+        "老王控制二等舱一半区域",
+        "叶婷紧急呼叫林晓"
+      ],
+      "emotional_tone": "混乱的高潮，失控的后果，最后的窗口",
+      "pov_character": "",
+      "choices": [
+        {
+          "option_id": "opt_05r_1",
+          "text": "响应叶婷的呼叫，立即冲向引擎核心区",
+          "target_node_id": "node_06",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "trust_ye",
+              "delta": 1
+            }
+          ],
+          "hint": "需要最低信任值才能找到叶婷指引的路径。",
+          "gate_condition": {
+            "trust_ye": ">=1"
+          },
+          "gate_branch": null,
+          "locked_hint": "你从未与叶婷建立信任，不知道如何找到她说的那个入口。"
+        },
+        {
+          "option_id": "opt_05r_2",
+          "text": "留下来帮助老王的革命军——先控制整列车，再谈引擎",
+          "target_node_id": "node_dead_04",
+          "is_dead_end": true,
+          "branch_type": "value_based",
+          "value_effects": [],
+          "hint": "革命成功但引擎停机，所有人在72小时内冻死。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        }
+      ],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": [
+        "node_06",
+        "node_dead_04"
+      ],
+      "prev_nodes": [
+        "node_04c"
+      ],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "赵明远提前执行方案A",
+        "老王控制二等舱部分区域"
+      ],
+      "witnesses": [
+        "char_lin",
+        "char_wang",
+        "char_ye",
+        "char_zhao"
+      ]
+    },
+    "node_05_negotiate": {
+      "node_id": "node_05_negotiate",
+      "node_type": "narrative",
+      "title": "列车长的办公室",
+      "act": 3,
+      "branch_id": "branch_diplomacy",
+      "scene_description": "赵明远的办公室，永恒号最前端的头等舱。林晓被两名特工押送进来，但她手中握着方案A的文件和引擎数据。赵明远坐在桌后，表情平静得令人不安。林晓把所有证据摆上桌：引擎裂缝数据、方案A的内容、叶婷的方案B。她提出条件：执行方案B，不牺牲任何人，她来操作。赵明远沉默了很长时间，然后说：「你知道为什么方案B从未被批准吗？因为操作员的存活率是12%。」他把一份文件推到林晓面前：「签这个，你是自愿的。」",
+      "key_events": [
+        "林晓与赵明远直接对峙",
+        "赵明远透露方案B操作员存活率仅12%",
+        "赵明远要求林晓签署自愿书",
+        "林晓面临生死选择"
+      ],
+      "emotional_tone": "冷酷的权力对话，生死抉择的清醒，尊严与恐惧",
+      "pov_character": "",
+      "choices": [
+        {
+          "option_id": "opt_05n_1",
+          "text": "签署自愿书，执行方案B——用自己的命换八千人的命",
+          "target_node_id": "node_06",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "trust_ye",
+              "delta": 2
+            }
+          ],
+          "hint": "林晓做出最终牺牲选择，进入高潮节点。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        },
+        {
+          "option_id": "opt_05n_2",
+          "text": "拒绝签署，要求赵明远公开承认方案A并接受全车厢的审判",
+          "target_node_id": "node_dead_05",
+          "is_dead_end": true,
+          "branch_type": "value_based",
+          "value_effects": [],
+          "hint": "如果革命值足够高，老王的人及时赶到，林晓得以脱险；否则赵明远直接执行方案A，林晓被关押。",
+          "gate_condition": null,
+          "gate_branch": {
+            "condition": {
+              "revolution": ">=3"
+            },
+            "true_target": "node_06",
+            "false_target": "node_dead_05"
+          },
+          "locked_hint": ""
+        }
+      ],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": [
+        "node_06",
+        "node_dead_05"
+      ],
+      "prev_nodes": [
+        "node_04c"
+      ],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "方案B操作员存活率12%",
+        "赵明远知道方案B的真实风险"
+      ],
+      "witnesses": [
+        "char_lin",
+        "char_zhao",
+        "char_ye"
+      ]
+    },
+    "node_06": {
+      "node_id": "node_06",
+      "node_type": "merge_point",
+      "title": "最后的操作",
+      "act": 3,
+      "branch_id": "main",
+      "scene_description": "无论经由何种路径，林晓最终站在了引擎核心的控制台前。裂缝已经扩大，温度报警灯闪烁。叶婷在无线电另一端，声音因为紧张而颤抖。林晓的双手因为之前的高温暴露而开始颤抖。整个操作需要精确到毫米级的手动调节。这是整个故事的最高潮。林晓知道自己可能活不过这一刻。她做了一个深呼吸，开始操作。操作过程中，叶婷说出了一句话：「我有一个选择没有告诉你。如果你在第二步和第三步之间激活紧急分流阀，引擎会被保住，但那个区段的所有人——包括你——会承受全部的热冲击。」",
+      "key_events": [
+        "林晓开始最终修复操作",
+        "叶婷透露紧急分流阀选项",
+        "操作员面临最终的生死选择",
+        "引擎危机进入最后时刻"
+      ],
+      "emotional_tone": "肃穆的平静，生死一线，人性的最终考验",
+      "pov_character": "",
+      "choices": [
+        {
+          "option_id": "opt_06_1",
+          "text": "按照原方案完成操作，不激活分流阀——接受12%的存活率",
+          "target_node_id": "node_07_ending",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "trust_ye",
+              "delta": 1
+            }
+          ],
+          "hint": "标准方案B，结局由数值决定。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        },
+        {
+          "option_id": "opt_06_2",
+          "text": "激活紧急分流阀——确保引擎修复，但自己和附近区段的人必死",
+          "target_node_id": "node_dead_06",
+          "is_dead_end": true,
+          "branch_type": "value_based",
+          "value_effects": [],
+          "hint": "自我牺牲的死结局，但引擎被拯救——这是一个悲剧性的成功死结局。",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        },
+        {
+          "option_id": "opt_06_3",
+          "text": "停止操作，通过无线电向全车厢广播：让所有人知道这个选择，让全车厢决定",
+          "target_node_id": "node_07_ending",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {
+              "attribute": "revolution",
+              "delta": 2
+            }
+          ],
+          "hint": "民主决策路线，需要革命网络支持。",
+          "gate_condition": {
+            "revolution": ">=3"
+          },
+          "gate_branch": null,
+          "locked_hint": "没有足够的革命网络支持，广播系统不在你的控制范围内。"
+        }
+      ],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": [
+        "node_07_ending",
+        "node_dead_06"
+      ],
+      "prev_nodes": [
+        "node_05",
+        "node_05_rev",
+        "node_05_negotiate"
+      ],
+      "merge_to": "",
+      "auto_route": {
+        "description": "根据来路，叶婷透露分流阀信息的方式不同",
+        "from_node_05": "叶婷主动告知，因为信任已建立",
+        "from_node_05_rev": "叶婷犹豫后告知，语气更紧张",
+        "from_node_05_negotiate": "叶婷在赵明远不知情的情况下秘密告知"
+      },
+      "facts_introduced": [
+        "紧急分流阀选项存在",
+        "激活分流阀可确保引擎修复但操作员必死"
+      ],
+      "witnesses": [
+        "char_lin",
+        "char_ye"
+      ]
+    },
+    "node_07_ending": {
+      "node_id": "node_07_ending",
+      "node_type": "branch_point",
+      "title": "结局分流",
+      "act": 4,
+      "branch_id": "main",
+      "scene_description": "引擎修复操作完成（或广播结束）。林晓的状态取决于她走过的路径。现在，永恒号的未来悬而未决：引擎危机解除，但政治危机才刚刚开始。赵明远的权威是否动摇，三等舱的地位是否改变，叶婷是否获得自由——这些都取决于林晓在整个旅程中积累的选择。系统根据数值自动路由到不同结局。",
+      "key_events": [
+        "引擎修复完成",
+        "列车政治格局面临重组",
+        "各方力量等待最终结果"
+      ],
+      "emotional_tone": "悬而未决的静默，历史转折的重量",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": [
+        "node_end_true",
+        "node_end_revolution",
+        "node_end_neutral",
+        "node_end_cold"
+      ],
+      "prev_nodes": [
+        "node_06"
+      ],
+      "merge_to": "",
+      "auto_route": {
+        "description": "根据数值组合自动路由到不同结局",
+        "high_trust_high_rev": "node_end_true",
+        "high_rev_low_trust": "node_end_revolution",
+        "high_trust_low_rev": "node_end_neutral",
+        "low_both": "node_end_cold"
+      },
+      "facts_introduced": [
+        "引擎危机解除"
+      ],
+      "witnesses": [
+        "char_lin",
+        "char_ye",
+        "char_zhao",
+        "char_wang",
+        "char_chen"
+      ]
+    },
+    "node_end_true": {
+      "node_id": "node_end_true",
+      "node_type": "ending",
+      "title": "新秩序",
+      "act": 4,
+      "branch_id": "ending_true",
+      "scene_description": "Writer应描述：林晓的行动同时获得了叶婷的技术支持和革命力量的政治压力。赵明远被迫公开承认方案A，在全车厢舆论压力下辞职。叶婷的家人获得自由，她公开了所有引擎数据。老王的革命运动转化为一场政治改革，三个车厢的代表共同建立了新的治理委员会。林晓拒绝了任何职位，回到了引擎室。她在冷却管道上留下了一道新的焊接痕迹——比原来更牢固。永恒号继续运行，但它不再只属于头等舱。",
+      "key_events": [],
+      "emotional_tone": "沉甸甸的希望，不完美的新开始",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "true_ending",
+      "ending_condition": "trust_ye>=4 且 revolution>=4",
+      "next_nodes": [],
+      "prev_nodes": [
+        "node_07_ending"
+      ],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [],
+      "witnesses": []
+    },
+    "node_end_revolution": {
+      "node_id": "node_end_revolution",
+      "node_type": "ending",
+      "title": "革命之后",
+      "act": 4,
+      "branch_id": "ending_revolution",
+      "scene_description": "Writer应描述：革命成功，老王的运动控制了整列车。赵明远被推翻。但叶婷因为与林晓的合作被认为是「头等舱的人」而受到排斥，她的备用方案功劳被淡化。引擎虽然修复，但新政权内部的权力争夺已经开始。林晓站在三等舱的广场上，看着曾经的阶级边界被拆除，感到一种复杂的空洞——她得到了公平，但不确定这是她想要的那种公平。永恒号继续运行，方向不变，但驾驶它的人变了。",
+      "key_events": [],
+      "emotional_tone": "苦涩的胜利，革命的代价，未完成的故事",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "bittersweet_ending",
+      "ending_condition": "revolution>=5 且 trust_ye<3",
+      "next_nodes": [],
+      "prev_nodes": [
+        "node_07_ending"
+      ],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [],
+      "witnesses": []
+    },
+    "node_end_neutral": {
+      "node_id": "node_end_neutral",
+      "node_type": "ending",
+      "title": "技术官僚的和平",
+      "act": 4,
+      "branch_id": "ending_neutral",
+      "scene_description": "Writer应描述：叶婷的方案B成功，林晓幸存。赵明远在技术证据面前做出让步，同意进行有限的改革——三等舱获得更多食物配额和医疗资源，但阶层结构保持不变。叶婷获得了更大的科研自主权。林晓被提升为二等舱技术顾问。这是一个安全但不彻底的结局：危机解除，但根本问题没有解决。陈浩把他的死亡率数据锁进了抽屉，对林晓说：「下一次危机来临之前，我们有时间。」",
+      "key_events": [],
+      "emotional_tone": "平静的妥协，改良而非革命，未竟的正义",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "neutral",
+      "ending_condition": "trust_ye>=4 且 revolution<3",
+      "next_nodes": [],
+      "prev_nodes": [
+        "node_07_ending"
+      ],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [],
+      "witnesses": []
+    },
+    "node_end_cold": {
+      "node_id": "node_end_cold",
+      "node_type": "ending",
+      "title": "独行者",
+      "act": 4,
+      "branch_id": "ending_cold",
+      "scene_description": "Writer应描述：林晓独自完成了修复，没有充分的盟友支持，也没有足够的政治筹码。引擎被拯救，但没有人知道是她做的——或者知道的人选择了沉默。赵明远的方案A被悄悄搁置，但没有被公开谴责。三等舱的生活照旧。林晓回到她的工位，继续做例行检修。没有人感谢她。她在工作日志里写下了一行字：「第七号冷却管道，已修复。」然后合上本子。永恒号在黑暗中继续奔驰。",
+      "key_events": [],
+      "emotional_tone": "冰冷的孤独，被遗忘的英雄，没有改变的世界",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "cold_ending",
+      "ending_condition": "trust_ye<3 且 revolution<3",
+      "next_nodes": [],
+      "prev_nodes": [
+        "node_07_ending"
+      ],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [],
+      "witnesses": []
+    },
+    "node_dead_01": {
+      "node_id": "node_dead_01",
+      "node_type": "dead_end",
+      "title": "关卡枪声",
+      "act": 2,
+      "branch_id": "branch_technical",
+      "scene_description": "Writer应描述：林晓试图强行冲过检查关卡，守卫立即做出反应。非致命武器击倒了林晓，她被拖回三等舱关押。在没有外部援助的情况下，引擎裂缝在第23天扩大到无法修复的程度。永恒号在凌晨三点停止运行。",
+      "key_events": [],
+      "emotional_tone": "突然的暴力，悔恨的空白",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "鲁莽冲关，被守卫制服，错失修复窗口",
+      "death_description_hint": "强调林晓的冲动与准备不足，以及一个鲁莽决定如何葬送了所有人的希望。",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": [],
+      "prev_nodes": [
+        "node_04a"
+      ],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [],
+      "witnesses": []
+    },
+    "node_dead_02": {
+      "node_id": "node_dead_02",
+      "node_type": "dead_end",
+      "title": "混乱中的囚笼",
+      "act": 2,
+      "branch_id": "branch_revolution",
+      "scene_description": "Writer应描述：林晓拒绝破解门锁去救孩子，在混乱中被守卫单独锁定并逮捕。没有革命力量足够强大来保护她。她被关押在隔离舱，无法完成任何修复工作。引擎在第28天停机。",
+      "key_events": [],
+      "emotional_tone": "无力的愤怒，善意的代价",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "革命力量不足时选择对抗，被孤立逮捕",
+      "death_description_hint": "强调没有足够准备就对抗权力的代价，以及善意行为在错误时机的悲剧。",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": [],
+      "prev_nodes": [
+        "node_04b"
+      ],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [],
+      "witnesses": []
+    },
+    "node_dead_03": {
+      "node_id": "node_dead_03",
+      "node_type": "dead_end",
+      "title": "操作窗口关闭",
+      "act": 3,
+      "branch_id": "branch_technical",
+      "scene_description": "Writer应描述：林晓试图先制服特工再完成操作，但搏斗耗尽了关键的操作时间窗口。引擎温度在搏斗过程中超过临界点，自动保护系统触发锁定，之后任何人都无法再进入核心区操作。引擎在48小时后完全停机。",
+      "key_events": [],
+      "emotional_tone": "绝望的挣扎，时间的残酷",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "缺乏支援时选择武力对抗，错失操作时间窗口",
+      "death_description_hint": "强调时间窗口的不可逆性，以及在关键时刻分心的致命代价。",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": [],
+      "prev_nodes": [
+        "node_05"
+      ],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [],
+      "witnesses": []
+    },
+    "node_dead_04": {
+      "node_id": "node_dead_04",
+      "node_type": "dead_end",
+      "title": "革命胜利，列车停止",
+      "act": 3,
+      "branch_id": "branch_revolution",
+      "scene_description": "Writer应描述：林晓选择留下来帮助革命，革命军成功控制了整列车。赵明远被推翻。但引擎在革命进行的过程中达到了临界温度，没有人在正确的时间去完成修复操作。革命胜利的欢呼声在引擎停机的震动中戛然而止。零下80度的寒冷在72小时内渗透了整列车。人类最后的文明在胜利的瞬间终结。",
+      "key_events": [],
+      "emotional_tone": "讽刺的悲剧，胜利即毁灭",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "将革命置于引擎修复之上，错失最后修复窗口",
+      "death_description_hint": "强调政治胜利与生存现实的冲突，以及忽视技术紧迫性的代价。",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": [],
+      "prev_nodes": [
+        "node_05_rev"
+      ],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [],
+      "witnesses": []
+    },
+    "node_dead_05": {
+      "node_id": "node_dead_05",
+      "node_type": "dead_end",
+      "title": "谈判桌上的失败",
+      "act": 3,
+      "branch_id": "branch_diplomacy",
+      "scene_description": "Writer应描述：林晓拒绝签署自愿书，要求赵明远公开承认方案A。没有足够的外部压力支撑这个要求，赵明远冷静地下令执行方案A。三等舱后段六节车厢在林晓被关押的情况下被切断，八千人在黑暗中消失。引擎被保住了，但用的是最残酷的方式。林晓在隔离舱里听到了切断时的震动声。",
+      "key_events": [],
+      "emotional_tone": "无力的正义，最残酷的失败",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "谈判筹码不足时硬碰硬，导致方案A被执行",
+      "death_description_hint": "强调谈判需要实力支撑，以及道德勇气在没有力量配合时的悲剧。",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": [],
+      "prev_nodes": [
+        "node_05_negotiate"
+      ],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [],
+      "witnesses": []
+    },
+    "node_dead_06": {
+      "node_id": "node_dead_06",
+      "node_type": "dead_end",
+      "title": "热冲击",
+      "act": 3,
+      "branch_id": "main",
+      "scene_description": "Writer应描述：林晓激活了紧急分流阀。引擎的全部热冲击在瞬间涌入了她所在的区段。她感到一阵巨大的热浪，然后是什么都没有了。永恒号的引擎在这一刻完全稳定，温度开始下降。几小时后，叶婷带着维修队进入核心区，发现了林晓。她在林晓的工作手套里找到了一张纸条，上面只有一行字：「第七号冷却管道，已修复。」这是一个死结局，但也是唯一一个确保引擎100%修复的选择。",
+      "key_events": [],
+      "emotional_tone": "庄严的牺牲，确定的救赎，无声的英雄主义",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "自我牺牲激活分流阀，承受全部热冲击",
+      "death_description_hint": "这是一个悲剧性的英雄死亡。Writer应以庄重而非悲惨的笔调描写，强调林晓的选择是有意识的、清醒的。",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": [],
+      "prev_nodes": [
+        "node_06"
+      ],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [],
+      "witnesses": []
+    }
+  },
+  "branches": {
+    "branch_revolution": {
+      "branch_id": "branch_revolution",
+      "branch_type": "strong",
+      "fork_node_id": "node_01",
+      "merge_node_id": "node_06",
+      "node_ids": [
+        "node_02a",
+        "node_03a",
+        "node_04b",
+        "node_05_rev"
+      ],
+      "description": "革命路线：林晓选择与老王合作，将引擎危机转化为政治革命的导火索。高革命值积累，低信任值。风险是引擎修复被政治行动拖延。"
+    },
+    "branch_diplomacy": {
+      "branch_id": "branch_diplomacy",
+      "branch_type": "strong",
+      "fork_node_id": "node_01",
+      "merge_node_id": "node_06",
+      "node_ids": [
+        "node_02b",
+        "node_03c",
+        "node_05_negotiate"
+      ],
+      "description": "外交路线：林晓选择通过陈浩联系叶婷，走技术合作与谈判路线。高信任值积累，低革命值。风险是赵明远的控制与叶婷的受制。"
+    },
+    "branch_technical": {
+      "branch_id": "branch_technical",
+      "branch_type": "value_based",
+      "fork_node_id": "node_04a",
+      "merge_node_id": "node_06",
+      "node_ids": [
+        "node_04a",
+        "node_05"
+      ],
+      "description": "技术路线：林晓专注于穿越车厢、执行方案B。可从多个分支汇入，是最直接的修复路径。"
+    },
+    "branch_middle": {
+      "branch_id": "branch_middle",
+      "branch_type": "value_based",
+      "fork_node_id": "node_03b",
+      "merge_node_id": "node_04c",
+      "node_ids": [
+        "node_03b",
+        "node_04c"
+      ],
+      "description": "中间路线：林晓试图同时保留技术合作与革命选项，进入双线并行节点。风险最高，但可能性最多。"
+    }
+  },
+  "entry_node_id": "node_01",
+  "value_system": {
+    "attributes": {
+      "trust_ye": 0,
+      "revolution": 0
+    },
+    "thresholds": {
+      "trust_ye": {
+        ">=4": "叶婷完全信任林晓，提供完整技术支持",
+        ">=2": "叶婷提供基本合作，可使用备用路线",
+        ">=1": "叶婷提供最低限度信息",
+        "<1": "叶婷无法提供有效帮助"
+      },
+      "revolution": {
+        ">=5": "老王的革命力量足以控制整列车",
+        ">=4": "老王的人可以在关键时刻提供武力支援",
+        ">=3": "革命网络可提供有限保护和情报",
+        "<3": "革命力量不足以保护林晓"
+      },
+      "ending": {
+        "trust_ye>=4 && revolution>=4": "node_end_true（新秩序·真结局）",
+        "revolution>=5 && trust_ye<3": "node_end_revolution（革命之后·苦涩结局）",
+        "trust_ye>=4 && revolution<3": "node_end_neutral（技术官僚的和平·中性结局）",
+        "trust_ye<3 && revolution<3": "node_end_cold（独行者·冷结局）"
+      }
+    },
+    "description": "trust_ye代表林晓与叶婷建立的技术信任关系，影响能否获得完整的方案B数据和技术支持。revolution代表林晓与老王革命运动的关联程度，影响能否在关键时刻获得革命力量的保护和支援。两个数值共同决定最终结局，并在多个节点作为门控条件影响可用选项。",
+    "routing_rules": []
+  },
+  "sp_obfuscation": {
+    "writing_style": "standard_rp",
+    "response_length": "long",
+    "action_depth": "rich",
+    "thought_depth": "moderate",
+    "environment_depth": "immersive",
+    "sensory_depth": "rich",
+    "paragraph_count": "several",
+    "action_marker": "asterisk",
+    "dialogue_marker": "quotes",
+    "register": "neutral"
+  }
+}

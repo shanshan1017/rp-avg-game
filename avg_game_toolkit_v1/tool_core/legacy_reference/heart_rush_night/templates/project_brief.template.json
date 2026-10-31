@@ -1,0 +1,171 @@
+{
+  "game_id": "heart_rush_night_v1",
+  "title": "心动失控夜",
+  "runtime_target": "html_video_engine",
+  "session_length_sec": {
+    "min": 60,
+    "max": 90
+  },
+  "node_duration_sec": {
+    "min": 8,
+    "max": 15
+  },
+  "style_profile": {
+    "id": "anime_cinematic_2_5d_urban_night",
+    "file": "interactive_video_game/data/style_bible/visual_style.md"
+  },
+  "protagonist": {
+    "pov": "first_person",
+    "gender_for_story_context": "male",
+    "visibility_rule": "The protagonist is the camera. Do not generate the protagonist's face, body, back view, mirror reflection, shadow, hands close-up, ID photo, or social avatar.",
+    "needs_visual_reference": false
+  },
+  "characters": [
+    {
+      "character_id": "lin_xiaoman",
+      "display_name": "林小满",
+      "archetype": "邻家妹妹",
+      "age": 20,
+      "appears_in_runtime": true,
+      "needs_reference_image": true,
+      "visual_anchor": "short chestnut hair, light apricot hoodie, white canvas shoulder bag, warm direct expression"
+    },
+    {
+      "character_id": "shen_yishuang",
+      "display_name": "沈以霜",
+      "archetype": "高冷上司姐姐",
+      "age": 28,
+      "appears_in_runtime": true,
+      "needs_reference_image": true,
+      "visual_anchor": "long black low ponytail, dark gray tailored blazer, silver earrings, calm authoritative gaze"
+    }
+  ],
+  "story_seed": {
+    "logline": "A first-person Friday-night romantic comedy thriller where several women pull the player into overlapping invitations, misunderstandings, and choices.",
+    "required_endings": {
+      "normal": 3,
+      "true": 1,
+      "failure": 2
+    },
+    "required_choice_points": {
+      "min": 3,
+      "max": 5
+    },
+    "source_text": "Paste the new script, premise, character setup, or story outline here."
+  },
+  "runtime_asset_contract": {
+    "generate_only_if_referenced_by_runtime": true,
+    "asset_types": [
+      {
+        "type": "character_reference_image",
+        "is_displayed": true,
+        "runtime_field": "characters.<character_id>.portrait",
+        "path_pattern": "video_engine/public/assets/characters/<character_id>.png",
+        "count_source": "visible characters only"
+      },
+      {
+        "type": "node_poster",
+        "is_displayed": true,
+        "runtime_field": "nodes.<node_id>.video.poster",
+        "path_pattern": "video_engine/public/assets/posters/<node_id>.png",
+        "count_source": "all playable video, failure, and ending nodes"
+      },
+      {
+        "type": "node_video",
+        "is_displayed": true,
+        "runtime_field": "nodes.<node_id>.video.src",
+        "path_pattern": "video_engine/public/assets/videos/<node_id>.mp4",
+        "count_source": "all playable video, failure, and ending nodes"
+      },
+      {
+        "type": "tail_frame",
+        "is_displayed": false,
+        "runtime_field": null,
+        "path_pattern": "video_engine/public/assets/posters/<node_id>_last_frame.png",
+        "count_source": "save only when returned by video API; do not generate proactively"
+      },
+      {
+        "type": "ui_image",
+        "is_displayed": false,
+        "runtime_field": null,
+        "path_pattern": null,
+        "count_source": "skip until frontend adds explicit fields"
+      },
+      {
+        "type": "standalone_audio",
+        "is_displayed": false,
+        "runtime_field": null,
+        "path_pattern": null,
+        "count_source": "skip until frontend adds an audio system"
+      }
+    ]
+  },
+  "output_policy": {
+    "local_only_manifest": true,
+    "do_not_store_api_keys": true,
+    "do_not_store_signed_platform_urls_in_game_data": true,
+    "reroll_directory": "outputs/<game_id>/rerolls/<node_id>/<attempt_id>/"
+  },
+  "claude_code_scope": {
+    "default_first_pass": "Expand story graph and prompts, list assets that will actually appear in runtime, do not submit generation jobs until approved.",
+    "forbidden_without_explicit_approval": [
+      "changing story structure after approval",
+      "adding unreferenced UI assets",
+      "adding unreferenced audio assets",
+      "bulk rerunning all videos",
+      "writing API keys into repository files",
+      "using real people, celebrities, or existing IP as references"
+    ]
+  },
+  "multi_agent_production": {
+    "planning_agent": "Codex",
+    "executive_agent": "Claude Code",
+    "checker_agent": "Claude Code",
+    "approval_required_before_paid_generation": true,
+    "checker_required_before_next_gate": true,
+    "allowed_write_scope_by_gate": [
+      {
+        "gate_id": "planning",
+        "owner_role": "planning",
+        "write_scope": [
+          "outputs/<game_id>/story_bible.json",
+          "outputs/<game_id>/script_table.json",
+          "outputs/<game_id>/asset_plan.json",
+          "outputs/<game_id>/handoff/"
+        ],
+        "forbidden_changes": [
+          "submit paid generation jobs",
+          "change runtime without approval"
+        ]
+      },
+      {
+        "gate_id": "execution",
+        "owner_role": "executive",
+        "write_scope": [
+          "outputs/<game_id>/prompt_pack/",
+          "outputs/<game_id>/provider_payloads/",
+          "outputs/<game_id>/generation_manifest.json",
+          "video_engine/public/assets/<game_id>/"
+        ],
+        "forbidden_changes": [
+          "redesign story graph",
+          "add unreferenced assets",
+          "write API keys or signed URLs"
+        ]
+      },
+      {
+        "gate_id": "checking",
+        "owner_role": "checker",
+        "write_scope": [
+          "outputs/<game_id>/qa_report.md",
+          "outputs/<game_id>/acceptance_report.json"
+        ],
+        "forbidden_changes": [
+          "modify production assets",
+          "submit generation jobs",
+          "approve missing runtime assets"
+        ]
+      }
+    ]
+  }
+}

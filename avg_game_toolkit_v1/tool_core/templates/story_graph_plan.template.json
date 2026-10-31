@@ -1,0 +1,219 @@
+{
+  "project_id": "example_project",
+  "plan_version": "story_graph_v1_draft",
+  "entry_node_id": "node_001",
+  "source_inputs": ["project_brief.md", "coherence_plan.json"],
+  "story_promise": {
+    "genre": "campus romance mystery fantasy",
+    "player_role": "First-person player character; visible body is limited to hands/props unless approved.",
+    "core_theme": "State the emotional and ethical question the whole graph tests.",
+    "target_route_duration_sec": {"min": 1200, "target": 1500, "max": 1800},
+    "first_choice_comprehension_gate": [
+      "Player knows who they are.",
+      "Player knows where they are.",
+      "Player knows who is asking for attention.",
+      "Player knows what each option means."
+    ],
+    "ending_policy": "At least one true route, at least two non-true endings, and fair failures with visible causes."
+  },
+  "story_intention_alignment": {
+    "source_story_intention": "coherence_plan.json#/story_intention",
+    "core_question": "Repeat the approved core question this graph must test.",
+    "ending_philosophy": "single_answer_true_ending",
+    "route_alignment": [
+      {
+        "route_id": "true_route",
+        "intention_function": "This route embodies the intended answer to the core question.",
+        "emotional_answer": "The player feels why this answer was earned."
+      }
+    ],
+    "choice_pressure_principles": [
+      "Every major choice should make the player weigh the approved core conflict, not merely pick a character."
+    ]
+  },
+  "graph_rules": {
+    "act_structure": [
+      {
+        "act_id": "act_1",
+        "purpose": "Orientation, character introduction, first pressure.",
+        "node_budget": {"min": 8, "target": 10, "max": 12},
+        "required_turns": ["establish player context", "introduce major characters", "first meaningful choice"]
+      },
+      {
+        "act_id": "act_2",
+        "purpose": "Evidence collection, relationship deepening, consequence echoes.",
+        "node_budget": {"min": 10, "target": 14, "max": 18},
+        "required_turns": ["value/state accumulation", "branch echoes", "route readiness test"]
+      },
+      {
+        "act_id": "act_3",
+        "purpose": "Route lock, climax, endings and fair failures.",
+        "node_budget": {"min": 8, "target": 12, "max": 16},
+        "required_turns": ["final gate", "payoff", "ending/failure consequences"]
+      }
+    ],
+    "node_budget": {"min": 28, "target": 36, "max": 46},
+    "choice_budget": {"min": 6, "target": 8, "max": 12},
+    "branch_types_allowed": ["pearl_string", "strong", "value_based"],
+    "anti_patterns": [
+      "pseudo_choice",
+      "funnel_convergence_without_echo",
+      "value_system_unused",
+      "ending_by_last_choice_only",
+      "dead_end_without_causality",
+      "orphan_node",
+      "knowledge_leak",
+      "unvisualized_required_fact"
+    ]
+  },
+  "value_system": {
+    "attributes": [
+      {
+        "attribute_id": "trust",
+        "initial": 0,
+        "range": {"min": -3, "target": 0, "max": 6},
+        "meaning": "How much the player has earned honest emotional trust.",
+        "must_be_used_by": ["choice_effect", "gate_condition", "ending_condition", "ui_feedback"]
+      }
+    ],
+    "ending_conditions": [
+      {
+        "ending_node_id": "node_end_true",
+        "ending_type": "true",
+        "condition": "trust >= 4 and truth >= 4 and agency >= 2"
+      }
+    ],
+    "routing_rules": [
+      {
+        "rule_id": "route_true_gate",
+        "location": "node_final_gate",
+        "condition": "trust >= 4 and truth >= 4",
+        "true_target": "node_true_route",
+        "false_target": "node_failure"
+      }
+    ]
+  },
+  "characters": [
+    {
+      "character_id": "player",
+      "name": "Player",
+      "role": "first-person protagonist",
+      "story_function": "Decision center and emotional witness.",
+      "speech_style": "Internal narration plus short spoken responses.",
+      "hidden_agenda": "",
+      "visual_identity_hook": "Not shown directly; hands/phone/held props only.",
+      "initial_knowledge": []
+    }
+  ],
+  "nodes": [
+    {
+      "node_id": "node_001",
+      "node_type": "narrative",
+      "title": "Opening Context",
+      "act_id": "act_1",
+      "branch_id": "main",
+      "location_id": "example_location",
+      "planner_intent": "Establish player identity and first pressure.",
+      "scene_description": "Describe the scene for writers and media planners, not final prose.",
+      "emotional_tone": "tense but readable",
+      "presentation_candidate": "text_image",
+      "key_events": ["The player receives the inciting pressure."],
+      "player_must_understand": ["Who the player is.", "Why the next beat matters."],
+      "facts_introduced": ["fact_inciting_pressure"],
+      "witnesses": ["player"],
+      "choices": [],
+      "next_node_ids": ["node_end_true"],
+      "prev_node_ids": [],
+      "merge_to": null,
+      "auto_route": null,
+      "ending_condition": null,
+      "failure_cause": null,
+      "echo_points_required": [
+        {
+          "source_choice_or_fact": "fact_inciting_pressure",
+          "target_node_id": "node_010",
+          "echo_type": "dialogue"
+        }
+      ],
+      "media_planning_hooks": {
+        "visual_facts_required": ["The player-facing evidence that must be visible."],
+        "text_fallbacks_required": ["Fallback text if the visual is ambiguous."],
+        "asset_slot_hints": ["bg_example_location", "ui_status_hint"],
+        "ui_surface_hints": ["narration_box", "right_top_hint"],
+        "video_candidate": {
+          "is_video_candidate": false,
+          "reason": "Low-motion setup is cheaper and clearer as text+image."
+        }
+      }
+    },
+    {
+      "node_id": "node_end_true",
+      "node_type": "ending",
+      "title": "True Ending Placeholder",
+      "act_id": "act_3",
+      "branch_id": "main",
+      "location_id": "example_location",
+      "planner_intent": "Placeholder terminal node for template validation.",
+      "scene_description": "Describe the payoff ending structure here.",
+      "emotional_tone": "resolved",
+      "presentation_candidate": "ending",
+      "key_events": ["The route resolves according to the declared value condition."],
+      "player_must_understand": ["Why this ending was earned."],
+      "facts_introduced": ["fact_true_resolution"],
+      "witnesses": ["player"],
+      "choices": [],
+      "next_node_ids": [],
+      "prev_node_ids": ["node_001"],
+      "merge_to": null,
+      "auto_route": null,
+      "ending_condition": "trust >= 4",
+      "failure_cause": null,
+      "echo_points_required": [],
+      "media_planning_hooks": {
+        "visual_facts_required": ["The emotional payoff image or video must show the route resolution."],
+        "text_fallbacks_required": ["Ending card explains why the route resolved."],
+        "asset_slot_hints": ["ending_true_key_art"],
+        "ui_surface_hints": ["ending_card"],
+        "video_candidate": {
+          "is_video_candidate": true,
+          "reason": "Ending payoff may justify motion or music."
+        }
+      }
+    }
+  ],
+  "branches": [
+    {
+      "branch_id": "main",
+      "branch_type": "pearl_string",
+      "fork_node_id": "node_001",
+      "node_ids": ["node_001", "node_end_true"],
+      "merge_node_id": null,
+      "description": "Main route spine."
+    }
+  ],
+  "route_matrix": [
+    {
+      "route_id": "true_route",
+      "route_type": "true",
+      "canonical_node_path": ["node_001", "node_end_true"],
+      "required_choices": [],
+      "required_state": "trust >= 4",
+      "terminal_node_id": "node_end_true",
+      "expected_playtime_sec": 1500
+    }
+  ],
+  "audit_requirements": [
+    "graph_integrity",
+    "choice_impact",
+    "pseudo_choice",
+    "funnel_convergence",
+    "value_system_usage",
+    "ending_condition_diversity",
+    "dead_end_causality",
+    "knowledge_boundaries",
+    "fact_echo_coverage",
+    "player_comprehension_before_choice",
+    "asset_story_traceability"
+  ],
+  "planner_notes": []
+}

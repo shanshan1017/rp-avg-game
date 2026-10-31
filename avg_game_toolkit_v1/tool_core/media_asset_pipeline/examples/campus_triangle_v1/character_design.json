@@ -1,0 +1,234 @@
+{
+  "project_id": "campus_triangle_v1",
+  "design_version": "v1",
+  "global_rules": {
+    "age_policy": "All romanceable characters are adult university students, ages 20 or older.",
+    "style_lock": "Original Japanese anime campus light-fantasy illustration, sunset rim light, clean silhouettes, no photorealism.",
+    "protagonist_visibility_rule": "The male protagonist is the first-person camera and must not appear as face, body, back view, reflection, avatar, ID photo, or identifiable shadow.",
+    "forbidden_references": [
+      "real human face",
+      "celebrity likeness",
+      "public figure likeness",
+      "existing anime or game IP",
+      "minor sexualization"
+    ]
+  },
+  "characters": [
+    {
+      "character_id": "lin_cheng",
+      "display_name": "林澄",
+      "age": 20,
+      "role": "青梅竹马，同专业同班，校园祭执行组记录员",
+      "runtime_usage": {
+        "appears_on_screen": true,
+        "needs_reference_image": true,
+        "runtime_fields": [
+          "characters.lin_cheng.portrait"
+        ]
+      },
+      "narrative_design": {
+        "core_desire": "被男主认真回应，而不是永远被放到下次。",
+        "external_goal": "今晚和男主一起看校园祭烟火，确认小时候的护符约定。",
+        "inner_conflict": "她最了解男主，也最容易替男主找借口。",
+        "arc": "从温柔提醒，到清楚要求男主说出选择。",
+        "failure_pressure": "男主继续逃避时，她会意识到沉默不是温柔。"
+      },
+      "relationship_design": {
+        "relationship_to_protagonist": "从小熟悉，有默契但长期卡在未说破的承诺里。",
+        "relationship_to_other_leads": "对唐绫音的直接有点羡慕，会最先理解星弥对承诺的解释。",
+        "choice_meaning": "选择把普通日常当成郑重承诺。"
+      },
+      "visual_design": {
+        "silhouette": "轻盈、干净、亲近感强，肩线柔和。",
+        "face_and_hair": "栗棕色短波波头，发尾微翘，脸型柔和。",
+        "eyes": "温暖棕色，委屈时安静直视镜头。",
+        "outfit": "浅蓝校园针织开衫，白色百褶裙，简洁帆布包。",
+        "palette": [
+          "pale blue",
+          "cream white",
+          "warm chestnut",
+          "sunset gold"
+        ],
+        "signature_props": [
+          "star-shaped hairpin",
+          "canvas shoulder bag"
+        ],
+        "expression_and_pose": "先微笑再收住，经常回头等男主跟上。",
+        "scene_rules": [
+          "Single-character scenes keep a close but natural conversation distance.",
+          "Multi-character scenes place her near the old-building route or left side.",
+          "Star hairpin must remain visible when possible."
+        ]
+      },
+      "voice_design": {
+        "speaking_style": "温柔但关键句短而准，不大吵大闹。",
+        "sample_lines": [
+          "你每次都说下次，可今晚就是那个下次。",
+          "你可以不选我，但别把沉默当温柔。",
+          "那就从今晚开始，别再把我放进待办事项里。"
+        ]
+      },
+      "generation_rules": {
+        "prompt_anchor": "adult university girl, warm chestnut bob hair, pale blue campus cardigan, white pleated skirt, star-shaped hairpin, gentle but steady gaze, childhood friend, sunset campus atmosphere",
+        "must_preserve": [
+          "warm chestnut bob hair",
+          "pale blue cardigan",
+          "star-shaped hairpin",
+          "gentle but steady gaze"
+        ],
+        "must_avoid": [
+          "childlike proportions",
+          "long hair redesign",
+          "idol stage costume",
+          "sexualized school uniform"
+        ],
+        "reference_policy": "Use only Lin Cheng's approved single-character reference for Lin-only scenes; use with other approved single-character references only in nodes where she appears."
+      }
+    },
+    {
+      "character_id": "tang_lingyin",
+      "display_name": "唐绫音",
+      "age": 20,
+      "role": "隔壁公共课班的傲娇女，戏剧社舞台负责人",
+      "runtime_usage": {
+        "appears_on_screen": true,
+        "needs_reference_image": true,
+        "runtime_fields": [
+          "characters.tang_lingyin.portrait"
+        ]
+      },
+      "narrative_design": {
+        "core_desire": "被男主相信，而不是被看成麻烦制造者。",
+        "external_goal": "修好星空灯并澄清舞台事故。",
+        "inner_conflict": "越在意越要装作不在意。",
+        "arc": "从命令男主负责，到主动替男主争取时间。",
+        "failure_pressure": "男主逃避时，她会把失望包装成冷淡。"
+      },
+      "relationship_design": {
+        "relationship_to_protagonist": "不熟到可以坦白，却熟到会下意识找他帮忙。",
+        "relationship_to_other_leads": "嘴上嫌林澄太软，行动上会认可林澄了解男主；把星弥当成超自然麻烦但快速纳入计划。",
+        "choice_meaning": "选择站出来澄清误会，并承担一起行动的后果。"
+      },
+      "visual_design": {
+        "silhouette": "线条锐利，动作有速度感，常抱臂或侧身。",
+        "face_and_hair": "深紫黑低双马尾，发束利落，脸部轮廓清晰。",
+        "eyes": "琥珀色，锐利，害羞时视线移开。",
+        "outfit": "黑色校园西装外套半披，白衬衫，红色领结。",
+        "palette": [
+          "black",
+          "white",
+          "dark violet",
+          "red",
+          "amber gold"
+        ],
+        "signature_props": [
+          "handmade star lantern",
+          "red ribbon tie"
+        ],
+        "expression_and_pose": "抱臂、递东西、挡在楼梯口，动作比语言诚实。",
+        "scene_rules": [
+          "Do not frame her as a villain.",
+          "In group scenes place her near stage props or the right side.",
+          "Red ribbon tie and star lantern should remain visible when possible."
+        ]
+      },
+      "voice_design": {
+        "speaking_style": "句子快，先否认再补真正意思，别扭但不恶毒。",
+        "sample_lines": [
+          "别误会，我不是特意找你。只是你刚好最知道我没撒谎。",
+          "我才不是帮你，我是在保护我的舞台。顺便，保护一下你。",
+          "我可没说原谅你。明天继续来帮忙，听见没有？"
+        ]
+      },
+      "generation_rules": {
+        "prompt_anchor": "adult university girl, long dark violet low twin tails, sharp amber eyes, red ribbon tie, black school blazer worn over one shoulder, star-lantern prop, tsundere theater club stage leader, energetic campus festival mood",
+        "must_preserve": [
+          "dark violet low twin tails",
+          "red ribbon tie",
+          "amber eyes",
+          "star-lantern prop"
+        ],
+        "must_avoid": [
+          "villain expression",
+          "adult office suit",
+          "overly ornate noble dress",
+          "pale blue childhood-friend palette"
+        ],
+        "reference_policy": "Use only Tang Lingyin's approved single-character reference for Tang-only scenes; use with other approved single-character references only in nodes where she appears."
+      }
+    },
+    {
+      "character_id": "xing_mi",
+      "display_name": "星弥",
+      "age": 21,
+      "role": "异界星图书库来的契约从者，大学年龄外表",
+      "runtime_usage": {
+        "appears_on_screen": true,
+        "needs_reference_image": true,
+        "runtime_fields": [
+          "characters.xing_mi.portrait"
+        ]
+      },
+      "narrative_design": {
+        "core_desire": "理解人的承诺为什么不能只写在契约上。",
+        "external_goal": "在日落前稳定星门并返回星图书库。",
+        "inner_conflict": "她懂规则，却不懂人的犹豫和心跳。",
+        "arc": "从正式执行契约，到学会用人的方式约定明天。",
+        "failure_pressure": "男主隐瞒时，星门会判定为拒绝选择。"
+      },
+      "relationship_design": {
+        "relationship_to_protagonist": "临时契约者与从者，逐渐从规则关系转向理解。",
+        "relationship_to_other_leads": "被林澄提醒承诺不是任务，被唐绫音带入校园行动逻辑。",
+        "choice_meaning": "选择面对非日常，但不逃离现实校园。"
+      },
+      "visual_design": {
+        "silhouette": "轻盈、垂直感强，漂浮书页形成外轮廓。",
+        "face_and_hair": "银蓝长发，发丝像星光反射，脸型成熟清冷。",
+        "eyes": "蓝白微光，平静但好奇。",
+        "outfit": "海军蓝与白色幻想学院制服，短披风像折叠星光。",
+        "palette": [
+          "silver blue",
+          "navy blue",
+          "white",
+          "cyan glow"
+        ],
+        "signature_props": [
+          "floating page fragments",
+          "star map patterns",
+          "small star gate halo"
+        ],
+        "expression_and_pose": "礼貌行礼、双手托书页、认真观察校园物件。",
+        "scene_rules": [
+          "Magic effects must not cover her face.",
+          "In group scenes place her near the star gate light or slightly behind the others.",
+          "Floating pages and silver-blue hair should remain readable."
+        ]
+      },
+      "voice_design": {
+        "speaking_style": "正式、礼貌，把校园日常理解成仪式，后期更柔软好奇。",
+        "sample_lines": [
+          "临时契约者，我来替你守住那个尚未说出口的承诺。",
+          "在我的世界，契约写在纸上。你们却把它藏在心跳里。",
+          "我明天会回来学习。请继续教我，人怎样把承诺说出口。"
+        ]
+      },
+      "generation_rules": {
+        "prompt_anchor": "adult university-age otherworldly servant girl, silver-blue long hair, calm luminous blue-white eyes, navy and white fantasy-academic uniform, translucent short cape like folded starlight, floating page fragments, old library star map glow",
+        "must_preserve": [
+          "silver-blue long hair",
+          "blue-white luminous eyes",
+          "navy and white fantasy-academic uniform",
+          "starlight short cape",
+          "floating page fragments"
+        ],
+        "must_avoid": [
+          "angel wings",
+          "heavy armor",
+          "childlike proportions",
+          "pale blue everyday cardigan"
+        ],
+        "reference_policy": "Use only Xing Mi's approved single-character reference for Xing Mi-only scenes; use with other approved single-character references only in nodes where she appears."
+      }
+    }
+  ]
+}

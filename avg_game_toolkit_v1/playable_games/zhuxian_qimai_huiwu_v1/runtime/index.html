@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AVG Runtime</title>
+    <link rel="stylesheet" href="styles.css?v=menu-inner-highlight-restored-20260522" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="top-hud">
+        <div class="brand-lockup">
+          <span class="runtime-mark">七脉</span>
+          <div>
+            <h1 id="game-title">Loading</h1>
+            <p id="package-id">runtime package</p>
+          </div>
+        </div>
+        <nav class="mode-tabs" aria-label="views">
+          <button id="home-tab" class="is-active" type="button">主菜单</button>
+          <button id="play-tab" type="button">剧情</button>
+          <button id="worldline-tab" type="button">世界线</button>
+          <button id="records-tab" type="button">回想</button>
+        </nav>
+      </header>
+
+      <section id="home-view" class="view home-view">
+        <div id="home-backdrop" class="home-backdrop"></div>
+        <section class="home-frame">
+          <div class="home-hero">
+            <div class="home-copy">
+              <p class="kicker">七脉会武 · 四强台前</p>
+              <img id="home-title-art" class="home-title-art" src="../assets/zhuxian_qimai_huiwu_v1/ui/login/title_candidates_20260522/v3_ink_splash_gold.png" alt="诛仙之七脉会武" />
+              <h2 id="home-title">未加载</h2>
+              <p id="home-description"></p>
+            </div>
+          </div>
+          <aside class="home-meta-panel">
+            <p class="panel-kicker">存档</p>
+            <dl id="home-stats" class="stat-grid"></dl>
+            <div id="capability-strip" class="capability-strip" aria-label="游戏包能力"></div>
+          </aside>
+          <section class="launcher-dock" aria-label="launcher actions">
+            <button id="continue-button" class="primary-action" type="button" data-menu-icon="续">继续</button>
+            <button id="new-game-button" type="button" data-menu-icon="章">开始新故事</button>
+            <button id="home-worldline-button" type="button" data-menu-icon="线">世界线</button>
+            <button type="button" data-record-panel="endings" data-menu-icon="忆">结局回想</button>
+            <button type="button" data-record-panel="chapters" data-menu-icon="卷">章节回放</button>
+            <button type="button" data-record-panel="gallery" data-menu-icon="画">画廊</button>
+            <button type="button" data-record-panel="saves" data-menu-icon="存">存档</button>
+            <button type="button" data-record-panel="stats">游玩统计</button>
+            <button type="button" data-record-panel="settings" data-menu-icon="设">设置</button>
+            <label class="file-button" data-menu-icon="导">
+              导入剧本
+              <input id="import-input" type="file" accept="application/json" />
+            </label>
+            <button id="reset-save-button" type="button">清除记录</button>
+          </section>
+        </section>
+      </section>
+
+      <section id="play-view" class="view play-view" hidden>
+        <div id="stage" class="game-stage">
+          <div class="stage-vignette"></div>
+          <div id="scene-media" class="scene-media" aria-hidden="true"></div>
+          <div class="stage-topline">
+            <div>
+              <span id="scene-label"></span>
+              <strong id="node-title"></strong>
+            </div>
+            <div class="topline-actions">
+              <span id="progress-label"></span>
+              <button id="save-button" type="button">保存</button>
+              <button id="restart-button" type="button">重开</button>
+            </div>
+          </div>
+          <div id="character-stage" class="character-stage"></div>
+          <div id="media-rail" class="media-rail"></div>
+          <aside class="state-hud">
+            <dl id="state-list" class="state-list"></dl>
+          </aside>
+          <section class="dialogue-box">
+            <div class="dialogue-meta">
+              <span id="speaker-name"></span>
+              <span id="segment-count"></span>
+            </div>
+            <p id="dialogue-text"></p>
+            <div id="choices" class="choices"></div>
+            <div class="dialogue-controls">
+              <button id="next-button" class="primary-action" type="button">继续</button>
+              <button id="history-button" type="button">回顾</button>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="worldline-view" class="view worldline-view" hidden>
+        <div class="worldline-toolbar">
+          <div class="worldline-toolbar-group">
+            <button id="fit-current-button" type="button">当前节点</button>
+            <button id="fit-worldline-button" type="button">全貌</button>
+            <button id="jump-button" type="button">进入节点</button>
+          </div>
+          <div class="worldline-toolbar-group" aria-label="worldline zoom">
+            <button id="worldline-zoom-out-button" type="button" title="缩小">−</button>
+            <span id="worldline-zoom-label" class="worldline-zoom-label">100%</span>
+            <button id="worldline-zoom-in-button" type="button" title="放大">+</button>
+            <button id="worldline-reset-button" type="button">重置</button>
+          </div>
+        </div>
+        <div class="worldline-layout">
+          <div id="worldline" class="worldline"></div>
+          <section class="inspector-panel">
+            <h2 id="inspector-title">选择节点</h2>
+            <p id="inspector-body"></p>
+            <dl id="inspector-meta" class="state-list"></dl>
+          </section>
+        </div>
+      </section>
+
+      <section id="records-view" class="view records-view" hidden>
+        <nav class="record-tabs" aria-label="records">
+          <button type="button" data-record-panel="endings">结局记录</button>
+          <button type="button" data-record-panel="chapters">选择章节</button>
+          <button type="button" data-record-panel="gallery">图鉴</button>
+          <button type="button" data-record-panel="saves">存档槽</button>
+          <button type="button" data-record-panel="history">文本回顾</button>
+          <button type="button" data-record-panel="stats">游玩统计</button>
+          <button type="button" data-record-panel="assets">素材调试</button>
+          <button type="button" data-record-panel="settings">设置</button>
+        </nav>
+        <section class="records-panel">
+          <h2 id="records-title">记录</h2>
+          <div id="records-body" class="records-body"></div>
+        </section>
+      </section>
+    </main>
+    <div id="toast" class="toast" hidden></div>
+    <script src="app.js?v=menu-inner-highlight-restored-20260522"></script>
+  </body>
+</html>

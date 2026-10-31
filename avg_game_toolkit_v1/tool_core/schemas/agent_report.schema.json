@@ -1,0 +1,262 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/interactive-video/agent_report.schema.json",
+  "title": "Cross-Disciplinary Agent Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project_id",
+    "report_id",
+    "agent_role",
+    "agent_name",
+    "status",
+    "scope",
+    "inputs_reviewed",
+    "outputs_produced",
+    "summary",
+    "assumptions",
+    "conflicts",
+    "questions_for_planner",
+    "recommended_next_action"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string"
+    },
+    "report_id": {
+      "type": "string"
+    },
+    "agent_role": {
+      "enum": [
+        "planner",
+        "narrative",
+        "character_world",
+        "mechanics",
+        "art",
+        "ui",
+        "video",
+        "generation_executive",
+        "runtime",
+        "checker",
+        "coherence_auditor"
+      ]
+    },
+    "agent_name": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "complete",
+        "blocked",
+        "needs_planner_decision",
+        "approved",
+        "rejected"
+      ]
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "owned_files",
+        "owned_cells",
+        "not_owned"
+      ],
+      "properties": {
+        "owned_files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "owned_cells": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "not_owned": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "inputs_reviewed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "outputs_produced": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/output"
+      }
+    },
+    "summary": {
+      "type": "string"
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/conflict"
+      }
+    },
+    "questions_for_planner": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "recommended_next_action": {
+      "enum": [
+        "planner_review",
+        "rerun_this_agent",
+        "run_next_agent",
+        "update_coherence_matrix",
+        "approve_gate",
+        "block_gate",
+        "start_generation",
+        "start_runtime",
+        "playtest"
+      ]
+    },
+    "qa_findings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/qa_finding"
+      },
+      "default": []
+    }
+  },
+  "$defs": {
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "artifact_type",
+        "description"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "artifact_type": {
+          "enum": [
+            "coherence_plan",
+            "story_plan",
+            "story_bible",
+            "character_design",
+            "hybrid_script",
+            "asset_plan",
+            "prompt_pack",
+            "provider_payloads",
+            "manifest",
+            "runtime_data",
+            "qa_report",
+            "other"
+          ]
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "conflict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "conflict_id",
+        "severity",
+        "affected_files",
+        "affected_cells",
+        "description",
+        "recommended_resolution"
+      ],
+      "properties": {
+        "conflict_id": {
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "blocker",
+            "major",
+            "minor",
+            "accepted_risk"
+          ]
+        },
+        "affected_files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "affected_cells": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": {
+          "type": "string"
+        },
+        "recommended_resolution": {
+          "type": "string"
+        }
+      }
+    },
+    "qa_finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "finding_id",
+        "severity",
+        "category",
+        "description",
+        "recommendation"
+      ],
+      "properties": {
+        "finding_id": {
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "blocker",
+            "major",
+            "minor",
+            "info"
+          ]
+        },
+        "category": {
+          "enum": [
+            "story_comprehension",
+            "asset_traceability",
+            "mechanics_alignment",
+            "art_consistency",
+            "video_budget",
+            "ui_readability",
+            "runtime_reference",
+            "schema",
+            "safety",
+            "secret_leak"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "recommendation": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

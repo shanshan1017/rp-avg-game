@@ -1,0 +1,1381 @@
+{
+  "project_id": "campus_triangle_v1",
+  "assets": [
+    {
+      "asset_id": "char_lin_cheng_ref",
+      "asset_type": "character_reference_image",
+      "node_id": null,
+      "character_ids": [
+        "lin_cheng"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "characters.lin_cheng.portrait",
+        "display_context": "character relationship panel and production reference"
+      },
+      "capability": "image.text_to_image",
+      "input_asset_ids": [],
+      "prompt_intent": "Generate the approved character reference for Lin Cheng, the childhood friend.",
+      "model_parameters": {
+        "size": "1024x1536",
+        "quality": "medium"
+      },
+      "local_output_path": "assets/campus_triangle_v1/characters/lin_cheng.png",
+      "qa_requirements": [
+        "adult university student appearance",
+        "star hairpin and pale blue cardigan preserved"
+      ],
+      "acceptance_criteria": [
+        "Matches story bible visual anchor",
+        "No real-person likeness",
+        "No existing IP resemblance"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "childlike proportions",
+        "celebrity likeness"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "char_tang_lingyin_ref",
+      "asset_type": "character_reference_image",
+      "node_id": null,
+      "character_ids": [
+        "tang_lingyin"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "characters.tang_lingyin.portrait",
+        "display_context": "character relationship panel and production reference"
+      },
+      "capability": "image.text_to_image",
+      "input_asset_ids": [],
+      "prompt_intent": "Generate the approved character reference for Tang Lingyin, the tsundere next-class lead.",
+      "model_parameters": {
+        "size": "1024x1536",
+        "quality": "medium"
+      },
+      "local_output_path": "assets/campus_triangle_v1/characters/tang_lingyin.png",
+      "qa_requirements": [
+        "adult university student appearance",
+        "red ribbon tie and star-lantern prop preserved"
+      ],
+      "acceptance_criteria": [
+        "Matches story bible visual anchor",
+        "No villain-like exaggeration",
+        "No existing IP resemblance"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "villain expression",
+        "celebrity likeness"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "char_xing_mi_ref",
+      "asset_type": "character_reference_image",
+      "node_id": null,
+      "character_ids": [
+        "xing_mi"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "characters.xing_mi.portrait",
+        "display_context": "character relationship panel and production reference"
+      },
+      "capability": "image.text_to_image",
+      "input_asset_ids": [],
+      "prompt_intent": "Generate the approved character reference for Xing Mi, the otherworldly servant.",
+      "model_parameters": {
+        "size": "1024x1536",
+        "quality": "medium"
+      },
+      "local_output_path": "assets/campus_triangle_v1/characters/xing_mi.png",
+      "qa_requirements": [
+        "adult university-age fantasy-academic design",
+        "silver-blue hair and starlight cape preserved"
+      ],
+      "acceptance_criteria": [
+        "Matches story bible visual anchor",
+        "Readable light fantasy design",
+        "No existing IP resemblance"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "angel wings",
+        "heavy armor",
+        "childlike proportions"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "poster_n00_after_class_spark",
+      "asset_type": "node_poster",
+      "node_id": "n00_after_class_spark",
+      "character_ids": [],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n00_after_class_spark.video.poster",
+        "display_context": "video poster and first-frame reference"
+      },
+      "capability": "image.text_to_image",
+      "input_asset_ids": [],
+      "prompt_intent": "First-person after-class corridor first frame with glowing star charm, no readable UI text and no visible protagonist.",
+      "model_parameters": {
+        "size": "1536x864",
+        "quality": "medium"
+      },
+      "local_output_path": "assets/campus_triangle_v1/posters/n00_after_class_spark.png",
+      "qa_requirements": [
+        "16:9",
+        "first-person rule",
+        "no readable text"
+      ],
+      "acceptance_criteria": [
+        "No male protagonist visible",
+        "No text overlays or UI"
+      ],
+      "checker_required": true,
+      "risk_level": "low",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "male hands",
+        "phone UI text",
+        "subtitles"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "video_n00_after_class_spark",
+      "asset_type": "node_video",
+      "node_id": "n00_after_class_spark",
+      "character_ids": [],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n00_after_class_spark.video.src",
+        "display_context": "opening playable video"
+      },
+      "capability": "video.first_frame_to_video",
+      "input_asset_ids": [
+        "poster_n00_after_class_spark"
+      ],
+      "prompt_intent": "Animate the glowing charm, distant school bell, and corridor pull toward the old library.",
+      "model_parameters": {
+        "duration": 10,
+        "ratio": "16:9",
+        "resolution": "720p",
+        "generate_audio": true,
+        "return_last_frame": true,
+        "watermark": false
+      },
+      "local_output_path": "assets/campus_triangle_v1/videos/n00_after_class_spark.mp4",
+      "qa_requirements": [
+        "duration 8-12 seconds",
+        "no visible protagonist",
+        "no embedded UI"
+      ],
+      "acceptance_criteria": [
+        "Video playable",
+        "First-person composition preserved"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "visible male protagonist",
+        "subtitles",
+        "watermark"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "poster_n01_osmanthus_staircase",
+      "asset_type": "node_poster",
+      "node_id": "n01_osmanthus_staircase",
+      "character_ids": [
+        "lin_cheng"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n01_osmanthus_staircase.video.poster",
+        "display_context": "video poster and first-frame reference"
+      },
+      "capability": "image.reference_edit",
+      "input_asset_ids": [
+        "char_lin_cheng_ref"
+      ],
+      "prompt_intent": "Lin Cheng at the stair by the osmanthus tree, childhood promise mood, first-person composition.",
+      "model_parameters": {
+        "size": "1536x864",
+        "quality": "medium"
+      },
+      "local_output_path": "assets/campus_triangle_v1/posters/n01_osmanthus_staircase.png",
+      "qa_requirements": [
+        "only Lin Cheng appears",
+        "16:9",
+        "first-person rule"
+      ],
+      "acceptance_criteria": [
+        "Lin Cheng identity preserved",
+        "No extra characters"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "extra girl",
+        "male protagonist",
+        "subtitles"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "video_n01_osmanthus_staircase",
+      "asset_type": "node_video",
+      "node_id": "n01_osmanthus_staircase",
+      "character_ids": [
+        "lin_cheng"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n01_osmanthus_staircase.video.src",
+        "display_context": "playable video node"
+      },
+      "capability": "video.first_frame_to_video",
+      "input_asset_ids": [
+        "poster_n01_osmanthus_staircase",
+        "char_lin_cheng_ref"
+      ],
+      "prompt_intent": "Animate Lin Cheng walking closer and speaking about the fireworks promise.",
+      "model_parameters": {
+        "duration": 10,
+        "ratio": "16:9",
+        "resolution": "720p",
+        "generate_audio": true,
+        "return_last_frame": true,
+        "watermark": false
+      },
+      "local_output_path": "assets/campus_triangle_v1/videos/n01_osmanthus_staircase.mp4",
+      "qa_requirements": [
+        "Lin Cheng identity preserved",
+        "dialogue understandable if generated",
+        "no male protagonist"
+      ],
+      "acceptance_criteria": [
+        "Only Lin Cheng on screen",
+        "Duration within 8-12 seconds"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "extra characters",
+        "subtitles",
+        "watermark"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "poster_n02_next_class_rehearsal",
+      "asset_type": "node_poster",
+      "node_id": "n02_next_class_rehearsal",
+      "character_ids": [
+        "tang_lingyin"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n02_next_class_rehearsal.video.poster",
+        "display_context": "video poster and first-frame reference"
+      },
+      "capability": "image.reference_edit",
+      "input_asset_ids": [
+        "char_tang_lingyin_ref"
+      ],
+      "prompt_intent": "Tang Lingyin holding the broken star lantern at the next class rehearsal area, first-person composition.",
+      "model_parameters": {
+        "size": "1536x864",
+        "quality": "medium"
+      },
+      "local_output_path": "assets/campus_triangle_v1/posters/n02_next_class_rehearsal.png",
+      "qa_requirements": [
+        "only Tang Lingyin appears",
+        "star-lantern visible",
+        "no text overlays"
+      ],
+      "acceptance_criteria": [
+        "Tang Lingyin identity preserved",
+        "No extra characters"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "extra girl",
+        "male protagonist",
+        "subtitles"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "video_n02_next_class_rehearsal",
+      "asset_type": "node_video",
+      "node_id": "n02_next_class_rehearsal",
+      "character_ids": [
+        "tang_lingyin"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n02_next_class_rehearsal.video.src",
+        "display_context": "playable video node"
+      },
+      "capability": "video.first_frame_to_video",
+      "input_asset_ids": [
+        "poster_n02_next_class_rehearsal",
+        "char_tang_lingyin_ref"
+      ],
+      "prompt_intent": "Animate Tang Lingyin pushing the star lantern toward the viewer and admitting she needs help.",
+      "model_parameters": {
+        "duration": 10,
+        "ratio": "16:9",
+        "resolution": "720p",
+        "generate_audio": true,
+        "return_last_frame": true,
+        "watermark": false
+      },
+      "local_output_path": "assets/campus_triangle_v1/videos/n02_next_class_rehearsal.mp4",
+      "qa_requirements": [
+        "Tang Lingyin identity preserved",
+        "no visible protagonist",
+        "video playable"
+      ],
+      "acceptance_criteria": [
+        "Only Tang Lingyin on screen",
+        "Duration within 8-12 seconds"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "extra characters",
+        "subtitles",
+        "watermark"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "poster_n03_old_library_contract",
+      "asset_type": "node_poster",
+      "node_id": "n03_old_library_contract",
+      "character_ids": [
+        "xing_mi"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n03_old_library_contract.video.poster",
+        "display_context": "video poster and first-frame reference"
+      },
+      "capability": "image.reference_edit",
+      "input_asset_ids": [
+        "char_xing_mi_ref"
+      ],
+      "prompt_intent": "Xing Mi emerging from the old library star map, first-person composition.",
+      "model_parameters": {
+        "size": "1536x864",
+        "quality": "medium"
+      },
+      "local_output_path": "assets/campus_triangle_v1/posters/n03_old_library_contract.png",
+      "qa_requirements": [
+        "only Xing Mi appears",
+        "fantasy effects readable",
+        "no male protagonist"
+      ],
+      "acceptance_criteria": [
+        "Xing Mi identity preserved",
+        "No extra characters"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "extra girl",
+        "male protagonist",
+        "subtitles"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "video_n03_old_library_contract",
+      "asset_type": "node_video",
+      "node_id": "n03_old_library_contract",
+      "character_ids": [
+        "xing_mi"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n03_old_library_contract.video.src",
+        "display_context": "playable video node"
+      },
+      "capability": "video.first_frame_to_video",
+      "input_asset_ids": [
+        "poster_n03_old_library_contract",
+        "char_xing_mi_ref"
+      ],
+      "prompt_intent": "Animate Xing Mi stepping from the star map and explaining the temporary contract.",
+      "model_parameters": {
+        "duration": 10,
+        "ratio": "16:9",
+        "resolution": "720p",
+        "generate_audio": true,
+        "return_last_frame": true,
+        "watermark": false
+      },
+      "local_output_path": "assets/campus_triangle_v1/videos/n03_old_library_contract.mp4",
+      "qa_requirements": [
+        "Xing Mi identity preserved",
+        "no visible protagonist",
+        "video playable"
+      ],
+      "acceptance_criteria": [
+        "Only Xing Mi on screen",
+        "Duration within 8-12 seconds"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "extra characters",
+        "subtitles",
+        "watermark"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "poster_n04_courtyard_collision",
+      "asset_type": "node_poster",
+      "node_id": "n04_courtyard_collision",
+      "character_ids": [
+        "lin_cheng",
+        "tang_lingyin",
+        "xing_mi"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n04_courtyard_collision.video.poster",
+        "display_context": "video poster and first-frame reference"
+      },
+      "capability": "image.reference_edit",
+      "input_asset_ids": [
+        "char_lin_cheng_ref",
+        "char_tang_lingyin_ref",
+        "char_xing_mi_ref"
+      ],
+      "prompt_intent": "Three leads meet in the festival courtyard as the star gate lights the lanterns, first-person triangle composition.",
+      "model_parameters": {
+        "size": "1536x864",
+        "quality": "medium"
+      },
+      "local_output_path": "assets/campus_triangle_v1/posters/n04_courtyard_collision.png",
+      "qa_requirements": [
+        "exactly three female leads",
+        "no protagonist",
+        "faces above lower UI safe zone",
+        "do not blend identities, swap hair, swap outfits, or create a cast-lineup-style reference sheet"
+      ],
+      "acceptance_criteria": [
+        "All three identities preserved",
+        "No additional characters in foreground",
+        "Composition supports choice UI"
+      ],
+      "checker_required": true,
+      "risk_level": "high",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "male protagonist",
+        "extra lead",
+        "subtitles",
+        "watermark"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "video_n04_courtyard_collision",
+      "asset_type": "node_video",
+      "node_id": "n04_courtyard_collision",
+      "character_ids": [
+        "lin_cheng",
+        "tang_lingyin",
+        "xing_mi"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n04_courtyard_collision.video.src",
+        "display_context": "choice video node"
+      },
+      "capability": "video.first_frame_to_video",
+      "input_asset_ids": [
+        "poster_n04_courtyard_collision",
+        "char_lin_cheng_ref",
+        "char_tang_lingyin_ref",
+        "char_xing_mi_ref"
+      ],
+      "prompt_intent": "Animate the three leads confronting the viewer as the courtyard lanterns ignite.",
+      "model_parameters": {
+        "duration": 12,
+        "ratio": "16:9",
+        "resolution": "720p",
+        "generate_audio": true,
+        "return_last_frame": true,
+        "watermark": false
+      },
+      "local_output_path": "assets/campus_triangle_v1/videos/n04_courtyard_collision.mp4",
+      "qa_requirements": [
+        "three leads stay identifiable",
+        "duration 8-12 seconds",
+        "no protagonist",
+        "do not blend identities, swap hair, swap outfits, or create a cast-lineup-style reference sheet"
+      ],
+      "acceptance_criteria": [
+        "No character identity drift",
+        "No unintended fourth character"
+      ],
+      "checker_required": true,
+      "risk_level": "high",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "visible male protagonist",
+        "extra characters",
+        "subtitles",
+        "watermark"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "poster_n05_team_truce",
+      "asset_type": "node_poster",
+      "node_id": "n05_team_truce",
+      "character_ids": [
+        "lin_cheng",
+        "tang_lingyin",
+        "xing_mi"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n05_team_truce.video.poster",
+        "display_context": "video poster and first-frame reference"
+      },
+      "capability": "image.reference_edit",
+      "input_asset_ids": [
+        "char_lin_cheng_ref",
+        "char_tang_lingyin_ref",
+        "char_xing_mi_ref"
+      ],
+      "prompt_intent": "Temporary truce around the festival table, star charm in center, clock tower glowing behind.",
+      "model_parameters": {
+        "size": "1536x864",
+        "quality": "medium"
+      },
+      "local_output_path": "assets/campus_triangle_v1/posters/n05_team_truce.png",
+      "qa_requirements": [
+        "exactly three female leads",
+        "clear table composition",
+        "lower UI safe zone",
+        "do not blend identities, swap hair, swap outfits, or create a cast-lineup-style reference sheet"
+      ],
+      "acceptance_criteria": [
+        "All three identities preserved",
+        "No extra foreground characters"
+      ],
+      "checker_required": true,
+      "risk_level": "high",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "male protagonist",
+        "extra lead",
+        "subtitles"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "video_n05_team_truce",
+      "asset_type": "node_video",
+      "node_id": "n05_team_truce",
+      "character_ids": [
+        "lin_cheng",
+        "tang_lingyin",
+        "xing_mi"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n05_team_truce.video.src",
+        "display_context": "choice video node"
+      },
+      "capability": "video.first_frame_to_video",
+      "input_asset_ids": [
+        "poster_n05_team_truce",
+        "char_lin_cheng_ref",
+        "char_tang_lingyin_ref",
+        "char_xing_mi_ref"
+      ],
+      "prompt_intent": "Animate the truce planning scene, map gesture, star charm pulse, and three route options.",
+      "model_parameters": {
+        "duration": 10,
+        "ratio": "16:9",
+        "resolution": "720p",
+        "generate_audio": true,
+        "return_last_frame": true,
+        "watermark": false
+      },
+      "local_output_path": "assets/campus_triangle_v1/videos/n05_team_truce.mp4",
+      "qa_requirements": [
+        "three leads stay identifiable",
+        "no protagonist",
+        "video playable",
+        "do not blend identities, swap hair, swap outfits, or create a cast-lineup-style reference sheet"
+      ],
+      "acceptance_criteria": [
+        "No character identity drift",
+        "Composition leaves choice-safe lower third"
+      ],
+      "checker_required": true,
+      "risk_level": "high",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "visible male protagonist",
+        "extra characters",
+        "subtitles",
+        "watermark"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "poster_n06_hide_failure",
+      "asset_type": "node_poster",
+      "node_id": "n06_hide_failure",
+      "character_ids": [
+        "lin_cheng",
+        "tang_lingyin",
+        "xing_mi"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n06_hide_failure.video.poster",
+        "display_context": "failure video poster"
+      },
+      "capability": "image.reference_edit",
+      "input_asset_ids": [
+        "char_lin_cheng_ref",
+        "char_tang_lingyin_ref",
+        "char_xing_mi_ref"
+      ],
+      "prompt_intent": "Failure frame where the courtyard lights go out and three leads realize the protagonist hid the truth.",
+      "model_parameters": {
+        "size": "1536x864",
+        "quality": "medium"
+      },
+      "local_output_path": "assets/campus_triangle_v1/posters/n06_hide_failure.png",
+      "qa_requirements": [
+        "failure mood without horror",
+        "exactly three female leads",
+        "no protagonist",
+        "do not blend identities, swap hair, swap outfits, or create a cast-lineup-style reference sheet"
+      ],
+      "acceptance_criteria": [
+        "Failure is emotional not grotesque",
+        "All three identities preserved"
+      ],
+      "checker_required": true,
+      "risk_level": "high",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "horror gore",
+        "male protagonist",
+        "extra characters",
+        "subtitles"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "video_n06_hide_failure",
+      "asset_type": "node_video",
+      "node_id": "n06_hide_failure",
+      "character_ids": [
+        "lin_cheng",
+        "tang_lingyin",
+        "xing_mi"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n06_hide_failure.video.src",
+        "display_context": "mid-route failure video"
+      },
+      "capability": "video.first_frame_to_video",
+      "input_asset_ids": [
+        "poster_n06_hide_failure",
+        "char_lin_cheng_ref",
+        "char_tang_lingyin_ref",
+        "char_xing_mi_ref"
+      ],
+      "prompt_intent": "Animate the lights shutting down and the emotional failure beat.",
+      "model_parameters": {
+        "duration": 10,
+        "ratio": "16:9",
+        "resolution": "720p",
+        "generate_audio": true,
+        "return_last_frame": false,
+        "watermark": false
+      },
+      "local_output_path": "assets/campus_triangle_v1/videos/n06_hide_failure.mp4",
+      "qa_requirements": [
+        "duration 8-12 seconds",
+        "no horror tone",
+        "video playable",
+        "do not blend identities, swap hair, swap outfits, or create a cast-lineup-style reference sheet"
+      ],
+      "acceptance_criteria": [
+        "Failure readable",
+        "No unintended horror imagery"
+      ],
+      "checker_required": true,
+      "risk_level": "high",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "gore",
+        "visible male protagonist",
+        "subtitles",
+        "watermark"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "poster_n07_memory_corridor",
+      "asset_type": "node_poster",
+      "node_id": "n07_memory_corridor",
+      "character_ids": [
+        "lin_cheng"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n07_memory_corridor.video.poster",
+        "display_context": "video poster and first-frame reference"
+      },
+      "capability": "image.reference_edit",
+      "input_asset_ids": [
+        "char_lin_cheng_ref"
+      ],
+      "prompt_intent": "Lin Cheng turns back in the old corridor, asking for an honest answer.",
+      "model_parameters": {
+        "size": "1536x864",
+        "quality": "medium"
+      },
+      "local_output_path": "assets/campus_triangle_v1/posters/n07_memory_corridor.png",
+      "qa_requirements": [
+        "only Lin Cheng appears",
+        "old corridor sunset",
+        "no protagonist"
+      ],
+      "acceptance_criteria": [
+        "Lin Cheng identity preserved",
+        "No extra characters"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "extra girl",
+        "male protagonist",
+        "subtitles"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "video_n07_memory_corridor",
+      "asset_type": "node_video",
+      "node_id": "n07_memory_corridor",
+      "character_ids": [
+        "lin_cheng"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n07_memory_corridor.video.src",
+        "display_context": "playable route video"
+      },
+      "capability": "video.first_frame_to_video",
+      "input_asset_ids": [
+        "poster_n07_memory_corridor",
+        "char_lin_cheng_ref"
+      ],
+      "prompt_intent": "Animate Lin Cheng leading through the corridor and turning back for the honest line.",
+      "model_parameters": {
+        "duration": 10,
+        "ratio": "16:9",
+        "resolution": "720p",
+        "generate_audio": true,
+        "return_last_frame": true,
+        "watermark": false
+      },
+      "local_output_path": "assets/campus_triangle_v1/videos/n07_memory_corridor.mp4",
+      "qa_requirements": [
+        "only Lin Cheng",
+        "first-person walking shot",
+        "video playable"
+      ],
+      "acceptance_criteria": [
+        "No protagonist visible",
+        "Duration within 8-12 seconds"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "extra characters",
+        "subtitles",
+        "watermark"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "poster_n08_rooftop_argument",
+      "asset_type": "node_poster",
+      "node_id": "n08_rooftop_argument",
+      "character_ids": [
+        "tang_lingyin"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n08_rooftop_argument.video.poster",
+        "display_context": "video poster and first-frame reference"
+      },
+      "capability": "image.reference_edit",
+      "input_asset_ids": [
+        "char_tang_lingyin_ref"
+      ],
+      "prompt_intent": "Tang Lingyin blocks the stair landing with star lantern, embarrassed but brave.",
+      "model_parameters": {
+        "size": "1536x864",
+        "quality": "medium"
+      },
+      "local_output_path": "assets/campus_triangle_v1/posters/n08_rooftop_argument.png",
+      "qa_requirements": [
+        "only Tang Lingyin foreground",
+        "teacher if present is indistinct background shadow",
+        "no protagonist"
+      ],
+      "acceptance_criteria": [
+        "Tang Lingyin identity preserved",
+        "No additional lead character"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "extra girl",
+        "male protagonist",
+        "subtitles"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "video_n08_rooftop_argument",
+      "asset_type": "node_video",
+      "node_id": "n08_rooftop_argument",
+      "character_ids": [
+        "tang_lingyin"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n08_rooftop_argument.video.src",
+        "display_context": "playable route video"
+      },
+      "capability": "video.first_frame_to_video",
+      "input_asset_ids": [
+        "poster_n08_rooftop_argument",
+        "char_tang_lingyin_ref"
+      ],
+      "prompt_intent": "Animate Tang Lingyin stalling the teacher and whispering for the viewer to hurry.",
+      "model_parameters": {
+        "duration": 10,
+        "ratio": "16:9",
+        "resolution": "720p",
+        "generate_audio": true,
+        "return_last_frame": true,
+        "watermark": false
+      },
+      "local_output_path": "assets/campus_triangle_v1/videos/n08_rooftop_argument.mp4",
+      "qa_requirements": [
+        "Tang Lingyin identity preserved",
+        "teacher not emphasized",
+        "video playable"
+      ],
+      "acceptance_criteria": [
+        "No protagonist visible",
+        "Duration within 8-12 seconds"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "extra lead",
+        "subtitles",
+        "watermark"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "poster_n09_gate_stair",
+      "asset_type": "node_poster",
+      "node_id": "n09_gate_stair",
+      "character_ids": [
+        "xing_mi"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n09_gate_stair.video.poster",
+        "display_context": "video poster and first-frame reference"
+      },
+      "capability": "image.reference_edit",
+      "input_asset_ids": [
+        "char_xing_mi_ref"
+      ],
+      "prompt_intent": "Xing Mi guides the viewer up the clocktower stair with floating star pages.",
+      "model_parameters": {
+        "size": "1536x864",
+        "quality": "medium"
+      },
+      "local_output_path": "assets/campus_triangle_v1/posters/n09_gate_stair.png",
+      "qa_requirements": [
+        "only Xing Mi appears",
+        "stair and star map visible",
+        "no protagonist"
+      ],
+      "acceptance_criteria": [
+        "Xing Mi identity preserved",
+        "No extra characters"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "extra girl",
+        "male protagonist",
+        "subtitles"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "video_n09_gate_stair",
+      "asset_type": "node_video",
+      "node_id": "n09_gate_stair",
+      "character_ids": [
+        "xing_mi"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n09_gate_stair.video.src",
+        "display_context": "playable route video"
+      },
+      "capability": "video.first_frame_to_video",
+      "input_asset_ids": [
+        "poster_n09_gate_stair",
+        "char_xing_mi_ref"
+      ],
+      "prompt_intent": "Animate Xing Mi explaining written contracts versus human promises while moving upstairs.",
+      "model_parameters": {
+        "duration": 10,
+        "ratio": "16:9",
+        "resolution": "720p",
+        "generate_audio": true,
+        "return_last_frame": true,
+        "watermark": false
+      },
+      "local_output_path": "assets/campus_triangle_v1/videos/n09_gate_stair.mp4",
+      "qa_requirements": [
+        "Xing Mi identity preserved",
+        "no visible protagonist",
+        "video playable"
+      ],
+      "acceptance_criteria": [
+        "Only Xing Mi on screen",
+        "Duration within 8-12 seconds"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "extra characters",
+        "subtitles",
+        "watermark"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "poster_n10_final_choice",
+      "asset_type": "node_poster",
+      "node_id": "n10_final_choice",
+      "character_ids": [
+        "lin_cheng",
+        "tang_lingyin",
+        "xing_mi"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n10_final_choice.video.poster",
+        "display_context": "final choice poster"
+      },
+      "capability": "image.reference_edit",
+      "input_asset_ids": [
+        "char_lin_cheng_ref",
+        "char_tang_lingyin_ref",
+        "char_xing_mi_ref"
+      ],
+      "prompt_intent": "Final rooftop choice with three leads waiting for the viewer's promise, fireworks and star gate behind.",
+      "model_parameters": {
+        "size": "1536x864",
+        "quality": "medium"
+      },
+      "local_output_path": "assets/campus_triangle_v1/posters/n10_final_choice.png",
+      "qa_requirements": [
+        "exactly three female leads",
+        "faces above lower UI safe zone",
+        "no protagonist",
+        "do not blend identities, swap hair, swap outfits, or create a cast-lineup-style reference sheet"
+      ],
+      "acceptance_criteria": [
+        "All three identities preserved",
+        "No extra foreground characters",
+        "Safe composition for three choices"
+      ],
+      "checker_required": true,
+      "risk_level": "high",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "male protagonist",
+        "extra lead",
+        "subtitles",
+        "watermark"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "video_n10_final_choice",
+      "asset_type": "node_video",
+      "node_id": "n10_final_choice",
+      "character_ids": [
+        "lin_cheng",
+        "tang_lingyin",
+        "xing_mi"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n10_final_choice.video.src",
+        "display_context": "final choice video"
+      },
+      "capability": "video.first_frame_to_video",
+      "input_asset_ids": [
+        "poster_n10_final_choice",
+        "char_lin_cheng_ref",
+        "char_tang_lingyin_ref",
+        "char_xing_mi_ref"
+      ],
+      "prompt_intent": "Animate fireworks, star gate, and three leads waiting without crowding lower choice UI.",
+      "model_parameters": {
+        "duration": 10,
+        "ratio": "16:9",
+        "resolution": "720p",
+        "generate_audio": true,
+        "return_last_frame": true,
+        "watermark": false
+      },
+      "local_output_path": "assets/campus_triangle_v1/videos/n10_final_choice.mp4",
+      "qa_requirements": [
+        "three leads stay identifiable",
+        "duration 8-12 seconds",
+        "no protagonist",
+        "do not blend identities, swap hair, swap outfits, or create a cast-lineup-style reference sheet"
+      ],
+      "acceptance_criteria": [
+        "No character identity drift",
+        "No unintended fourth character",
+        "Lower third remains usable"
+      ],
+      "checker_required": true,
+      "risk_level": "high",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "visible male protagonist",
+        "extra characters",
+        "subtitles",
+        "watermark"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "poster_n11_end_childhood",
+      "asset_type": "node_poster",
+      "node_id": "n11_end_childhood",
+      "character_ids": [
+        "lin_cheng"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n11_end_childhood.video.poster",
+        "display_context": "ending poster"
+      },
+      "capability": "image.reference_edit",
+      "input_asset_ids": [
+        "char_lin_cheng_ref"
+      ],
+      "prompt_intent": "Lin Cheng ending under fireworks, star charm retied, warm ordinary future.",
+      "model_parameters": {
+        "size": "1536x864",
+        "quality": "medium"
+      },
+      "local_output_path": "assets/campus_triangle_v1/posters/n11_end_childhood.png",
+      "qa_requirements": [
+        "only Lin Cheng appears",
+        "ending warmth",
+        "no protagonist reflection"
+      ],
+      "acceptance_criteria": [
+        "Lin Cheng identity preserved",
+        "No extra characters"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "extra girl",
+        "male reflection",
+        "subtitles"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "video_n11_end_childhood",
+      "asset_type": "node_video",
+      "node_id": "n11_end_childhood",
+      "character_ids": [
+        "lin_cheng"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n11_end_childhood.video.src",
+        "display_context": "ending video"
+      },
+      "capability": "video.first_frame_to_video",
+      "input_asset_ids": [
+        "poster_n11_end_childhood",
+        "char_lin_cheng_ref"
+      ],
+      "prompt_intent": "Animate Lin Cheng retying the charm and watching fireworks.",
+      "model_parameters": {
+        "duration": 12,
+        "ratio": "16:9",
+        "resolution": "720p",
+        "generate_audio": true,
+        "return_last_frame": false,
+        "watermark": false
+      },
+      "local_output_path": "assets/campus_triangle_v1/videos/n11_end_childhood.mp4",
+      "qa_requirements": [
+        "ending duration 8-12 seconds",
+        "only Lin Cheng",
+        "video playable"
+      ],
+      "acceptance_criteria": [
+        "Ending emotion reads clearly",
+        "No protagonist visible"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "extra characters",
+        "subtitles",
+        "watermark"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "poster_n12_end_tsundere",
+      "asset_type": "node_poster",
+      "node_id": "n12_end_tsundere",
+      "character_ids": [
+        "tang_lingyin"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n12_end_tsundere.video.poster",
+        "display_context": "ending poster"
+      },
+      "capability": "image.reference_edit",
+      "input_asset_ids": [
+        "char_tang_lingyin_ref"
+      ],
+      "prompt_intent": "Tang Lingyin ending beside repaired star lantern, embarrassed but relieved.",
+      "model_parameters": {
+        "size": "1536x864",
+        "quality": "medium"
+      },
+      "local_output_path": "assets/campus_triangle_v1/posters/n12_end_tsundere.png",
+      "qa_requirements": [
+        "only Tang Lingyin appears",
+        "star lantern visible",
+        "no protagonist"
+      ],
+      "acceptance_criteria": [
+        "Tang Lingyin identity preserved",
+        "No extra characters"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "extra girl",
+        "male protagonist",
+        "subtitles"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "video_n12_end_tsundere",
+      "asset_type": "node_video",
+      "node_id": "n12_end_tsundere",
+      "character_ids": [
+        "tang_lingyin"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n12_end_tsundere.video.src",
+        "display_context": "ending video"
+      },
+      "capability": "video.first_frame_to_video",
+      "input_asset_ids": [
+        "poster_n12_end_tsundere",
+        "char_tang_lingyin_ref"
+      ],
+      "prompt_intent": "Animate Tang Lingyin giving the viewer a work pass and pretending it is not a date.",
+      "model_parameters": {
+        "duration": 12,
+        "ratio": "16:9",
+        "resolution": "720p",
+        "generate_audio": true,
+        "return_last_frame": false,
+        "watermark": false
+      },
+      "local_output_path": "assets/campus_triangle_v1/videos/n12_end_tsundere.mp4",
+      "qa_requirements": [
+        "only Tang Lingyin",
+        "video playable",
+        "no embedded text"
+      ],
+      "acceptance_criteria": [
+        "Ending emotion reads clearly",
+        "No protagonist visible"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "extra characters",
+        "subtitles",
+        "watermark"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "poster_n13_end_servant",
+      "asset_type": "node_poster",
+      "node_id": "n13_end_servant",
+      "character_ids": [
+        "xing_mi"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n13_end_servant.video.poster",
+        "display_context": "ending poster"
+      },
+      "capability": "image.reference_edit",
+      "input_asset_ids": [
+        "char_xing_mi_ref"
+      ],
+      "prompt_intent": "Xing Mi ending at the old library portal, promising to return as an exchange student.",
+      "model_parameters": {
+        "size": "1536x864",
+        "quality": "medium"
+      },
+      "local_output_path": "assets/campus_triangle_v1/posters/n13_end_servant.png",
+      "qa_requirements": [
+        "only Xing Mi appears",
+        "portal readable",
+        "no protagonist"
+      ],
+      "acceptance_criteria": [
+        "Xing Mi identity preserved",
+        "No extra characters"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "extra girl",
+        "male protagonist",
+        "subtitles"
+      ],
+      "status": "planned"
+    },
+    {
+      "asset_id": "video_n13_end_servant",
+      "asset_type": "node_video",
+      "node_id": "n13_end_servant",
+      "character_ids": [
+        "xing_mi"
+      ],
+      "runtime_usage": {
+        "is_used_by_runtime": true,
+        "runtime_field": "nodes.n13_end_servant.video.src",
+        "display_context": "ending video"
+      },
+      "capability": "video.first_frame_to_video",
+      "input_asset_ids": [
+        "poster_n13_end_servant",
+        "char_xing_mi_ref"
+      ],
+      "prompt_intent": "Animate Xing Mi stepping into the portal, leaving a returning promise page.",
+      "model_parameters": {
+        "duration": 12,
+        "ratio": "16:9",
+        "resolution": "720p",
+        "generate_audio": true,
+        "return_last_frame": false,
+        "watermark": false
+      },
+      "local_output_path": "assets/campus_triangle_v1/videos/n13_end_servant.mp4",
+      "qa_requirements": [
+        "only Xing Mi",
+        "video playable",
+        "no embedded text"
+      ],
+      "acceptance_criteria": [
+        "Ending emotion reads clearly",
+        "No protagonist visible"
+      ],
+      "checker_required": true,
+      "risk_level": "medium",
+      "approval_stage": "planned",
+      "must_not_include": [
+        "extra characters",
+        "subtitles",
+        "watermark"
+      ],
+      "status": "planned"
+    }
+  ]
+}

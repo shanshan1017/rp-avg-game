@@ -1,0 +1,83 @@
+{
+  "project_id": "new_interactive_media_project",
+  "intake_version": "intake_v1",
+  "request_summary": "A short summary of the user's requested game.",
+  "creative_inputs": {
+    "game_type": "interactive visual story / AVG / interactive video",
+    "core_premise": "Who the player is, where the story happens, and what conflict drives the game.",
+    "target_player_experience": "The intended emotional experience.",
+    "player_role": {
+      "pov": "first_person",
+      "identity": "Describe the player character.",
+      "visibility_rule": "The protagonist is the camera and should not appear unless approved."
+    },
+    "main_characters": [
+      {
+        "character_id": "character_001",
+        "name": "Optional name",
+        "role": "Relationship or story function.",
+        "description": "Personality, visual direction, and must-keep traits.",
+        "must_include": true
+      }
+    ],
+    "target_playtime_sec": {
+      "min": 1200,
+      "target": 1500,
+      "max": 1800
+    },
+    "ending_policy": {
+      "normal_endings": {
+        "min": 2,
+        "target": 3,
+        "max": 5
+      },
+      "true_endings": {
+        "min": 1,
+        "target": 1,
+        "max": 2
+      },
+      "failure_endings": {
+        "min": 1,
+        "target": 3,
+        "max": 6
+      },
+      "notes": "Describe desired ending philosophy."
+    },
+    "interaction_density": "Meaningful choices with route/state consequences.",
+    "presentation_format": {
+      "runtime_target": "html_then_godot",
+      "modes": ["text_image", "video", "choice", "ui_overlay"],
+      "video_policy": "Use video only for turning points and payoffs."
+    },
+    "art_direction": {
+      "style_description": "Original anime/game illustration style; no real-person likeness.",
+      "reference_files": [],
+      "forbidden_styles": ["photorealistic celebrity likeness", "existing IP imitation"]
+    },
+    "reference_inputs": []
+  },
+  "production_preferences": {
+    "multi_agent_required": true,
+    "generate_assets_now": false,
+    "paid_generation_allowed": false,
+    "first_deliverable": "coherence_plan"
+  },
+  "hard_constraints": [
+    "Do not use real people, celebrities, public figures, or existing IP as visual references.",
+    "Do not write API keys or signed URLs into repo files."
+  ],
+  "unknowns": [
+    {
+      "question_id": "confirm_execution_permission",
+      "question": "May Planner launch worker agents or should this remain planning-only?",
+      "blocking_level": "must_ask",
+      "default_assumption": "Planning-only until approved."
+    }
+  ],
+  "planner_permission": {
+    "approved_to_make_assumptions": true,
+    "approved_to_start_planning": true,
+    "approved_to_start_execution": false,
+    "permission_notes": "Planning can start; execution/generation requires explicit approval."
+  }
+}

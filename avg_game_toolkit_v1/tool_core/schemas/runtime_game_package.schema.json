@@ -1,0 +1,1070 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/interactive-video/runtime_game_package.schema.json",
+  "title": "Hot-swappable AVG Runtime Game Package",
+  "description": "A single game data package that a fixed HTML/Godot AVG runtime can load, unload, save, and replay without story-specific code changes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "package_version",
+    "game_id",
+    "engine_contract",
+    "meta",
+    "home",
+    "start_node_id",
+    "state",
+    "assets",
+    "characters",
+    "scenes",
+    "nodes"
+  ],
+  "properties": {
+    "package_version": {
+      "type": "string"
+    },
+    "game_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_\\-]+$"
+    },
+    "engine_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "engine_id",
+        "engine_version",
+        "required_features",
+        "asset_base_path",
+        "load_policy"
+      ],
+      "properties": {
+        "engine_id": {
+          "type": "string",
+          "description": "The fixed runtime family expected to consume this package."
+        },
+        "engine_version": {
+          "type": "string"
+        },
+        "required_features": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "segments",
+              "choices",
+              "conditional_choices",
+              "routes",
+              "save_load",
+              "chapter_select",
+              "endings",
+              "achievements",
+              "settings",
+              "play_stats",
+              "background_images",
+              "character_portraits",
+              "expression_switching",
+              "phone_overlay",
+              "right_top_hint",
+              "memory_log",
+              "video_playback",
+              "audio_playback",
+              "worldline_review"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "asset_base_path": {
+          "type": "string",
+          "description": "Base directory or URL prefix for relative local asset paths."
+        },
+        "load_policy": {
+          "enum": [
+            "single_json_with_local_assets",
+            "single_json_embedded_assets",
+            "manifest_plus_assets"
+          ]
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "description",
+        "language",
+        "target_playtime_min"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "target_playtime_min": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "pov": {
+          "type": "string"
+        },
+        "story_intention_summary": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Short optional runtime/review summary of the authoring-time story intention. Runtime logic must not depend on this.",
+          "properties": {
+            "core_question": {
+              "type": "string"
+            },
+            "emotional_anchor": {
+              "type": "string"
+            },
+            "core_intention": {
+              "type": "string"
+            },
+            "ending_philosophy": {
+              "enum": [
+                "single_answer_true_ending",
+                "multiple_equal_answers",
+                "branch_specific_answers",
+                "experimental"
+              ]
+            }
+          }
+        },
+        "content_design_tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "content_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "home": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cover",
+        "enabled_features"
+      ],
+      "properties": {
+        "cover": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "tagline": {
+              "type": "string"
+            },
+            "cover_asset_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "enabled_features": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "import_json",
+              "local_library",
+              "continue",
+              "new_game",
+              "ending_records",
+              "achievement_records",
+              "chapter_select",
+              "save_slots",
+              "play_stats",
+              "settings"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "disabled_features": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "developer_intro",
+              "dev_tools",
+              "remote_asset_loading"
+            ]
+          },
+          "default": [
+            "developer_intro"
+          ]
+        }
+      }
+    },
+    "settings_defaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "color_mode": {
+          "enum": [
+            "light",
+            "dark"
+          ],
+          "default": "dark"
+        },
+        "font_scale": {
+          "type": "number",
+          "minimum": 0.75,
+          "maximum": 1.5,
+          "default": 1
+        },
+        "motion": {
+          "enum": [
+            "full",
+            "soft",
+            "off"
+          ],
+          "default": "full"
+        },
+        "autoplay_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
+        }
+      }
+    },
+    "start_node_id": {
+      "type": "string"
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "primary_value",
+        "values",
+        "variables",
+        "flags"
+      ],
+      "properties": {
+        "primary_value": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "display_name",
+            "initial",
+            "min",
+            "max"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "display_name": {
+              "type": "string"
+            },
+            "initial": {
+              "type": "number"
+            },
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            }
+          }
+        },
+        "values": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "variables": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          }
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "assets": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/asset"
+      }
+    },
+    "characters": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/character"
+      }
+    },
+    "scenes": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/scene"
+      }
+    },
+    "achievements": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/achievement"
+      },
+      "default": {}
+    },
+    "chapters": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/chapter"
+      },
+      "default": []
+    },
+    "nodes": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/node"
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "description": "Feature flags (has_*) and content counts (*_count) used by the runtime to enable optional UI.",
+      "additionalProperties": {
+        "type": [
+          "boolean",
+          "integer"
+        ]
+      }
+    },
+    "ui": {
+      "type": "object",
+      "description": "Runtime UI options: layout_mode, choice_hint_mode, quick_menu, hud_tracks, ...",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_id",
+        "type",
+        "path",
+        "usage",
+        "required"
+      ],
+      "properties": {
+        "asset_id": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "image",
+            "video",
+            "audio",
+            "sprite",
+            "ui",
+            "font",
+            "data"
+          ]
+        },
+        "path": {
+          "type": "string",
+          "description": "Prefer a local relative path under asset_base_path. Avoid signed remote URLs in production packages."
+        },
+        "usage": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "cover",
+              "background",
+              "character_portrait",
+              "character_expression",
+              "prop",
+              "story_still",
+              "video_clip",
+              "audio_bgm",
+              "audio_sfx",
+              "ui_skin",
+              "font",
+              "qa_only",
+              "fullscreen_cinematic"
+            ]
+          },
+          "minItems": 1
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "alt_text": {
+          "type": "string"
+        },
+        "source_manifest_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "width": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "height": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "duration_sec": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      }
+    },
+    "character": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "character_id",
+        "display_name",
+        "role",
+        "speech_style",
+        "default_expression",
+        "portraits"
+      ],
+      "properties": {
+        "character_id": {
+          "type": "string"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "player_visible_profile": {
+          "type": "string"
+        },
+        "speech_style": {
+          "type": "string"
+        },
+        "color": {
+          "type": "string"
+        },
+        "default_expression": {
+          "type": "string"
+        },
+        "portraits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/portrait"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "portrait": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expression",
+        "asset_id"
+      ],
+      "properties": {
+        "expression": {
+          "type": "string"
+        },
+        "asset_id": {
+          "type": "string"
+        },
+        "pose": {
+          "type": "string"
+        }
+      }
+    },
+    "scene": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scene_id",
+        "name",
+        "type",
+        "description"
+      ],
+      "properties": {
+        "scene_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "major",
+            "transient"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "arrival": {
+          "type": "string"
+        },
+        "background_asset_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ambient": {
+          "type": "string"
+        }
+      }
+    },
+    "achievement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "description"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "chapter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "chapter_id",
+        "title",
+        "entry_node_id"
+      ],
+      "properties": {
+        "chapter_id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "entry_node_id": {
+          "type": "string"
+        }
+      }
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "node_id"
+      ],
+      "properties": {
+        "node_id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "chapter_title": {
+          "type": "string"
+        },
+        "scene_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "progress": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "ambient": {
+          "type": "string"
+        },
+        "background_asset_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "character_layers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/character_layer"
+          },
+          "default": []
+        },
+        "media": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/node_media"
+          },
+          "default": []
+        },
+        "segments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/segment"
+          },
+          "default": []
+        },
+        "choices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/choice"
+          },
+          "default": []
+        },
+        "next": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "routes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/route"
+          },
+          "default": []
+        },
+        "is_ending": {
+          "type": "boolean",
+          "default": false
+        },
+        "ending": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ending"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "qa": {
+          "$ref": "#/$defs/node_qa"
+        }
+      }
+    },
+    "character_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "character_id",
+        "expression",
+        "position",
+        "visible"
+      ],
+      "properties": {
+        "character_id": {
+          "type": "string"
+        },
+        "expression": {
+          "type": "string"
+        },
+        "asset_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "position": {
+          "enum": [
+            "left",
+            "center",
+            "right",
+            "foreground",
+            "background",
+            "custom"
+          ]
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "transition": {
+          "type": "string"
+        },
+        "z_index": {
+          "type": "integer"
+        }
+      }
+    },
+    "node_media": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "media_type",
+        "asset_id",
+        "presentation"
+      ],
+      "properties": {
+        "media_type": {
+          "enum": [
+            "image",
+            "video",
+            "audio"
+          ]
+        },
+        "asset_id": {
+          "type": "string"
+        },
+        "presentation": {
+          "enum": [
+            "background",
+            "inline",
+            "fullscreen",
+            "overlay",
+            "bgm",
+            "sfx",
+            "cinematic_still"
+          ]
+        },
+        "autoplay": {
+          "type": "boolean",
+          "default": false
+        },
+        "loop": {
+          "type": "boolean",
+          "default": false
+        },
+        "display_duration_ms": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "segment_id",
+        "segment_type",
+        "text"
+      ],
+      "properties": {
+        "segment_id": {
+          "type": "string"
+        },
+        "segment_type": {
+          "enum": [
+            "narration",
+            "dialogue",
+            "system",
+            "phone_message",
+            "right_top_hint",
+            "memory_log",
+            "profile_note",
+            "choice_prompt"
+          ]
+        },
+        "speaker_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "show_layers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/character_layer"
+          },
+          "default": []
+        },
+        "asset_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "auto_advance_ms": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        }
+      }
+    },
+    "choice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "choice_id",
+        "label",
+        "target_node_id"
+      ],
+      "properties": {
+        "choice_id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "target_node_id": {
+          "type": "string"
+        },
+        "condition": {
+          "$ref": "#/$defs/condition"
+        },
+        "locked_hint": {
+          "type": "string"
+        },
+        "changes": {
+          "$ref": "#/$defs/changes"
+        },
+        "callback_node_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Recommended for choices that later merge, so the next screen visibly reacts to the exact choice."
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "condition",
+        "next_node_id"
+      ],
+      "properties": {
+        "condition": {
+          "$ref": "#/$defs/condition"
+        },
+        "next_node_id": {
+          "type": "string"
+        }
+      }
+    },
+    "condition": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "all": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/condition"
+              }
+            },
+            "any": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/condition"
+              }
+            },
+            "not": {
+              "$ref": "#/$defs/condition"
+            },
+            "flag": {
+              "type": "string"
+            },
+            "var": {
+              "type": "string"
+            },
+            "op": {
+              "enum": [
+                "==",
+                "!=",
+                ">=",
+                "<=",
+                ">",
+                "<"
+              ]
+            },
+            "value": {
+              "type": [
+                "string",
+                "number",
+                "boolean",
+                "null"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "changes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "primary_value_delta": {
+          "type": "number"
+        },
+        "primary_value_set": {
+          "type": "number"
+        },
+        "values_delta": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "set_variables": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          }
+        },
+        "add_flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "remove_flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "important_flag": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unlock_achievements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ending": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ending_type",
+        "description"
+      ],
+      "properties": {
+        "ending_type": {
+          "enum": [
+            "true",
+            "normal",
+            "bad",
+            "failure",
+            "hidden",
+            "special"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "closing": {
+          "type": "string"
+        },
+        "achievement_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "node_qa": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "purpose": {
+          "type": "string"
+        },
+        "player_must_understand": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "choice_callback_required": {
+          "type": "boolean"
+        },
+        "asset_trace": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    }
+  }
+}

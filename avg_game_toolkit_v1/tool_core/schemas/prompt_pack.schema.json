@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/interactive-video/prompt_pack.schema.json",
+  "title": "Prompt Pack",
+  "description": "Unified prompt package for image, video, audio, and UI assets. Every prompt must trace back to runtime usage and source story units.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project_id",
+    "global_style_bible",
+    "prompts"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string"
+    },
+    "global_style_bible": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "style_summary",
+        "must_include",
+        "must_not_include"
+      ],
+      "properties": {
+        "style_summary": {
+          "type": "string"
+        },
+        "must_include": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "must_not_include": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "negative_prompt": {
+          "type": "string"
+        },
+        "reference_asset_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "prompts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/prompt"
+      },
+      "minItems": 1
+    }
+  },
+  "$defs": {
+    "prompt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prompt_id",
+        "asset_id",
+        "discipline",
+        "capability",
+        "source_unit_ids",
+        "expected_runtime_use",
+        "prompt",
+        "model_parameters"
+      ],
+      "properties": {
+        "prompt_id": {
+          "type": "string"
+        },
+        "asset_id": {
+          "type": "string"
+        },
+        "discipline": {
+          "enum": [
+            "image",
+            "video",
+            "audio",
+            "ui"
+          ]
+        },
+        "asset_type": {
+          "type": "string"
+        },
+        "capability": {
+          "enum": [
+            "image.text_to_image",
+            "image.reference_edit",
+            "image.mask_edit",
+            "image.responses_multiturn",
+            "image.streaming",
+            "video.text_to_video",
+            "video.first_frame_to_video",
+            "video.reference_image_to_video",
+            "video.reference_video_to_video",
+            "video.reference_audio",
+            "video.last_frame_chain",
+            "audio.tts",
+            "audio.voice_design",
+            "audio.music_generation",
+            "audio.reference_import",
+            "audio.manual_import",
+            "video.embedded_audio_prompt",
+            "skip"
+          ]
+        },
+        "source_unit_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "source_character_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "input_asset_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "expected_runtime_use": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "is_used_by_runtime",
+            "runtime_field"
+          ],
+          "properties": {
+            "is_used_by_runtime": {
+              "type": "boolean"
+            },
+            "runtime_field": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "presentation": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "prompt": {
+          "type": "string"
+        },
+        "negative_prompt": {
+          "type": "string"
+        },
+        "model_parameters": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "qa_requirements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "status": {
+          "enum": [
+            "draft",
+            "planner_approved",
+            "checker_approved",
+            "generated",
+            "rejected",
+            "skipped"
+          ],
+          "default": "draft"
+        }
+      }
+    }
+  }
+}
+

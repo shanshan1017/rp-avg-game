@@ -1,0 +1,306 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/interactive-video/media_story_bible.schema.json",
+  "title": "Generic Interactive Media Story Bible",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project_id",
+    "premise",
+    "tone",
+    "style_profile",
+    "protagonist_rule",
+    "characters",
+    "locations",
+    "story_graph"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string"
+    },
+    "premise": {
+      "type": "string"
+    },
+    "tone": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "style_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "style_id",
+        "prompt_prefix",
+        "negative_prompt"
+      ],
+      "properties": {
+        "style_id": {
+          "type": "string"
+        },
+        "prompt_prefix": {
+          "type": "string"
+        },
+        "negative_prompt": {
+          "type": "string"
+        },
+        "reference_asset_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "protagonist_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pov",
+        "visibility_rule"
+      ],
+      "properties": {
+        "pov": {
+          "enum": [
+            "first_person",
+            "third_person",
+            "mixed"
+          ]
+        },
+        "visibility_rule": {
+          "type": "string"
+        },
+        "allowed_body_parts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "characters": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/character"
+      }
+    },
+    "locations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/location"
+      }
+    },
+    "recurring_props": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/prop"
+      },
+      "default": []
+    },
+    "audio_direction": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "default": {}
+    },
+    "story_graph": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entry_node_id",
+        "nodes"
+      ],
+      "properties": {
+        "entry_node_id": {
+          "type": "string"
+        },
+        "state_variables": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/story_node"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "character": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "character_id",
+        "display_name",
+        "role",
+        "age",
+        "appears_on_screen",
+        "visual_anchor"
+      ],
+      "properties": {
+        "character_id": {
+          "type": "string"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer",
+          "minimum": 18
+        },
+        "appears_on_screen": {
+          "type": "boolean"
+        },
+        "needs_reference_image": {
+          "type": "boolean",
+          "default": true
+        },
+        "personality": {
+          "type": "string"
+        },
+        "visual_anchor": {
+          "type": "string"
+        },
+        "must_preserve": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "must_avoid": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "location_id",
+        "display_name",
+        "visual_anchor"
+      ],
+      "properties": {
+        "location_id": {
+          "type": "string"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "visual_anchor": {
+          "type": "string"
+        },
+        "needs_reference_image": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "prop": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prop_id",
+        "display_name",
+        "visual_anchor"
+      ],
+      "properties": {
+        "prop_id": {
+          "type": "string"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "visual_anchor": {
+          "type": "string"
+        },
+        "needs_reference_image": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "story_node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "node_id",
+        "type",
+        "summary"
+      ],
+      "properties": {
+        "node_id": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "opening",
+            "scene",
+            "choice",
+            "bridge",
+            "failure",
+            "ending"
+          ]
+        },
+        "summary": {
+          "type": "string"
+        },
+        "target_duration_sec": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "choices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/choice"
+          },
+          "default": []
+        }
+      }
+    },
+    "choice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "choice_id",
+        "label",
+        "target_node_id"
+      ],
+      "properties": {
+        "choice_id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "target_node_id": {
+          "type": "string"
+        },
+        "state_effects": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "default": {}
+        }
+      }
+    }
+  }
+}

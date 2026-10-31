@@ -1,0 +1,257 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/interactive-video/media_character_design.schema.json",
+  "title": "Generic Interactive Media Character Design",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project_id",
+    "design_version",
+    "global_rules",
+    "characters"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string"
+    },
+    "design_version": {
+      "type": "string"
+    },
+    "global_rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "age_policy",
+        "style_lock",
+        "protagonist_visibility_rule"
+      ],
+      "properties": {
+        "age_policy": {
+          "type": "string"
+        },
+        "style_lock": {
+          "type": "string"
+        },
+        "protagonist_visibility_rule": {
+          "type": "string"
+        },
+        "forbidden_references": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "characters": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/character_design"
+      }
+    }
+  },
+  "$defs": {
+    "character_design": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "character_id",
+        "display_name",
+        "age",
+        "role",
+        "runtime_usage",
+        "narrative_design",
+        "relationship_design",
+        "visual_design",
+        "voice_design",
+        "generation_rules"
+      ],
+      "properties": {
+        "character_id": {
+          "type": "string"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer",
+          "minimum": 18
+        },
+        "role": {
+          "type": "string"
+        },
+        "runtime_usage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "appears_on_screen",
+            "needs_reference_image",
+            "runtime_fields"
+          ],
+          "properties": {
+            "appears_on_screen": {
+              "type": "boolean"
+            },
+            "needs_reference_image": {
+              "type": "boolean"
+            },
+            "runtime_fields": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "narrative_design": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "core_desire",
+            "external_goal",
+            "inner_conflict",
+            "arc",
+            "failure_pressure"
+          ],
+          "properties": {
+            "core_desire": {
+              "type": "string"
+            },
+            "external_goal": {
+              "type": "string"
+            },
+            "inner_conflict": {
+              "type": "string"
+            },
+            "arc": {
+              "type": "string"
+            },
+            "failure_pressure": {
+              "type": "string"
+            }
+          }
+        },
+        "relationship_design": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "relationship_to_protagonist",
+            "relationship_to_other_leads",
+            "choice_meaning"
+          ],
+          "properties": {
+            "relationship_to_protagonist": {
+              "type": "string"
+            },
+            "relationship_to_other_leads": {
+              "type": "string"
+            },
+            "choice_meaning": {
+              "type": "string"
+            }
+          }
+        },
+        "visual_design": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "silhouette",
+            "face_and_hair",
+            "eyes",
+            "outfit",
+            "palette",
+            "signature_props",
+            "expression_and_pose",
+            "scene_rules"
+          ],
+          "properties": {
+            "silhouette": {
+              "type": "string"
+            },
+            "face_and_hair": {
+              "type": "string"
+            },
+            "eyes": {
+              "type": "string"
+            },
+            "outfit": {
+              "type": "string"
+            },
+            "palette": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "signature_props": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "expression_and_pose": {
+              "type": "string"
+            },
+            "scene_rules": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "voice_design": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "speaking_style",
+            "sample_lines"
+          ],
+          "properties": {
+            "speaking_style": {
+              "type": "string"
+            },
+            "sample_lines": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "generation_rules": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "prompt_anchor",
+            "must_preserve",
+            "must_avoid",
+            "reference_policy"
+          ],
+          "properties": {
+            "prompt_anchor": {
+              "type": "string"
+            },
+            "must_preserve": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "must_avoid": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "reference_policy": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

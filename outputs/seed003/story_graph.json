@@ -1,0 +1,1370 @@
+{
+  "story_id": "sakura_parallel_003",
+  "title": "樱花落下的平行线",
+  "genre": "校园日常/奇幻（泣系）",
+  "language": "zh",
+  "total_acts": 4,
+  "world_setting": "现代初夏的海滨小镇'光之丘'。小镇依山面海，坡道上种满了反季节的晚樱，初夏时分仍有零星花瓣飘落。镇上只有一所学校——光丘学园，从小学部到高中部一贯制。小镇的标志是山顶废弃的�的钟楼，据传建于明治时代，每逢满月会自行鸣响。五年前，镇上最后一次举办'光之祭'后，祭典突然中止，钟楼也被封锁。少年远野秋人五年前随父亲离开光之丘，如今因父亲再婚带着义妹远野奏回到故乡。他对五年前失踪的一周记忆一片空白，只隐约记得钟楼和樱花。小镇表面宁静，但在日常之下流淌着关于'思念体'——由强烈情感凝聚而成的超自然存在——的秘密。",
+  "time_period": "现代，初夏（六月至八月）",
+  "location": "海滨小镇'光之丘'，光丘学园",
+  "characters": [
+    {
+      "char_id": "char_akito",
+      "name": "远野秋人",
+      "role": "主角",
+      "description": "十七岁，身高中等偏高，黑发微长，习惯用手拨开额前碎发。外表冷淡，实则是天然的吐槽役，内心温柔却不善表达。五年前离开光之丘时丢失了一周的记忆，对此一直感到不安。转入光丘学园二年级。",
+      "speech_style": "语气平淡带吐槽，偶尔冒出冷笑话，认真时会变得结巴",
+      "hidden_agenda": "五年前在钟楼许下的愿望让铃音以思念体的形式继续存活，代价是失去那一周的记忆",
+      "knowledge": [
+        "五年前曾在光之丘生活",
+        "钟楼有传说但不记得细节",
+        "失踪的一周记忆"
+      ]
+    },
+    {
+      "char_id": "char_suzune",
+      "name": "神尾铃音",
+      "role": "NPC",
+      "description": "十七岁，及腰的银灰色长发，肤色苍白，身形纤细得令人担忧。总是带着温柔却寂寞的微笑，像是随时会消失的人。幼年体弱，五年前病情曾一度危殆。秋人的青梅竹马，小时候经常一起在海边捡贝壳。喜欢猫，每天放学后会去海边喂流浪猫。",
+      "speech_style": "语速缓慢，声音轻柔，常用省略句，笑的时候会微微歪头",
+      "hidden_agenda": "她隐约感觉自己不完全是'活着的人'，身体里有某种不属于自己的力量在维持她的存在。她知道真相会伤害秋人，所以选择沉默",
+      "knowledge": [
+        "自己的身体状态异常",
+        "五年前秋人在钟楼做了某件事",
+        "思念体的存在（模糊感知）"
+      ]
+    },
+    {
+      "char_id": "char_yui",
+      "name": "星野结衣",
+      "role": "NPC",
+      "description": "十六岁，双马尾，琥珀色眼睛，表情丰富到夸张。三年前随家人搬到光之丘的转校生，却比本地人更热衷于小镇的超常现象。性格傲娇，嘴上不饶人但行动上总是最先帮忙。自称'超常现象研究专家'，实际上是因为三年前亲眼目睹了一次思念体现象才变得执着。",
+      "speech_style": "语速快，爱用断言句，害羞时会突然提高音量转移话题，口癖'这才不是我在意呢'",
+      "hidden_agenda": "三年前她在海边看到一个透明的少女身影在夕阳下消失，从此开始调查。那个身影其实是铃音的思念体在不稳定时的'泄漏'",
+      "knowledge": [
+        "三年前目睹超常现象",
+        "收集了大量小镇异常事件记录",
+        "钟楼封锁的官方理由与实际不符"
+      ]
+    },
+    {
+      "char_id": "char_seiran",
+      "name": "九条院圣良",
+      "role": "NPC",
+      "description": "十八岁，三年级。长及脚踝的黑直长发，容貌端丽得不像是小镇上的人。举止优雅从容，但眼神中带着某种看透一切的疲倦。九条院家是光之丘的旧家族，世代守护钟楼。她是最后的传人，拥有钟楼的钥匙。",
+      "speech_style": "措辞典雅，偶尔用古语，说话时常带着若有若无的笑意，像是在说一个只有她知道答案的谜语",
+      "hidden_agenda": "她一直在等秋人回来。五年前的事件中，是她的祖母引导年幼的秋人完成了钟楼的许愿仪式。祖母已逝，她继承了守护者的责任，知道思念体的真相和解决方法",
+      "knowledge": [
+        "钟楼的完整历史和机制",
+        "思念体的本质",
+        "五年前许愿仪式的全部细节",
+        "铃音是思念体维持的存在",
+        "光之祭中止的真正原因"
+      ]
+    },
+    {
+      "char_id": "char_kanade",
+      "name": "远野奏",
+      "role": "NPC",
+      "description": "十五岁，一年级。栗色短发，大眼睛，表情总是带着一种超出年龄的懂事与隐忍。秋人父亲再婚后的义妹，与秋人没有血缘关系。对秋人有着复杂的感情——既是家人的依赖，也有隐藏的仰慕。做饭很好，每天早起给秋人做便当。",
+      "speech_style": "说话温和有礼，对秋人用'哥哥'称呼，偶尔在无人时流露出不安，会无意识地抓住衣角",
+      "hidden_agenda": "她在秋人的书房里偶然发现了那张旧照片——上面是幼年的秋人和一个看不清面容的女孩站在钟楼前。她一直没有告诉秋人，因为害怕照片中的女孩会让秋人想起什么、然后离开她",
+      "knowledge": [
+        "旧照片的存在",
+        "秋人有记忆断层",
+        "秋人经常在睡梦中喃喃提到钟楼"
+      ]
+    }
+  ],
+  "nodes": {
+    "node_01": {
+      "node_id": "node_01",
+      "node_type": "narrative",
+      "title": "光之丘的初夏",
+      "act": 1,
+      "branch_id": "main",
+      "scene_description": "描写秋人乘坐长途巴士回到阔别五年的光之丘。巴士沿海岸线行驶，窗外是初夏的蓝天与大海。进入小镇时，他看到了坡道上不合时节的晚樱花瓣在飘落。下车后，他站在巴士站前，闻到潮水和花的混合气味，记忆深处有什么在隐隐作痛。义妹奏跟在他身后，手里拎着行李，小心翼翼地观察他的表情。远处山顶的钟楼轮廓在夕阳中若隐若现。",
+      "key_events": [
+        "秋人回到光之丘，感受到熟悉又陌生的氛围",
+        "奏第一次来到光之丘，对小镇充满好奇",
+        "秋人看到钟楼时产生强烈的既视感但无法回忆细节",
+        "路过海边时，秋人隐约看到一个银发少女的身影，但转瞬即逝"
+      ],
+      "emotional_tone": "怀旧、温暖中带着隐隐不安",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_02"],
+      "prev_nodes": [],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "秋人阔别五年回到光之丘",
+        "小镇有不合时节的晚樱",
+        "山顶有一座废弃钟楼",
+        "秋人对钟楼有强烈既视感"
+      ],
+      "witnesses": ["char_akito", "char_kanade"]
+    },
+    "node_02": {
+      "node_id": "node_02",
+      "node_type": "narrative",
+      "title": "光丘学园",
+      "act": 1,
+      "branch_id": "main",
+      "scene_description": "秋人转入光丘学园二年级。学校建在半山腰，从教室窗户可以看到整片海。班主任介绍他时，他用最简短的自我介绍糊弄过去。坐下后发现邻座是一个总在打瞌睡的银发少女——神尾铃音。她睁开眼看到秋人时，愣了很长时间，然后露出一个寂寞而温柔的微笑说'欢迎回来'。下课后，一个双马尾的学妹星野结衣冲进教室，举着一份手写的传单说要招募'民俗研究社'成员，被秋人吐槽传单写得像灵异杂志。放学时，三年级的九条院圣良出现在走廊，目光在秋人身上停留了几秒，微微点头后离去。",
+      "key_events": [
+        "秋人转入光丘学园，与铃音重逢",
+        "铃音认出秋人，说出'欢迎回来'",
+        "结衣招募民俗研究社成员，对超常现象充满热情",
+        "圣良出现，似乎认识秋人但没有说话",
+        "秋人注意到铃音的身体状况似乎不太好"
+      ],
+      "emotional_tone": "校园日常的明快感，重逢的微妙感伤",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_03"],
+      "prev_nodes": ["node_01"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "铃音是秋人的青梅竹马",
+        "铃音身体虚弱",
+        "结衣在组建民俗研究社",
+        "圣良似乎认识秋人"
+      ],
+      "witnesses": ["char_akito", "char_suzune", "char_yui", "char_seiran"]
+    },
+    "node_03": {
+      "node_id": "node_03",
+      "node_type": "choice",
+      "title": "放学后的选择",
+      "act": 1,
+      "branch_id": "main",
+      "scene_description": "放学铃响后，秋人面临选择。铃音轻声邀请他一起去海边喂猫——'和小时候一样'。与此同时，结衣拉住他的袖子，说社团第一次活动需要人手，要去调查镇上图书馆关于钟楼的旧资料。两个邀请撞在一起，秋人必须做出选择。奏在教室门口等着他，不管他选哪边都会默默跟上。",
+      "key_events": [
+        "铃音邀请秋人去海边喂猫",
+        "结衣邀请秋人参加社团活动",
+        "奏等在门口，默默观察"
+      ],
+      "emotional_tone": "日常的温暖，选择的小小纠结",
+      "pov_character": "",
+      "choices": [
+        {
+          "option_id": "opt_03a",
+          "text": "陪铃音去海边看猫——那个寂寞的微笑让人放不下",
+          "target_node_id": "node_04a",
+          "is_dead_end": false,
+          "branch_type": "pearl_string",
+          "value_effects": [
+            {"attribute": "kizuna", "delta": 2}
+          ],
+          "hint": "与铃音重建童年的羁绊，她会在海边说出一些关于过去的碎片",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        },
+        {
+          "option_id": "opt_03b",
+          "text": "留在社团帮结衣——钟楼的传说让人在意",
+          "target_node_id": "node_04b",
+          "is_dead_end": false,
+          "branch_type": "pearl_string",
+          "value_effects": [
+            {"attribute": "memory", "delta": 1},
+            {"attribute": "resolve", "delta": 1}
+          ],
+          "hint": "在图书馆发现关于钟楼和光之祭的旧记录，推进对真相的了解",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        }
+      ],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_04a", "node_04b"],
+      "prev_nodes": ["node_02"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "民俗研究社正式成立"
+      ],
+      "witnesses": ["char_akito", "char_suzune", "char_yui", "char_kanade"]
+    },
+    "node_04a": {
+      "node_id": "node_04a",
+      "node_type": "narrative",
+      "title": "海边的猫与约定",
+      "act": 1,
+      "branch_id": "branch_suzune",
+      "scene_description": "秋人陪铃音走到海边的防波堤。铃音从书包里拿出猫粮，三四只流浪猫立刻围了上来。夕阳将海面染成橙红色，铃音蹲在猫群中间，银发在海风中飘动。她轻声说起小时候的事——'你还记得吗，我们给那只黑猫取名叫阿波罗'。秋人不记得了，但那个名字让他胸口发紧。铃音没有追问，只是笑着说'没关系，猫会记住的'。回去的路上，铃音突然轻声咳嗽，手帕上有淡淡的红色。她迅速藏起来，但秋人看到了。",
+      "key_events": [
+        "秋人与铃音在海边喂猫，重温童年时光",
+        "铃音提到他们给黑猫取名'阿波罗'——秋人不记得",
+        "铃音说'猫会记住的'，暗示即使人忘了，某些东西不会消失",
+        "铃音咳血，秋人发现她的身体状况比想象中严重",
+        "奏远远跟在后面，看到这一幕"
+      ],
+      "emotional_tone": "温暖而哀伤，夕阳下的脆弱美感",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_05"],
+      "prev_nodes": ["node_03"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "秋人与铃音童年曾一起喂猫",
+        "铃音有咳血症状，病情严重",
+        "铃音对秋人的记忆缺失表现得很平静"
+      ],
+      "witnesses": ["char_akito", "char_suzune"]
+    },
+    "node_04b": {
+      "node_id": "node_04b",
+      "node_type": "narrative",
+      "title": "超常调查笔记",
+      "act": 1,
+      "branch_id": "branch_yui",
+      "scene_description": "秋人跟结衣去镇上的小图书馆。结衣翻出一叠发黄的地方志和旧报纸，兴奋地指给他看——'光之祭'的历史记录。这个祭典从明治时代就有，每年盂兰盆节在钟楼举行，目的是'安抚亡者的思念'。但五年前的记录突然中断，只有一行简短的注释：'因安全隐患，钟楼封锁，祭典无限期中止'。结衣拿出她自己的调查笔记——三年来她记录了镇上十七起'无法解释的现象'：有人在海边看到透明的人影，有人在深夜听到钟声，有猫在空无一人的坡道上对着什么叫。秋人翻看笔记时，一张旧照片从地方志中掉落——上面是钟楼前一群人的合影，但面容模糊得诡异。",
+      "key_events": [
+        "发现'光之祭'的历史——明治时代起每年举行的安抚亡者仪式",
+        "五年前祭典突然中止，官方理由是'安全隐患'",
+        "结衣展示三年来记录的十七起超常现象",
+        "从地方志中掉出一张钟楼前的旧合影，面容模糊",
+        "秋人在看旧照片时头痛了一瞬"
+      ],
+      "emotional_tone": "探索的好奇，谜题初现的紧张感",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_05"],
+      "prev_nodes": ["node_03"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "光之祭自明治时代举办，目的是安抚亡者思念",
+        "五年前祭典中止，钟楼封锁",
+        "镇上存在多起超常现象记录",
+        "钟楼旧合影中的人脸模糊不清"
+      ],
+      "witnesses": ["char_akito", "char_yui"]
+    },
+    "node_05": {
+      "node_id": "node_05",
+      "node_type": "merge_point",
+      "title": "圣良与钟楼",
+      "act": 2,
+      "branch_id": "main",
+      "scene_description": "隔天放学，秋人在学校天台遇到九条院圣良。她正站在栏杆旁看着远处山顶的钟楼，长发在风中轻轻飘动。她主动开口：'远野同学，你回来了。我等了很久。'秋人一头雾水，圣良却不急于解释，只是说'有些事，时机到了自然会明白'。她从制服口袋里取出一把古旧的铜钥匙，在阳光下转了转：'这是钟楼的钥匙。九条院家世代保管。'她看着秋人的眼睛，'如果你想知道你遗失的那一周里发生了什么，总有一天要用到它。'走过node_04a的秋人会提到铃音的身体状况，圣良的表情会变得凝重；走过node_04b的秋人会提到光之祭的中止，圣良会说'那是因为代价太大了'。",
+      "key_events": [
+        "圣良主动接触秋人，暗示她一直在等他回来",
+        "圣良展示钟楼钥匙——九条院家世代保管",
+        "圣良暗示钥匙与秋人遗失的记忆有关",
+        "圣良提到'时机'和'代价'等关键词"
+      ],
+      "emotional_tone": "神秘、静谧，命运线索初现",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_06"],
+      "prev_nodes": ["node_04a", "node_04b"],
+      "merge_to": "node_05",
+      "auto_route": {
+        "description": "根据前序分支调整圣良的回应",
+        "from_node_04a": "秋人提到铃音身体不好，圣良沉默片刻后说'她在努力活着，比你想象的更努力'",
+        "from_node_04b": "秋人提到光之祭中止的记录，圣良说'那是因为代价太大了，但不面对也不是办法'"
+      },
+      "facts_introduced": [
+        "九条院家世代保管钟楼钥匙",
+        "圣良一直在等秋人回来",
+        "钟楼钥匙与秋人的遗失记忆有关"
+      ],
+      "witnesses": ["char_akito", "char_seiran"]
+    },
+    "node_06": {
+      "node_id": "node_06",
+      "node_type": "choice",
+      "title": "旧照片",
+      "act": 2,
+      "branch_id": "main",
+      "scene_description": "某天傍晚，秋人在家中整理旧物时，奏犹豫了很久，终于拿出一张照片递给他。照片已经破损——是一张被撕成两半又勉强拼在一起的旧照。上面是幼年的秋人，站在钟楼前，旁边有一个女孩的模糊轮廓，但那一半严重褪色，几乎看不清面容。奏低着头说'我在哥哥的旧箱子里找到的……一直不敢给你看'。秋人看着照片，头隐隐作痛，有什么东西在记忆深处挣扎。他可以选择修复这张照片，或者暂时搁置。",
+      "key_events": [
+        "奏交出她一直藏着的旧照片",
+        "照片是幼年秋人和不明少女在钟楼前的合影",
+        "照片损坏严重，女孩面容模糊",
+        "秋人看到照片时产生头痛和记忆波动"
+      ],
+      "emotional_tone": "紧张而温柔，过去与现在交织",
+      "pov_character": "",
+      "choices": [
+        {
+          "option_id": "opt_06a",
+          "text": "拜托结衣帮忙修复这张旧照片——想知道照片中的女孩是谁",
+          "target_node_id": "node_07a",
+          "is_dead_end": false,
+          "branch_type": "pearl_string",
+          "value_effects": [
+            {"attribute": "memory", "delta": 2}
+          ],
+          "hint": "修复照片将揭示重要的家族线索和五年前事件的关键人物",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        },
+        {
+          "option_id": "opt_06b",
+          "text": "将照片收好，暂时搁置——不想看到奏担心的表情",
+          "target_node_id": "node_07b",
+          "is_dead_end": false,
+          "branch_type": "pearl_string",
+          "value_effects": [
+            {"attribute": "kizuna", "delta": 1}
+          ],
+          "hint": "保护奏的心情，但错过直接获取关键线索的机会",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        }
+      ],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_07a", "node_07b"],
+      "prev_nodes": ["node_05"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "存在一张秋人与不明少女在钟楼前的旧照片",
+        "照片被撕毁过又拼合",
+        "奏一直隐藏着这张照片"
+      ],
+      "witnesses": ["char_akito", "char_kanade"]
+    },
+    "node_07a": {
+      "node_id": "node_07a",
+      "node_type": "narrative",
+      "title": "照片中的少女",
+      "act": 2,
+      "branch_id": "branch_photo_repair",
+      "scene_description": "结衣用图像修复软件和放大镜花了一个下午处理照片。修复后的图像让秋人呆住了——照片中的女孩是幼年的铃音。她穿着白色连衣裙，站在钟楼前的台阶上，笑得灿烂而健康。但让秋人更震惊的是照片背面的字迹，是他自己幼年的笔迹：'和铃音的约定——七月七日，在钟楼许愿。'结衣惊讶地说'神尾学姐？等等，她五年前不是已经……'然后意识到什么，闭上了嘴。秋人追问，结衣吞吞吐吐说出镇上老人偶尔提起的话：五年前铃音病危，医生说没有希望了。但后来她奇迹般地活了下来。",
+      "key_events": [
+        "照片修复后确认女孩是幼年铃音",
+        "照片背面有秋人幼年写的'七月七日在钟楼许愿的约定'",
+        "结衣透露五年前铃音曾病危到被宣判无望",
+        "铃音'奇迹般活下来'的事实引发疑问"
+      ],
+      "emotional_tone": "震惊、感动、谜题深化",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_08"],
+      "prev_nodes": ["node_06"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "照片中的女孩是幼年铃音",
+        "秋人与铃音有'七月七日在钟楼许愿'的约定",
+        "五年前铃音曾病危被宣判无望后奇迹存活"
+      ],
+      "witnesses": ["char_akito", "char_yui"]
+    },
+    "node_07b": {
+      "node_id": "node_07b",
+      "node_type": "narrative",
+      "title": "搁置的记忆",
+      "act": 2,
+      "branch_id": "branch_photo_shelf",
+      "scene_description": "秋人将照片放进抽屉，对奏说'等我准备好了再看'。奏松了口气，但眼神里有一丝复杂的情绪——是解脱，也是愧疚。晚饭时奏做了秋人喜欢的咖喱，两人在小餐桌上安静地吃饭。奏说'哥哥，如果有什么事……不想一个人扛的话，我在的。'秋人点点头，感受到义妹的关心。虽然没有直接获取照片线索，但他注意到奏无意中透露的信息：'那个箱子里还有一个旧的护身符，上面写着光丘神社的名字。'",
+      "key_events": [
+        "秋人选择暂时搁置照片",
+        "奏流露出复杂的情绪——既有安心也有愧疚",
+        "奏无意中提到旧箱子里有光丘神社的护身符",
+        "秋人与奏之间的家人羁绊加深"
+      ],
+      "emotional_tone": "温馨、家人的温暖，微微的遗憾",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_08"],
+      "prev_nodes": ["node_06"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "秋人选择暂时不面对过去",
+        "旧箱子里有光丘神社的护身符",
+        "奏对秋人的记忆恢复抱有矛盾心态"
+      ],
+      "witnesses": ["char_akito", "char_kanade"]
+    },
+    "node_08": {
+      "node_id": "node_08",
+      "node_type": "merge_point",
+      "title": "奏的心事",
+      "act": 2,
+      "branch_id": "main",
+      "scene_description": "某个周末清晨，秋人醒来发现奏不在家，留了便条说'去买菜'。但她已经出去了两个多小时。秋人在镇上找到她时，她独自坐在海边的堤坝上，膝盖抱着腿，看着大海发呆。她听到脚步声转过头，眼眶微红。秋人在她身边坐下，什么都没问。沉默了很久，奏终于小声说：'哥哥，如果有一天你想起了所有的事……你还会需要我吗？'这句话让秋人意识到，奏一直害怕的不是秘密本身，而是秋人恢复记忆后可能不再需要她。走过node_07a的秋人会联想到照片中的铃音；走过node_07b的秋人虽然不知道具体内容，但能感受到奏的不安与照片有关。",
+      "key_events": [
+        "奏独自在海边哭泣",
+        "奏问出核心问题：'想起一切后，你还会需要我吗？'",
+        "秋人意识到奏的不安来自对失去家人关系的恐惧",
+        "秋人安慰奏，两人的家人羁绊得到确认"
+      ],
+      "emotional_tone": "感伤、温柔、家人之间的理解",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_09"],
+      "prev_nodes": ["node_07a", "node_07b"],
+      "merge_to": "node_08",
+      "auto_route": {
+        "description": "根据前序分支调整秋人的内心感受",
+        "from_node_07a": "秋人知道照片中是铃音，理解奏害怕被铃音'取代'的心情",
+        "from_node_07b": "秋人虽然不知道照片内容，但感受到奏在隐瞒某些事来保护自己"
+      },
+      "facts_introduced": [
+        "奏害怕秋人恢复记忆后不再需要她",
+        "奏的不安与旧照片和铃音有关"
+      ],
+      "witnesses": ["char_akito", "char_kanade"]
+    },
+    "node_09": {
+      "node_id": "node_09",
+      "node_type": "choice",
+      "title": "七月的调查",
+      "act": 2,
+      "branch_id": "main",
+      "scene_description": "七月来临，民俗研究社的活动进入正轨。结衣整理出了三条需要调查的线索，每条都可能揭示不同的真相侧面。她在社团活动室的白板上写下三个方向，让社员们选择。秋人注意到铃音最近缺课频繁，圣良偶尔会出现在社团活动室门口旁听但从不参加。",
+      "key_events": [
+        "民俗研究社提出三条调查方向",
+        "铃音缺课频繁，身体状况恶化",
+        "圣良对社团活动保持关注但不直接参与"
+      ],
+      "emotional_tone": "推进感、日常与超常的交界",
+      "pov_character": "",
+      "choices": [
+        {
+          "option_id": "opt_09a",
+          "text": "深入调查钟楼传说——去镇上的旧档案馆查阅九条院家的历史",
+          "target_node_id": "node_10a",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {"attribute": "memory", "delta": 1},
+            {"attribute": "resolve", "delta": 1}
+          ],
+          "hint": "深入钟楼和九条院家的历史，发现思念体仪式的文献记载",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        },
+        {
+          "option_id": "opt_09b",
+          "text": "陪铃音去医院复查——她最近看起来越来越虚弱",
+          "target_node_id": "node_10b",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {"attribute": "kizuna", "delta": 2}
+          ],
+          "hint": "在医院陪伴铃音时，她会说出关于自己身体'不正常'的秘密",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        },
+        {
+          "option_id": "opt_09c",
+          "text": "和奏一起去光丘神社整理家族旧物——那个护身符让人在意",
+          "target_node_id": "node_10c",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {"attribute": "memory", "delta": 1},
+            {"attribute": "kizuna", "delta": 1}
+          ],
+          "hint": "在神社发现远野家与钟楼仪式的意外关联",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        }
+      ],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_10a", "node_10b", "node_10c"],
+      "prev_nodes": ["node_08"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "七月份铃音身体状况明显恶化"
+      ],
+      "witnesses": ["char_akito", "char_yui"]
+    },
+    "node_10a": {
+      "node_id": "node_10a",
+      "node_type": "narrative",
+      "title": "钟楼传说的真相",
+      "act": 2,
+      "branch_id": "branch_tower_investigate",
+      "scene_description": "秋人和结衣在镇上的旧档案馆找到了九条院家的家谱和一份明治时代的手抄本。手抄本记载着钟楼的真正用途：它不是普通的报时钟楼，而是一座'思念的容器'。钟楼的钟声能够共鸣人的强烈情感，将其凝聚为有形的存在——即'思念体'。九条院家历代守护者的职责是在盂兰盆节主持'光之祭'，引导思念体安息。手抄本最后一页被撕去了，只留下半句话：'若思念体与生者之魂相绑，则……'",
+      "key_events": [
+        "发现钟楼是'思念的容器'——可以将情感凝聚为思念体",
+        "九条院家世代守护者的职责是引导思念体安息",
+        "光之祭的真正目的是维持生者与思念体的平衡",
+        "关键记载被撕去——'思念体与生者之魂相绑'的后果不明"
+      ],
+      "emotional_tone": "发现真相的紧张与震撼",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_11"],
+      "prev_nodes": ["node_09"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "钟楼是思念的容器，能凝聚情感为思念体",
+        "九条院家世代守护钟楼",
+        "光之祭是维持生者与思念体平衡的仪式",
+        "思念体与生者之魂可以绑定（后果未知）"
+      ],
+      "witnesses": ["char_akito", "char_yui"]
+    },
+    "node_10b": {
+      "node_id": "node_10b",
+      "node_type": "narrative",
+      "title": "铃音的真实",
+      "act": 2,
+      "branch_id": "branch_suzune_hospital",
+      "scene_description": "秋人陪铃音去海滨诊所复查。等待检查结果的时间里，两人坐在诊所花园的长椅上。铃音突然说：'秋人，你有没有觉得……我的手有时候会变透明？'秋人以为她在开玩笑，但她伸出手——在夕阳的角度下，她的指尖确实呈现出一种几近透明的质感。铃音平静地说：'从三年前开始的。最初只是手指，现在……有时候整个手都会。'她笑着补充'不痛的'，但那个笑容和平时寂寞的微笑不一样——是一种已经接受了什么的平静。医生出来时表情困惑：'神尾同学的身体各项指标都很诡异——以她的身体条件，按医学常理来说……'他没有说完。",
+      "key_events": [
+        "铃音的手有时会变透明——从三年前开始",
+        "透明现象在加重，从指尖蔓延到整只手",
+        "铃音已经平静地接受了自己身体的异常",
+        "医生暗示铃音的存活本身就是医学上无法解释的"
+      ],
+      "emotional_tone": "震惊、心痛、铃音的平静更令人难受",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_11"],
+      "prev_nodes": ["node_09"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "铃音的身体会变透明",
+        "透明现象从三年前开始并在加重",
+        "铃音的存活本身不符合医学常理"
+      ],
+      "witnesses": ["char_akito", "char_suzune"]
+    },
+    "node_10c": {
+      "node_id": "node_10c",
+      "node_type": "narrative",
+      "title": "远野家的秘密",
+      "act": 2,
+      "branch_id": "branch_family_secret",
+      "scene_description": "秋人和奏去光丘神社整理旧物。在神社仓库的角落，他们找到了一个落满灰尘的木盒，里面是秋人母亲留下的遗物——她在秋人很小的时候就去世了。盒子里有一本日记，记录着母亲对光之丘的记忆。日记中提到：'九条院家的老夫人告诉我，如果有一天秋人需要帮助，可以去钟楼许愿。但一定要记住——钟楼给予的一切，都有代价。'这段记载让秋人意识到，自己与钟楼的联系比想象中更深，甚至可能追溯到母亲那一代。奏看到这些内容后沉默了，她似乎开始理解为什么秋人的记忆会消失。",
+      "key_events": [
+        "发现秋人母亲的遗物和日记",
+        "母亲曾被九条院家告知钟楼许愿的事",
+        "日记明确警告：钟楼给予的一切都有代价",
+        "秋人与钟楼的联系追溯到母亲那一代",
+        "奏开始理解秋人记忆消失的可能原因"
+      ],
+      "emotional_tone": "感伤、家族羁绊、真相逐渐浮现",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_11"],
+      "prev_nodes": ["node_09"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "秋人母亲知道钟楼许愿的事",
+        "九条院家曾告知秋人母亲可以去钟楼许愿",
+        "钟楼给予的一切都有代价"
+      ],
+      "witnesses": ["char_akito", "char_kanade"]
+    },
+    "node_11": {
+      "node_id": "node_11",
+      "node_type": "merge_point",
+      "title": "思念体",
+      "act": 3,
+      "branch_id": "main",
+      "scene_description": "七月中旬的某个傍晚，秋人在海边看到了他无法否认的现象——夕阳下的海面上，有数十个半透明的人影在缓缓行走，像是在进行某种无声的游行。它们的轮廓柔和而哀伤，从海面一直延伸到山顶钟楼的方向。结衣跑过来，兴奋而紧张地说'你也看到了吧！我说的就是这个！'圣良出现在他们身后，平静地说出那个词：'思念体。那些是被遗留的情感——有些是逝者留下的，有些是活着的人的强烈思念凝聚而成。它们本应在光之祭上被引导安息，但祭典中断了五年，它们越积越多。'她看着秋人，'而你，远野同学，是它们中最特别的一个的源头。'根据前序路线，秋人掌握的信息不同，但此处圣良统一揭示思念体的概念。",
+      "key_events": [
+        "秋人亲眼目睹思念体的集体出现",
+        "圣良解释思念体的本质——遗留的情感凝聚体",
+        "光之祭中断导致思念体积累",
+        "圣良暗示秋人是某个特殊思念体的源头"
+      ],
+      "emotional_tone": "超自然真相的震撼，美丽而哀伤",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_12"],
+      "prev_nodes": ["node_10a", "node_10b", "node_10c"],
+      "merge_to": "node_11",
+      "auto_route": {
+        "description": "根据前序路线调整圣良的解释详细程度",
+        "from_node_10a": "秋人已知钟楼机制，圣良直接深入解释思念体与生者的绑定关系",
+        "from_node_10b": "秋人已知铃音的异常，圣良暗示铃音的透明现象与思念体有关",
+        "from_node_10c": "秋人已知家族关联，圣良提到秋人母亲也曾见过思念体"
+      },
+      "facts_introduced": [
+        "思念体是遗留情感的凝聚体",
+        "光之祭中断导致思念体不断积累",
+        "秋人是某个特殊思念体的源头"
+      ],
+      "witnesses": ["char_akito", "char_yui", "char_seiran"]
+    },
+    "node_12": {
+      "node_id": "node_12",
+      "node_type": "narrative",
+      "title": "消失的祭典",
+      "act": 3,
+      "branch_id": "main",
+      "scene_description": "圣良将众人带到九条院家的旧宅，在佛龛前点燃线香，讲述了五年前的真相。五年前的七月七日，幼年的秋人在铃音病危时跑到钟楼，在九条院圣良祖母的引导下完成了许愿仪式。他许下的愿望是'不要让铃音消失'。钟楼将秋人对铃音的强烈思念凝聚为思念体，注入铃音体内，以超自然的力量维持她的生命。代价是秋人失去了那一周的记忆——许愿仪式消耗的不是金钱或物质，而是许愿者最珍贵的记忆。圣良的祖母在主持仪式后不久离世。光之祭因此中断——没有守护者主持，祭典无法安全进行。而铃音……从那以后，她一直活在秋人思念所创造的奇迹之中，但这份力量正在衰减。",
+      "key_events": [
+        "五年前七月七日，秋人在钟楼许愿'不要让铃音消失'",
+        "许愿仪式由圣良的祖母引导完成",
+        "思念体注入铃音体内维持她的生命",
+        "代价是秋人失去一周记忆",
+        "圣良的祖母在仪式后离世",
+        "铃音活在秋人的思念之中，但力量正在衰减"
+      ],
+      "emotional_tone": "震撼、心痛、五年谜题揭晓的沉重",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_13"],
+      "prev_nodes": ["node_11"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "秋人五年前许愿让铃音活下来",
+        "代价是秋人失去一周记忆",
+        "铃音体内有思念体在维持生命",
+        "思念体的力量正在衰减",
+        "圣良的祖母因仪式去世",
+        "光之祭因此中断五年"
+      ],
+      "witnesses": ["char_akito", "char_suzune", "char_yui", "char_seiran", "char_kanade"]
+    },
+    "node_13": {
+      "node_id": "node_13",
+      "node_type": "choice",
+      "title": "钟楼之夜",
+      "act": 3,
+      "branch_id": "main",
+      "scene_description": "得知真相后，秋人面临选择。圣良说：钟楼在七月的满月之夜会再次共鸣，这是唯一能够干预思念体的时机。还有三天就是满月。秋人必须决定如何面对钟楼。铃音知道秋人已经了解了真相，她只说了一句：'秋人，不管你怎么选，我都不会怪你。'奏紧紧抓着秋人的衣袖。结衣推了推眼镜说'一个人去太危险了吧'。",
+      "key_events": [
+        "满月之夜是唯一干预思念体的时机",
+        "三天后就是满月",
+        "铃音表达了无条件的接受",
+        "每个人对秋人的决定都有不同反应"
+      ],
+      "emotional_tone": "紧迫、沉重的抉择",
+      "pov_character": "",
+      "choices": [
+        {
+          "option_id": "opt_13a",
+          "text": "独自去钟楼许愿——这是自己的责任，不想连累任何人",
+          "target_node_id": "node_14_solo",
+          "is_dead_end": false,
+          "branch_type": "strong",
+          "value_effects": [
+            {"attribute": "resolve", "delta": 2}
+          ],
+          "hint": "独自面对钟楼的力量，高风险路线——resolve不足时可能被思念体吞噬",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        },
+        {
+          "option_id": "opt_13b",
+          "text": "带上同伴同行——大家一起面对，这才是羁绊的意义",
+          "target_node_id": "node_14_together",
+          "is_dead_end": false,
+          "branch_type": "strong",
+          "value_effects": [
+            {"attribute": "kizuna", "delta": 1}
+          ],
+          "hint": "同伴的支撑让仪式更安全，但需要承受大家一起面对真相的重量",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        }
+      ],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_14_solo", "node_14_together"],
+      "prev_nodes": ["node_12"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "满月之夜是干预思念体的唯一时机"
+      ],
+      "witnesses": ["char_akito", "char_suzune", "char_yui", "char_seiran", "char_kanade"]
+    },
+    "node_14_solo": {
+      "node_id": "node_14_solo",
+      "node_type": "branch_point",
+      "title": "独行者的愿望",
+      "act": 3,
+      "branch_id": "branch_solo_tower",
+      "scene_description": "满月之夜，秋人独自用钥匙打开钟楼的铁门。月光从钟楼顶部的裂缝洒下，照亮了布满灰尘的螺旋楼梯。他一步步攀登，周围的空气越来越冷，思念体的光影在墙壁上流淌。登上钟楼最高层时，巨大的铜钟悬在头顶，在月光下泛出幽蓝色的光。秋人感受到五年前的记忆像潮水一样涌来——片段、声音、铃音的笑脸、自己哭泣的声音。钟楼要求他做出选择：许下新的愿望。但钟楼的力量是危险的，如果许愿者的意志不够坚定，会被思念体的洪流吞噬，永远困在记忆之中。",
+      "key_events": [
+        "秋人独自攀登钟楼",
+        "思念体的光影环绕钟楼",
+        "五年前的记忆碎片涌来",
+        "钟楼要求许下新的愿望",
+        "如果意志不够坚定会被思念体吞噬"
+      ],
+      "emotional_tone": "孤独、紧迫、生死攸关",
+      "pov_character": "",
+      "choices": [
+        {
+          "option_id": "opt_14s_a",
+          "text": "许愿'让我想起一切'——面对完整的真相",
+          "target_node_id": "node_15_survive",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {"attribute": "memory", "delta": 2}
+          ],
+          "hint": "需要足够的觉悟才能承受完整记忆的冲击",
+          "gate_condition": null,
+          "gate_branch": {
+            "condition": {"resolve": ">=3"},
+            "true_target": "node_15_survive",
+            "false_target": "node_dead_tower"
+          },
+          "locked_hint": ""
+        },
+        {
+          "option_id": "opt_14s_b",
+          "text": "许愿'让她永远留在我身边'——不想再失去任何人",
+          "target_node_id": "node_dead_alone",
+          "is_dead_end": true,
+          "branch_type": "pearl_string",
+          "value_effects": [],
+          "hint": "以自我为中心的愿望会被钟楼扭曲——代价是许愿者自己的存在",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        }
+      ],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_15_survive", "node_dead_tower", "node_dead_alone"],
+      "prev_nodes": ["node_13"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "钟楼需要许愿者的坚定意志",
+        "意志不足会被思念体吞噬"
+      ],
+      "witnesses": ["char_akito"]
+    },
+    "node_14_together": {
+      "node_id": "node_14_together",
+      "node_type": "narrative",
+      "title": "同行者的钟声",
+      "act": 3,
+      "branch_id": "branch_companion_tower",
+      "scene_description": "满月之夜，秋人与同伴们一起前往钟楼。圣良在前面引路，她的长发在月光下如同流水。结衣紧张地抓着手电筒，嘴上说着'才没有害怕呢'但手在发抖。奏走在秋人身边，安静地握着他的手。铃音走在最后，月光照在她身上时，她的轮廓微微发光——思念体的特征在同伴们面前第一次显现。所有人都看到了，短暂的沉默后，结衣红着眼眶说'这就是……思念体吗'。铃音轻声说'对不起'。秋人说'你没有什么需要道歉的'。大家一起登上钟楼，月光照亮铜钟，圣良开始引导仪式。有同伴在身边，钟楼的力量变得温和，思念体的洪流被分散到每个人的心中承受。",
+      "key_events": [
+        "同伴们一起登上钟楼",
+        "铃音的思念体特征在月光下显现",
+        "所有人接受了铃音的真实状态",
+        "圣良引导仪式，同伴分担力量",
+        "有同伴在，钟楼的力量变得可控"
+      ],
+      "emotional_tone": "羁绊的力量、团结、感动",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_15_survive"],
+      "prev_nodes": ["node_13"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "铃音在月光下会显现思念体特征",
+        "同伴的存在可以分担钟楼力量的冲击",
+        "圣良能够引导钟楼仪式"
+      ],
+      "witnesses": ["char_akito", "char_suzune", "char_yui", "char_seiran", "char_kanade"]
+    },
+    "node_dead_tower": {
+      "node_id": "node_dead_tower",
+      "node_type": "dead_end",
+      "title": "时间的囚徒",
+      "act": 3,
+      "branch_id": "branch_solo_tower",
+      "scene_description": "秋人的意志不够坚定。当完整的记忆如潮水般涌来时，他被淹没了。五年前的悲伤、恐惧、对铃音的思念——所有的情感一起爆发，将他的意识撕裂。他看到自己站在一个永恒的钟楼内部，外面的时间已经停止。周围是无数的思念体，它们温柔地环绕着他，像是在安慰他，又像是在将他融入其中。三天后，搜救队在钟楼找到了他——身体完好，但眼睛空洞地望着前方，对任何呼唤都没有反应。他被永远困在了自己的记忆之中。",
+      "key_events": [],
+      "emotional_tone": "",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "独自面对钟楼+意志不够坚定，被思念体的洪流淹没，意识永远困在记忆中",
+      "death_description_hint": "强调孤独承受的代价，温柔的吞噬比暴力更可怕。思念体不是恶意的，它们只是太过强大。",
+      "ending_type": "bad_ending",
+      "ending_condition": "",
+      "next_nodes": [],
+      "prev_nodes": ["node_14_solo"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [],
+      "witnesses": []
+    },
+    "node_dead_alone": {
+      "node_id": "node_dead_alone",
+      "node_type": "dead_end",
+      "title": "消失的少年",
+      "act": 3,
+      "branch_id": "branch_solo_tower",
+      "scene_description": "秋人许下了自私的愿望——'让她永远留在我身边'。钟楼的钟声响了，但音色扭曲而不和谐。思念体接受了这个愿望，但方式是秋人没有预料到的：它将秋人自身转化为思念体，让他成为铃音身边永恒的存在。第二天早晨，铃音在海边喂猫时，身边多了一个半透明的少年身影。那个身影有着秋人的轮廓，但再也无法被触碰、无法说话、无法被除铃音以外的人看到。铃音看着那个身影，露出了最寂寞的微笑，轻声说：'笨蛋。'",
+      "key_events": [],
+      "emotional_tone": "",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "自私的愿望被钟楼扭曲，许愿者自身被转化为思念体，失去肉体存在",
+      "death_description_hint": "不是死亡，而是另一种形式的'消失'。强调愿望的代价——想要永远在一起的愿望，最终以失去自我为代价实现。",
+      "ending_type": "bad_ending",
+      "ending_condition": "",
+      "next_nodes": [],
+      "prev_nodes": ["node_14_solo"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [],
+      "witnesses": []
+    },
+    "node_15_survive": {
+      "node_id": "node_15_survive",
+      "node_type": "merge_point",
+      "title": "记忆的洪流",
+      "act": 3,
+      "branch_id": "main",
+      "scene_description": "秋人恢复了五年前的完整记忆。他想起了一切：和铃音一起喂猫的夏天，铃音病倒时自己的恐惧，跑到钟楼时圣良祖母温柔的声音，许愿时钟声在耳边回响的震撼，以及——愿望实现后，铃音在病床上睁开眼睛的那一刻，自己跪在地上哭泣的样子。他也想起了代价：失去的那一周不仅仅是记忆，还有他与铃音之间某些最珍贵的瞬间。钟楼将这些记忆转化为了维持铃音生命的能量。走独行路线存活的秋人，是在绝境中凭借纯粹的意志撑过来的，更加坚定但也更加孤独。走同伴路线的秋人，在大家的支撑下平稳地接受了一切，虽然震撼但不孤单。",
+      "key_events": [
+        "秋人恢复五年前的完整记忆",
+        "想起许愿仪式的全部细节",
+        "理解了失去的记忆被转化为维持铃音生命的能量",
+        "完整的真相让秋人做好了面对最终选择的准备"
+      ],
+      "emotional_tone": "记忆回归的震撼与感动，泪目",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_16"],
+      "prev_nodes": ["node_14_solo", "node_14_together"],
+      "merge_to": "node_15_survive",
+      "auto_route": {
+        "description": "根据前序路线调整秋人的状态",
+        "from_node_14_solo": "秋人独自承受了记忆洪流，精神消耗极大但意志更坚定",
+        "from_node_14_together": "同伴们分担了冲击，秋人的状态更稳定，铃音在他身边默默流泪"
+      },
+      "facts_introduced": [
+        "秋人恢复了完整记忆",
+        "失去的记忆被转化为维持铃音的能量",
+        "许愿仪式的完整细节"
+      ],
+      "witnesses": ["char_akito"]
+    },
+    "node_16": {
+      "node_id": "node_16",
+      "node_type": "narrative",
+      "title": "全部的真相",
+      "act": 4,
+      "branch_id": "main",
+      "scene_description": "仪式结束后的第二天，所有人聚集在九条院旧宅。圣良说出最后的真相：铃音体内的思念体能量已经不到最初的十分之一。按照现在的衰减速度，最多还能维持到这个夏天结束。之后，铃音会——圣良没有说出那个词，但所有人都懂了。她提出三个选择：第一，在盂兰盆节重新举办光之祭，让所有思念体包括铃音体内的那个安息——这意味着接受铃音的离去。第二，用钟楼的力量重新注入思念体——但需要更大的代价，可能是秋人更多的记忆，甚至是他的情感能力。第三，什么都不做，让事情按照自然的节奏发展——铃音会在夏末自然地消散。铃音听完后只是微微笑着，轻声说：'都好。'",
+      "key_events": [
+        "铃音体内的思念体能量只剩不到十分之一",
+        "最多维持到夏天结束",
+        "圣良提出三个最终选择",
+        "铃音以一贯的微笑接受任何结果"
+      ],
+      "emotional_tone": "沉重、面对告别的勇气",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_17"],
+      "prev_nodes": ["node_15_survive"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "铃音的思念体能量只剩不到十分之一",
+        "铃音最多活到这个夏天结束",
+        "存在三种应对方式"
+      ],
+      "witnesses": ["char_akito", "char_suzune", "char_yui", "char_seiran", "char_kanade"]
+    },
+    "node_17": {
+      "node_id": "node_17",
+      "node_type": "choice",
+      "title": "最终的抉择",
+      "act": 4,
+      "branch_id": "main",
+      "scene_description": "盂兰盆节前夜，秋人独自站在海边，看着落日。身后传来不同人的脚步声——铃音轻柔的、结衣急促的、奏小心翼翼的、圣良从容的。他必须在明天做出选择。这个选择不仅关乎铃音，也关乎所有积累的思念体，关乎这个小镇的未来，关乎他自己是什么样的人。",
+      "key_events": [
+        "盂兰盆节前夜，最终选择的时刻",
+        "每个人用自己的方式陪在秋人身边"
+      ],
+      "emotional_tone": "生命的重量、选择的庄严",
+      "pov_character": "",
+      "choices": [
+        {
+          "option_id": "opt_17a",
+          "text": "举办光之祭，让思念体安息——送铃音最后一程",
+          "target_node_id": "node_18_release",
+          "is_dead_end": false,
+          "branch_type": "strong",
+          "value_effects": [
+            {"attribute": "resolve", "delta": 1}
+          ],
+          "hint": "接受离别的选择，需要足够的记忆来正确引导仪式",
+          "gate_condition": {"memory": ">=3"},
+          "gate_branch": null,
+          "locked_hint": "你对仪式的了解还不够，无法正确引导思念体安息"
+        },
+        {
+          "option_id": "opt_17b",
+          "text": "用钟楼之力留住铃音——再付出一次代价也无所谓",
+          "target_node_id": "node_18_preserve",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [
+            {"attribute": "kizuna", "delta": 1}
+          ],
+          "hint": "用更大的代价延续铃音的存在，需要足够的羁绊来承受代价",
+          "gate_condition": {"kizuna": ">=3"},
+          "gate_branch": null,
+          "locked_hint": "你与身边人的羁绊还不够深，无法承受钟楼要求的代价"
+        },
+        {
+          "option_id": "opt_17c",
+          "text": "什么都不做——陪铃音度过最后的夏天",
+          "target_node_id": "node_18_accept",
+          "is_dead_end": false,
+          "branch_type": "value_based",
+          "value_effects": [],
+          "hint": "不干预的选择，结局取决于之前积累的一切",
+          "gate_condition": null,
+          "gate_branch": null,
+          "locked_hint": ""
+        }
+      ],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_18_release", "node_18_preserve", "node_18_accept"],
+      "prev_nodes": ["node_16"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [],
+      "witnesses": ["char_akito", "char_suzune", "char_yui", "char_seiran", "char_kanade"]
+    },
+    "node_18_release": {
+      "node_id": "node_18_release",
+      "node_type": "branch_point",
+      "title": "告别的夏天",
+      "act": 4,
+      "branch_id": "branch_release",
+      "scene_description": "盂兰盆节当夜，光之祭在钟楼前重新举行。圣良穿上巫女装束主持仪式，结衣和奏在两侧协助。秋人站在铃音面前，钟楼的钟声在月光下响起——温柔而庄严。思念体从镇上各处汇聚而来，化作光点飞向天空，像是反向的流星雨。铃音的身体开始发光，她的轮廓变得柔和而半透明。她对秋人说了最后的话：'谢谢你让我又多活了五年。那是最好的五年。'她的最后一个动作是用已经透明的手抚过秋人的脸颊——他感受到了温暖，虽然那已经不是人类体温的温暖。铃音化为无数光点，和其他思念体一起升向夜空。结局取决于之前积累的数值。",
+      "key_events": [
+        "光之祭重新举行",
+        "思念体被引导安息",
+        "铃音的最后告别",
+        "铃音化为光点消散"
+      ],
+      "emotional_tone": "悲伤而美丽的告别，泣系高潮",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_end_true", "node_end_sacrifice"],
+      "prev_nodes": ["node_17"],
+      "merge_to": "",
+      "auto_route": {
+        "description": "根据数值决定最终结局",
+        "high_memory_high_kizuna_high_resolve": "node_end_true",
+        "otherwise": "node_end_sacrifice"
+      },
+      "facts_introduced": [
+        "光之祭成功举行",
+        "铃音作为思念体被引导安息"
+      ],
+      "witnesses": ["char_akito", "char_seiran"]
+    },
+    "node_18_preserve": {
+      "node_id": "node_18_preserve",
+      "node_type": "narrative",
+      "title": "奇迹的代价",
+      "act": 4,
+      "branch_id": "branch_preserve",
+      "scene_description": "秋人决定再次许愿。这一次他知道代价——他愿意付出自己关于这个夏天的全部记忆，包括与结衣、圣良、奏在一起的回忆，来换取铃音的继续存活。钟楼接受了。铃音的身体恢复了实质，她不再变透明。但秋人失去了这整个夏天的记忆。秋天开学时，他坐在教室里，不认识周围的人，不记得自己为什么回到了光之丘。铃音坐在他旁边，和五年前一样露出寂寞的微笑。但这一次，她的眼角有泪。",
+      "key_events": [
+        "秋人用夏天的全部记忆换取铃音的存活",
+        "铃音恢复正常身体",
+        "秋人再次失去大段记忆",
+        "所有人的关系回到起点"
+      ],
+      "emotional_tone": "苦涩的循环，代价的沉重",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_end_bittersweet"],
+      "prev_nodes": ["node_17"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [
+        "秋人用夏天的记忆换取铃音的存活",
+        "记忆再次消失，关系回到起点"
+      ],
+      "witnesses": ["char_akito", "char_suzune"]
+    },
+    "node_18_accept": {
+      "node_id": "node_18_accept",
+      "node_type": "branch_point",
+      "title": "日常的延续",
+      "act": 4,
+      "branch_id": "branch_accept",
+      "scene_description": "秋人选择什么都不做。他和铃音度过了最后的夏天——去海边、喂猫、看烟花、一起做作业。每一天都很平凡，每一天都很珍贵。铃音的身体在一天天变得更加透明，但她的笑容从未改变。其他人也以自己的方式参与了这个夏天：结衣继续她的超常调查但不再张扬，奏每天做便当给大家，圣良偶尔出现在他们的日常中。这是一个被倒计时标记的夏天，但它也是最真实的夏天。结局取决于之前的积累。",
+      "key_events": [
+        "秋人选择与铃音度过最后的夏天",
+        "日常的珍贵与消逝并行",
+        "铃音逐渐透明但笑容不变",
+        "所有人用自己的方式珍惜这个夏天"
+      ],
+      "emotional_tone": "温暖而哀伤的日常，倒计时的残酷与美丽",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "",
+      "ending_condition": "",
+      "next_nodes": ["node_end_daily", "node_end_cold"],
+      "prev_nodes": ["node_17"],
+      "merge_to": "",
+      "auto_route": {
+        "description": "根据累积数值决定日常结局的温度",
+        "kizuna_sufficient": "node_end_daily",
+        "kizuna_insufficient": "node_end_cold"
+      },
+      "facts_introduced": [],
+      "witnesses": ["char_akito", "char_suzune"]
+    },
+    "node_end_true": {
+      "node_id": "node_end_true",
+      "node_type": "ending",
+      "title": "平行线的交汇",
+      "act": 4,
+      "branch_id": "branch_release",
+      "scene_description": "光之祭结束后，秋人以为一切都结束了。但盂兰盆节过后的第一个清晨，他在海边喂猫时，一只黑猫——阿波罗——叼着一枚贝壳跑到他脚边。贝壳里塞着一张小小的纸条，上面是铃音的字迹：'平行线不会相交，但如果足够长，它们之间的距离会变得无限接近于零。所以我们没有分离，只是换了一种在一起的方式。——铃音。'秋人抬起头，初秋的清晨，海面上有一道温柔的光——不是思念体，而是晨光穿过薄雾形成的自然现象。但他知道，那道光的温度，和铃音的笑容一模一样。他用袖子擦了擦眼睛，蹲下来摸了摸阿波罗的头。'知道了。'一年后，民俗研究社在秋人、结衣、奏和圣良的共同运营下，成为了光丘学园最活跃的社团。光之祭被恢复为镇上的年度活动。每年七月七日，他们会在钟楼前放飞孔明灯，灯上写着想要传达的话。秋人的灯上永远只写一句话：'今天也很好。'",
+      "key_events": [],
+      "emotional_tone": "",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "true_ending",
+      "ending_condition": "memory>=4 AND kizuna>=3 AND resolve>=3，走光之祭路线",
+      "next_nodes": [],
+      "prev_nodes": ["node_18_release"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [],
+      "witnesses": ["char_akito"]
+    },
+    "node_end_sacrifice": {
+      "node_id": "node_end_sacrifice",
+      "node_type": "ending",
+      "title": "樱花的约定",
+      "act": 4,
+      "branch_id": "branch_release",
+      "scene_description": "铃音消散后，秋人在钟楼前的台阶上坐了一整夜。天亮时，他发现台阶上落满了樱花瓣——这是六月，不应该有樱花。但那些花瓣是温暖的，像是被人的手掌握过。奏在清晨找到他，默默地在他身边坐下，将便当盒放在两人之间。秋人没有哭。他想起铃音说过的话：'猫会记住的。'他从口袋里取出那张修好的旧照片——如果他修复过的话——看着照片上两个孩子的笑脸。'约定完成了。'他说。声音很轻，但很稳。新的学期开始了。铃音的座位空着，窗外的海面在阳光下闪烁。秋人偶尔会看向那个空位，然后微微笑一下，继续听课。那不是释然，但也不是悲伤。是某种更深的东西。",
+      "key_events": [],
+      "emotional_tone": "",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "bittersweet_ending",
+      "ending_condition": "memory>=3 AND (kizuna<3 OR resolve<3)，走光之祭路线",
+      "next_nodes": [],
+      "prev_nodes": ["node_18_release"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [],
+      "witnesses": ["char_akito"]
+    },
+    "node_end_bittersweet": {
+      "node_id": "node_end_bittersweet",
+      "node_type": "ending",
+      "title": "夏天的终结",
+      "act": 4,
+      "branch_id": "branch_preserve",
+      "scene_description": "秋天来了。秋人坐在教室里，看着窗外的大海，不记得这个夏天发生了什么。他只知道自己回到了光之丘，在这所学校读书。邻座的银发少女——神尾铃音——偶尔会看着他，露出一种复杂的微笑，像是想说什么又说不出口。教室后排，一个双马尾的学妹星野结衣有时会在走廊看到他，表情微妙地别过头。一个叫九条院圣良的三年级学姐，会在天台默默看着远方的钟楼，偶尔叹一口气。义妹奏每天做便当，但眼神里多了一层他读不懂的东西。秋人不知道自己遗忘了什么。但他的口袋里有一张已经修复的旧照片——上面是他自己幼年的样子，和一个笑容灿烂的女孩。照片背面写着'和铃音的约定'。他看着照片，看着邻座的铃音，觉得有什么很重要的事情，像是停在舌尖却说不出的名字。铃音对上他的目光，微微歪头一笑：'怎么了？'秋人摇摇头。'没什么。'窗外，最后一片晚樱花瓣缓缓落下。",
+      "key_events": [],
+      "emotional_tone": "",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "bittersweet_ending",
+      "ending_condition": "kizuna>=3，走钟楼许愿保留路线",
+      "next_nodes": [],
+      "prev_nodes": ["node_18_preserve"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [],
+      "witnesses": ["char_akito", "char_suzune"]
+    },
+    "node_end_daily": {
+      "node_id": "node_end_daily",
+      "node_type": "ending",
+      "title": "光之丘的日常",
+      "act": 4,
+      "branch_id": "branch_accept",
+      "scene_description": "夏天结束时，铃音在海边的长椅上安静地消散了。那天的夕阳格外美丽，海面像是被融化的金子覆盖。她最后看到的是她最喜欢的风景——大海、落日、和远处奔跑过来的那个少年的身影。秋人到达时，长椅上只剩下一件叠得整整齐齐的白色外套和一只橘色的流浪猫。猫在外套上蜷着，像是在守护什么。此后的日子，秋人继续在光之丘生活。他每天放学后都会去海边，喂猫，看夕阳。那只橘色的猫成了他的固定伙伴。奏陪他走过了最难的几个月。结衣偶尔来坐一坐，不说话，只是陪着。生活继续了。不是因为遗忘，而是因为记住。",
+      "key_events": [],
+      "emotional_tone": "",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "neutral",
+      "ending_condition": "kizuna>=2，走不干预路线",
+      "next_nodes": [],
+      "prev_nodes": ["node_18_accept"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [],
+      "witnesses": ["char_akito"]
+    },
+    "node_end_cold": {
+      "node_id": "node_end_cold",
+      "node_type": "ending",
+      "title": "遗忘的再临",
+      "act": 4,
+      "branch_id": "branch_accept",
+      "scene_description": "夏天结束了，铃音消失了。秋人不记得她是怎么消失的。事实上，随着思念体的消散，维持铃音存在的那部分记忆也跟着消失了——连带五年前恢复的记忆，一并被带走。秋天开学时，秋人看着教室里空着的座位，不知道那里曾经坐过谁。他只是觉得，看着那个空位，心里有什么地方隐隐作痛。奏想要告诉他什么，最终却什么都没说。在她看来，或许遗忘本身也是一种温柔。窗外的海面一如既往地蓝，但少了什么。秋人也说不清，少了什么。",
+      "key_events": [],
+      "emotional_tone": "",
+      "pov_character": "",
+      "choices": [],
+      "death_cause": "",
+      "death_description_hint": "",
+      "ending_type": "cold_ending",
+      "ending_condition": "kizuna<2，走不干预路线",
+      "next_nodes": [],
+      "prev_nodes": ["node_18_accept"],
+      "merge_to": "",
+      "auto_route": null,
+      "facts_introduced": [],
+      "witnesses": ["char_akito"]
+    }
+  },
+  "branches": {
+    "branch_suzune": {
+      "branch_id": "branch_suzune",
+      "branch_type": "pearl_string",
+      "fork_node_id": "node_03",
+      "merge_node_id": "node_05",
+      "node_ids": ["node_04a"],
+      "description": "陪铃音去海边喂猫路线：重建童年羁绊，发现铃音病情，绊+2"
+    },
+    "branch_yui": {
+      "branch_id": "branch_yui",
+      "branch_type": "pearl_string",
+      "fork_node_id": "node_03",
+      "merge_node_id": "node_05",
+      "node_ids": ["node_04b"],
+      "description": "帮结衣调查路线：发现光之祭历史和超常现象记录，记忆+1，覚悟+1"
+    },
+    "branch_photo_repair": {
+      "branch_id": "branch_photo_repair",
+      "branch_type": "pearl_string",
+      "fork_node_id": "node_06",
+      "merge_node_id": "node_08",
+      "node_ids": ["node_07a"],
+      "description": "修复旧照片路线：揭示照片中少女是铃音，发现五年前的约定，记忆+2"
+    },
+    "branch_photo_shelf": {
+      "branch_id": "branch_photo_shelf",
+      "branch_type": "pearl_string",
+      "fork_node_id": "node_06",
+      "merge_node_id": "node_08",
+      "node_ids": ["node_07b"],
+      "description": "搁置照片路线：保护奏的心情但错过线索，绊+1"
+    },
+    "branch_tower_investigate": {
+      "branch_id": "branch_tower_investigate",
+      "branch_type": "value_based",
+      "fork_node_id": "node_09",
+      "merge_node_id": "node_11",
+      "node_ids": ["node_10a"],
+      "description": "深入钟楼传说路线：发现思念体的文献记载和仪式机制，记忆+1，覚悟+1"
+    },
+    "branch_suzune_hospital": {
+      "branch_id": "branch_suzune_hospital",
+      "branch_type": "value_based",
+      "fork_node_id": "node_09",
+      "merge_node_id": "node_11",
+      "node_ids": ["node_10b"],
+      "description": "陪铃音去医院路线：发现铃音身体透明化现象，绊+2"
+    },
+    "branch_family_secret": {
+      "branch_id": "branch_family_secret",
+      "branch_type": "value_based",
+      "fork_node_id": "node_09",
+      "merge_node_id": "node_11",
+      "node_ids": ["node_10c"],
+      "description": "远野家旧物路线：发现母亲日记和家族与钟楼的关联，记忆+1，绊+1"
+    },
+    "branch_solo_tower": {
+      "branch_id": "branch_solo_tower",
+      "branch_type": "strong",
+      "fork_node_id": "node_13",
+      "merge_node_id": "node_15_survive",
+      "node_ids": ["node_14_solo", "node_dead_tower", "node_dead_alone"],
+      "description": "独自去钟楼路线：高风险，覚悟不足或许下自私愿望会死亡/消失"
+    },
+    "branch_companion_tower": {
+      "branch_id": "branch_companion_tower",
+      "branch_type": "value_based",
+      "fork_node_id": "node_13",
+      "merge_node_id": "node_15_survive",
+      "node_ids": ["node_14_together"],
+      "description": "带同伴去钟楼路线：安全路线，同伴分担力量，绊+1"
+    },
+    "branch_release": {
+      "branch_id": "branch_release",
+      "branch_type": "strong",
+      "fork_node_id": "node_17",
+      "merge_node_id": null,
+      "node_ids": ["node_18_release", "node_end_true", "node_end_sacrifice"],
+      "description": "光之祭路线：让思念体安息，需记忆>=3，通向真结局或樱花约定结局"
+    },
+    "branch_preserve": {
+      "branch_id": "branch_preserve",
+      "branch_type": "value_based",
+      "fork_node_id": "node_17",
+      "merge_node_id": null,
+      "node_ids": ["node_18_preserve", "node_end_bittersweet"],
+      "description": "保留路线：再次许愿留住铃音，需绊>=3，通向夏天终结的苦涩结局"
+    },
+    "branch_accept": {
+      "branch_id": "branch_accept",
+      "branch_type": "value_based",
+      "fork_node_id": "node_17",
+      "merge_node_id": null,
+      "node_ids": ["node_18_accept", "node_end_daily", "node_end_cold"],
+      "description": "不干预路线：陪铃音度过最后的夏天，结局取决于羁绊积累"
+    }
+  },
+  "entry_node_id": "node_01",
+  "value_system": {
+    "attributes": {
+      "kizuna": 0,
+      "memory": 0,
+      "resolve": 0
+    },
+    "thresholds": {
+      "kizuna": {
+        ">=4": "true_ending条件之一（与其他数值组合）",
+        ">=3": "可选择保留路线；true_ending条件之一",
+        ">=2": "日常结局（温暖版）",
+        "<2": "冷结局——遗忘的再临"
+      },
+      "memory": {
+        ">=4": "true_ending条件之一（完整记忆恢复）",
+        ">=3": "可选择光之祭路线；樱花约定结局条件",
+        "<3": "光之祭路线不可用"
+      },
+      "resolve": {
+        ">=3": "独行钟楼存活条件；true_ending条件之一",
+        "<3": "独行钟楼时被思念体吞噬"
+      }
+    },
+    "description": "三个核心数值：kizuna（絆/羁绊，代表与他人的情感联结深度，影响保留路线和日常结局的温度）、memory（記憶，代表对真相和过去的了解程度，影响光之祭路线的可用性和结局完成度）、resolve（覚悟，代表面对真相和做出艰难选择的决心，影响独行钟楼的生死和最终结局的高度）。数值通过选择累积，在关键节点通过gate_condition和gate_branch进行门控判定。",
+    "routing_rules": []
+  },
+  "sp_obfuscation": {
+    "writing_style": "light_rp",
+    "response_length": "long",
+    "action_depth": "normal",
+    "thought_depth": "deep",
+    "environment_depth": "immersive",
+    "sensory_depth": "rich",
+    "paragraph_count": "several",
+    "action_marker": "asterisk",
+    "dialogue_marker": "quotes",
+    "register": "colloquial"
+  }
+}

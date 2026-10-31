@@ -1,0 +1,125 @@
+{
+  "project_id": "campus_triangle_v1",
+  "title": "放学后的星门告白",
+  "runtime_target": "asset_package_only",
+  "inputs": [
+    {
+      "input_id": "seed_text_001",
+      "type": "text",
+      "description": "1-2分钟第一视角互动视频游戏。大学校园三角恋，三位女生分别是青梅竹马、隔壁班傲娇女、异界来的从者。男主为第一视角男生，不出镜。最后2-3个结局，中间可有失败分支。",
+      "usage_intent": "story_seed",
+      "rights_status": "user_provided"
+    }
+  ],
+  "session_length_sec": {
+    "min": 60,
+    "max": 120
+  },
+  "node_duration_sec": {
+    "min": 8,
+    "max": 12
+  },
+  "style_profile": {
+    "style_id": "original_anime_campus_light_fantasy",
+    "description": "原创日系二次元校园轻奇幻插画风格，黄昏校园、柔和逆光、清晰角色轮廓、青春恋爱喜剧的明亮情绪，不使用真人或现有IP。",
+    "reference_files": [],
+    "forbidden_styles": [
+      "photorealistic live action",
+      "celebrity likeness",
+      "existing anime or game IP",
+      "minor sexualization"
+    ]
+  },
+  "protagonist": {
+    "pov": "first_person",
+    "story_identity": "大学二年级男生，校园祭执行组临时帮手",
+    "visibility_rule": "The protagonist is the camera. Do not show his face, body, back view, mirror reflection, social avatar, ID photo, or identifiable shadow. Avoid hand close-ups unless a prop interaction is essential.",
+    "needs_visual_reference": false
+  },
+  "safety_rules": [
+    "All romanceable characters are adults in university.",
+    "Do not use real people, celebrities, public figures, or existing IP as visual references.",
+    "Keep the story romantic comedy with light fantasy tension, no explicit adult content.",
+    "Do not write API keys or signed platform URLs into repo files."
+  ],
+  "story_seed": {
+    "logline": "校园祭前夜，男主在黄昏后的旧图书馆触发星门契约，青梅竹马、隔壁班傲娇女和异界从者同时卷入同一场误会与选择。",
+    "source_text": "校园三角恋，青梅竹马、隔壁班傲娇女、异界来的从者，第一视角男生，1-2分钟，2-3个结局，中间分支合理，不跑素材。",
+    "required_choice_points": {
+      "min": 4,
+      "max": 6
+    },
+    "required_endings": {
+      "normal": 2,
+      "true": 1,
+      "failure": 1
+    }
+  },
+  "runtime_asset_contract": {
+    "generate_only_if_referenced_by_runtime": true,
+    "asset_types": [
+      {
+        "type": "character_reference_image",
+        "is_displayed": true,
+        "runtime_field": "characters.<character_id>.portrait",
+        "path_pattern": "assets/campus_triangle_v1/characters/<character_id>.png",
+        "count_source": "three visible female leads only"
+      },
+      {
+        "type": "node_poster",
+        "is_displayed": true,
+        "runtime_field": "nodes.<node_id>.video.poster",
+        "path_pattern": "assets/campus_triangle_v1/posters/<node_id>.png",
+        "count_source": "all playable nodes"
+      },
+      {
+        "type": "node_video",
+        "is_displayed": true,
+        "runtime_field": "nodes.<node_id>.video.src",
+        "path_pattern": "assets/campus_triangle_v1/videos/<node_id>.mp4",
+        "count_source": "all playable nodes"
+      },
+      {
+        "type": "tail_frame",
+        "is_displayed": false,
+        "runtime_field": null,
+        "path_pattern": "assets/campus_triangle_v1/tail_frames/<node_id>.png",
+        "count_source": "save only when returned by video generation"
+      }
+    ]
+  },
+  "multi_agent_production": {
+    "planning_agent": "Codex",
+    "executive_agent": "Claude Code",
+    "checker_agent": "Claude Code",
+    "approval_required_before_paid_generation": true,
+    "checker_required_before_next_gate": true,
+    "handoff_directory": "interactive_video_game/media_asset_pipeline/examples/campus_triangle_v1/handoff/",
+    "allowed_write_scope_by_gate": [
+      {
+        "gate_id": "planning_trial",
+        "owner_role": "planning",
+        "write_scope": [
+          "interactive_video_game/media_asset_pipeline/examples/campus_triangle_v1/"
+        ],
+        "forbidden_changes": [
+          "submit paid generation jobs",
+          "modify current playable runtime",
+          "write API keys"
+        ]
+      },
+      {
+        "gate_id": "checker_review",
+        "owner_role": "checker",
+        "write_scope": [
+          "interactive_video_game/media_asset_pipeline/examples/campus_triangle_v1/CHECKER_REPORT.md"
+        ],
+        "forbidden_changes": [
+          "modify planning source files",
+          "submit generation jobs",
+          "create image or video assets"
+        ]
+      }
+    ]
+  }
+}

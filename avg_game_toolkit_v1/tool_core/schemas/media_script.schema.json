@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/interactive-video/media_script.schema.json",
+  "title": "Generic Interactive Media Script Table",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project_id",
+    "nodes"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string"
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/script_node"
+      }
+    }
+  },
+  "$defs": {
+    "script_node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "node_id",
+        "type",
+        "target_duration_sec",
+        "location_id",
+        "on_screen_character_ids",
+        "scene_goal",
+        "first_frame",
+        "beats",
+        "required_assets"
+      ],
+      "properties": {
+        "node_id": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "opening",
+            "scene",
+            "choice",
+            "bridge",
+            "failure",
+            "ending"
+          ]
+        },
+        "target_duration_sec": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "location_id": {
+          "type": "string"
+        },
+        "on_screen_character_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "scene_goal": {
+          "type": "string"
+        },
+        "first_frame": {
+          "type": "string"
+        },
+        "camera": {
+          "type": "string"
+        },
+        "beats": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/beat"
+          }
+        },
+        "dialogue": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/dialogue_line"
+          },
+          "default": []
+        },
+        "audio": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "music_intent": {
+              "type": "string"
+            },
+            "sound_effects": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": []
+            },
+            "generate_audio": {
+              "type": "boolean"
+            },
+            "reference_audio_asset_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": []
+            }
+          }
+        },
+        "choices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/choice"
+          },
+          "default": []
+        },
+        "required_assets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "qa_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "beat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start_sec",
+        "end_sec",
+        "description"
+      ],
+      "properties": {
+        "start_sec": {
+          "type": "number",
+          "minimum": 0
+        },
+        "end_sec": {
+          "type": "number",
+          "minimum": 0
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "dialogue_line": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "speaker_id",
+        "line"
+      ],
+      "properties": {
+        "speaker_id": {
+          "type": "string"
+        },
+        "line": {
+          "type": "string"
+        },
+        "delivery": {
+          "type": "string"
+        }
+      }
+    },
+    "choice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "choice_id",
+        "label",
+        "target_node_id"
+      ],
+      "properties": {
+        "choice_id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "target_node_id": {
+          "type": "string"
+        },
+        "is_failure": {
+          "type": "boolean",
+          "default": false
+        },
+        "state_effects": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "default": {}
+        }
+      }
+    }
+  }
+}

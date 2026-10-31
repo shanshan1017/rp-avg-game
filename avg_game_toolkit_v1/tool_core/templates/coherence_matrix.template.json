@@ -1,0 +1,84 @@
+{
+  "project_id": "example_project",
+  "matrix_version": "coherence_v1_draft",
+  "source_artifacts": [
+    "coherence_plan.json",
+    "story_plan.json",
+    "character_design.json",
+    "hybrid_script.json",
+    "asset_plan.json"
+  ],
+  "rows": [
+    {
+      "row_id": "row_cell_001",
+      "row_type": "story_cell",
+      "story_cell_id": "cell_001",
+      "story_purpose": "Set up who the player is, where they are, and why the first pressure arrives.",
+      "player_must_understand": [
+        "Player is first-person protagonist.",
+        "The location and immediate social context are clear.",
+        "The next choice is not shown yet because stakes are incomplete."
+      ],
+      "characters_present": ["player", "character_a"],
+      "knowledge_boundaries": [
+        {
+          "fact": "Character A knows the promise but Character B does not.",
+          "known_by": ["player", "character_a"],
+          "must_not_be_known_by": ["character_b"]
+        }
+      ],
+      "narrative_requirements": [
+        "At least two narration/dialogue beats before the next interaction."
+      ],
+      "visual_evidence_required": [
+        "Background establishes location.",
+        "Prop or UI hint supports the key fact."
+      ],
+      "assets_required": [
+        {
+          "asset_slot_id": "bg_cell_001",
+          "asset_type": "background",
+          "required_for_runtime": true,
+          "fallback": null
+        }
+      ],
+      "ui_surfaces_required": [
+        {
+          "surface_id": "surface_narration",
+          "surface_type": "narration_box",
+          "purpose": "Deliver player context without generating extra video."
+        }
+      ],
+      "mechanics_and_state_changes": [
+        {
+          "mechanic_id": "memory_unlock_001",
+          "mechanic_type": "memory_unlock",
+          "effect": "Unlocks a memory log entry that can echo before the first choice."
+        }
+      ],
+      "video_requirement": {
+        "required": false,
+        "reason": "Setup can be handled by text+image.",
+        "video_slot_ids": []
+      },
+      "runtime_fields": [
+        "background",
+        "sequence_steps",
+        "memory_unlocks"
+      ],
+      "qa_acceptance": [
+        "Player can explain where they are and what new fact was introduced."
+      ],
+      "open_conflicts": [],
+      "planner_resolution": null,
+      "coherence_status": "draft"
+    }
+  ],
+  "summary": {
+    "total_rows": 1,
+    "blockers": 0,
+    "major_issues": 0,
+    "accepted_risks": 0,
+    "planner_status": "draft"
+  }
+}

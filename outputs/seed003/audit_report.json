@@ -1,0 +1,414 @@
+{
+  "graph_title": "樱花落下的平行线",
+  "pipeline_mode": "offline_rebuild",
+  "total_nodes": 32,
+  "total_narratives": 32,
+  "structural_issues": [
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_16",
+      "message": "事实 '铃音最多活到这个夏天结束' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_12",
+      "message": "事实 '光之祭因此中断五年' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_10c",
+      "message": "事实 '秋人母亲知道钟楼许愿的事' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_04b",
+      "message": "事实 '镇上存在多起超常现象记录' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_12",
+      "message": "事实 '铃音体内有思念体在维持生命' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_04b",
+      "message": "事实 '光之祭自明治时代举办，目的是安抚亡者思念' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_01",
+      "message": "事实 '山顶有一座废弃钟楼' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_12",
+      "message": "事实 '代价是秋人失去一周记忆' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_18_preserve",
+      "message": "事实 '秋人用夏天的记忆换取铃音的存活' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_01",
+      "message": "事实 '秋人阔别五年回到光之丘' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_14_together",
+      "message": "事实 '圣良能够引导钟楼仪式' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_02",
+      "message": "事实 '铃音身体虚弱' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_09",
+      "message": "事实 '七月份铃音身体状况明显恶化' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_11",
+      "message": "事实 '思念体是遗留情感的凝聚体' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_04a",
+      "message": "事实 '秋人与铃音童年曾一起喂猫' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_04a",
+      "message": "事实 '铃音有咳血症状，病情严重' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_18_release",
+      "message": "事实 '光之祭成功举行' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_07a",
+      "message": "事实 '五年前铃音曾病危被宣判无望后奇迹存活' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_10a",
+      "message": "事实 '钟楼是思念的容器，能凝聚情感为思念体' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_11",
+      "message": "事实 '秋人是某个特殊思念体的源头' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_12",
+      "message": "事实 '秋人五年前许愿让铃音活下来' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_14_together",
+      "message": "事实 '同伴的存在可以分担钟楼力量的冲击' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_13",
+      "message": "事实 '满月之夜是干预思念体的唯一时机' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_04b",
+      "message": "事实 '钟楼旧合影中的人脸模糊不清' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_08",
+      "message": "事实 '奏害怕秋人恢复记忆后不再需要她' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_06",
+      "message": "事实 '照片被撕毁过又拼合' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_06",
+      "message": "事实 '奏一直隐藏着这张照片' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_14_solo",
+      "message": "事实 '钟楼需要许愿者的坚定意志' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_10c",
+      "message": "事实 '九条院家曾告知秋人母亲可以去钟楼许愿' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_05",
+      "message": "事实 '圣良一直在等秋人回来' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_10a",
+      "message": "事实 '九条院家世代守护钟楼' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_10b",
+      "message": "事实 '透明现象从三年前开始并在加重' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_03",
+      "message": "事实 '民俗研究社正式成立' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_08",
+      "message": "事实 '奏的不安与旧照片和铃音有关' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_18_release",
+      "message": "事实 '铃音作为思念体被引导安息' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_10a",
+      "message": "事实 '思念体与生者之魂可以绑定（后果未知）' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_05",
+      "message": "事实 '九条院家世代保管钟楼钥匙' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_14_together",
+      "message": "事实 '铃音在月光下会显现思念体特征' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_18_preserve",
+      "message": "事实 '记忆再次消失，关系回到起点' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_15_survive",
+      "message": "事实 '秋人恢复了完整记忆' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_16",
+      "message": "事实 '存在三种应对方式' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_04a",
+      "message": "事实 '铃音对秋人的记忆缺失表现得很平静' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_14_solo",
+      "message": "事实 '意志不足会被思念体吞噬' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_04b",
+      "message": "事实 '五年前祭典中止，钟楼封锁' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_10c",
+      "message": "事实 '钟楼给予的一切都有代价' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_07b",
+      "message": "事实 '奏对秋人的记忆恢复抱有矛盾心态' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_01",
+      "message": "事实 '秋人对钟楼有强烈既视感' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_05",
+      "message": "事实 '钟楼钥匙与秋人的遗失记忆有关' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_07b",
+      "message": "事实 '秋人选择暂时不面对过去' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_11",
+      "message": "事实 '光之祭中断导致思念体不断积累' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_02",
+      "message": "事实 '圣良似乎认识秋人' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_02",
+      "message": "事实 '结衣在组建民俗研究社' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "funnel_convergence",
+      "node_id": "node_03",
+      "message": "漏斗收束：分支 {'node_04a', 'node_04b'} 在 node_05 合流后只有单一后继 node_06，分支选择的差异被抹平",
+      "suggestion": "在合流节点添加 auto_route 或 gate_condition 分化后续路径"
+    },
+    {
+      "severity": "warning",
+      "category": "funnel_convergence",
+      "node_id": "node_06",
+      "message": "漏斗收束：分支 {'node_07b', 'node_07a'} 在 node_08 合流后只有单一后继 node_09，分支选择的差异被抹平",
+      "suggestion": "在合流节点添加 auto_route 或 gate_condition 分化后续路径"
+    },
+    {
+      "severity": "warning",
+      "category": "funnel_convergence",
+      "node_id": "node_09",
+      "message": "漏斗收束：分支 {'node_10a', 'node_10c', 'node_10b'} 在 node_11 合流后只有单一后继 node_12，分支选择的差异被抹平",
+      "suggestion": "在合流节点添加 auto_route 或 gate_condition 分化后续路径"
+    },
+    {
+      "severity": "warning",
+      "category": "funnel_convergence",
+      "node_id": "node_13",
+      "message": "漏斗收束：分支 {'node_14_solo', 'node_14_together'} 在 node_15_survive 合流后只有单一后继 node_16，分支选择的差异被抹平",
+      "suggestion": "在合流节点添加 auto_route 或 gate_condition 分化后续路径"
+    },
+    {
+      "severity": "warning",
+      "category": "funnel_convergence",
+      "node_id": "node_14_solo",
+      "message": "漏斗收束：分支 {'node_15_survive', 'node_dead_alone'} 在 node_16 合流后只有单一后继 node_17，分支选择的差异被抹平",
+      "suggestion": "在合流节点添加 auto_route 或 gate_condition 分化后续路径"
+    }
+  ],
+  "ai_writing_issues": [],
+  "summary": {
+    "errors": 0,
+    "warnings": 57,
+    "info": 0,
+    "ai_flags": 0
+  }
+}

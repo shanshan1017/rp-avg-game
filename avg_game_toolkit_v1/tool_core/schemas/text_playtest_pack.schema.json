@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Text Playtest Pack",
+  "type": "object",
+  "required": ["project_id", "title", "entry_cell_id", "cells"],
+  "additionalProperties": false,
+  "properties": {
+    "project_id": { "type": "string" },
+    "title": { "type": "string" },
+    "entry_cell_id": { "type": "string" },
+    "initial_state": {
+      "type": "object",
+      "additionalProperties": {
+        "type": ["string", "number", "integer", "boolean", "null"]
+      }
+    },
+    "cells": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/cell" }
+    }
+  },
+  "$defs": {
+    "cell": {
+      "type": "object",
+      "required": ["cell_id", "title", "mode"],
+      "additionalProperties": false,
+      "properties": {
+        "cell_id": { "type": "string" },
+        "title": { "type": "string" },
+        "mode": {
+          "type": "string",
+          "enum": ["text_image", "video_prompt", "choice", "ending", "failure"]
+        },
+        "location": { "type": "string" },
+        "characters": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "purpose": { "type": "string" },
+        "player_context": { "type": "string" },
+        "body": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "player_must_understand": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "visual_evidence": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "text_evidence": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "ui_surfaces": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "asset_slots": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "on_enter_effects": { "$ref": "#/$defs/effects" },
+        "next_cell_id": { "type": "string" },
+        "choices": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/choice" }
+        }
+      }
+    },
+    "choice": {
+      "type": "object",
+      "required": ["choice_id", "label", "leads_to"],
+      "additionalProperties": false,
+      "properties": {
+        "choice_id": { "type": "string" },
+        "label": { "type": "string" },
+        "leads_to": { "type": "string" },
+        "requires": {
+          "type": "object",
+          "additionalProperties": {
+            "type": ["string", "number", "integer", "boolean", "object"]
+          }
+        },
+        "disabled_hint": { "type": "string" },
+        "effects": { "$ref": "#/$defs/effects" }
+      }
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": {
+        "type": ["string", "number", "integer", "boolean", "null"]
+      }
+    }
+  }
+}

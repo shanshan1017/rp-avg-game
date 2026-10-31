@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/interactive-video/game_config.schema.json",
+  "title": "Interactive Video Game Config",
+  "type": "object",
+  "required": ["game_id", "title", "entry_node_id", "nodes"],
+  "properties": {
+    "game_id": { "type": "string" },
+    "title": { "type": "string" },
+    "entry_node_id": { "type": "string" },
+    "runtime": {
+      "type": "object",
+      "properties": {
+        "target_total_seconds": {
+          "type": "array",
+          "items": { "type": "integer" },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "default_choice_mode": { "enum": ["after_video", "timed"] },
+        "allow_rewind_to_checkpoint": { "type": "boolean" }
+      }
+    },
+    "state": {
+      "type": "object",
+      "properties": {
+        "initial": {
+          "type": "object",
+          "additionalProperties": { "type": "integer" }
+        }
+      }
+    },
+    "nodes": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/node" }
+    }
+  },
+  "$defs": {
+    "node": {
+      "type": "object",
+      "required": ["type", "title", "video"],
+      "properties": {
+        "type": { "enum": ["video", "choice", "failure", "ending"] },
+        "title": { "type": "string" },
+        "duration_sec": { "type": "integer", "minimum": 8, "maximum": 15 },
+        "checkpoint": { "type": "boolean" },
+        "choice_timing_sec": { "type": "integer", "minimum": 1 },
+        "video": {
+          "type": "object",
+          "required": ["src"],
+          "properties": {
+            "src": { "type": "string" },
+            "poster": { "type": "string" }
+          }
+        },
+        "choices": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/choice" }
+        },
+        "ending_label": { "type": "string" }
+      }
+    },
+    "choice": {
+      "type": "object",
+      "required": ["id", "label", "target"],
+      "properties": {
+        "id": { "type": "string" },
+        "label": { "type": "string" },
+        "target": { "type": "string" },
+        "effects": {
+          "type": "object",
+          "additionalProperties": { "type": "integer" }
+        },
+        "condition": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "locked_hint": { "type": "string" },
+        "is_failure": { "type": "boolean" }
+      }
+    }
+  }
+}

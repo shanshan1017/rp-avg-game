@@ -1,0 +1,445 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/interactive-video/media_hybrid_script.schema.json",
+  "title": "Generic Interactive Media Hybrid Script",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project_id",
+    "runtime_story_contract",
+    "story_units"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string"
+    },
+    "runtime_story_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_total_duration_sec",
+        "allowed_presentation_modes",
+        "default_mode_policy"
+      ],
+      "properties": {
+        "target_total_duration_sec": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "allowed_presentation_modes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/presentation_mode"
+          },
+          "minItems": 1
+        },
+        "default_mode_policy": {
+          "type": "string",
+          "description": "When to use text+image, when to use video, and how choices are gated."
+        },
+        "player_comprehension_rule": {
+          "type": "string",
+          "description": "What the player must understand before the first meaningful choice."
+        }
+      }
+    },
+    "story_units": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/story_unit"
+      }
+    }
+  },
+  "$defs": {
+    "presentation_mode": {
+      "enum": [
+        "text_image",
+        "video",
+        "choice",
+        "text_image_choice",
+        "video_choice",
+        "ending",
+        "failure",
+        "system_overlay"
+      ]
+    },
+    "story_unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unit_id",
+        "presentation_mode",
+        "target_duration_sec",
+        "player_context",
+        "new_information",
+        "visual_evidence",
+        "text_evidence",
+        "required_understanding_before_choice",
+        "media_assets"
+      ],
+      "properties": {
+        "unit_id": {
+          "type": "string"
+        },
+        "node_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "presentation_mode": {
+          "$ref": "#/$defs/presentation_mode"
+        },
+        "target_duration_sec": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "location_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "on_screen_character_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "runtime_ui_surfaces": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "dialogue_box",
+              "narration_box",
+              "phone_overlay",
+              "right_top_hint",
+              "memory_log",
+              "choice_overlay",
+              "ending_card",
+              "hud_status",
+              "profile_panel"
+            ]
+          },
+          "default": []
+        },
+        "right_top_hints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "character_layers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/character_layer"
+          },
+          "description": "Runtime character portraits, busts, or expression sprites layered over a background.",
+          "default": []
+        },
+        "player_context": {
+          "type": "string",
+          "description": "What the player already knows when this unit starts."
+        },
+        "new_information": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "visual_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Information communicated by image, video, motion, expression, props, or space."
+        },
+        "text_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Information that must be communicated by narration, dialogue, phone UI, log, or choice copy."
+        },
+        "transition_from_previous": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "choice_rationale": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Why choices are meaningful at this point. Required for choice modes."
+        },
+        "required_understanding_before_choice": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Facts the player must know before making a decision."
+        },
+        "text_layers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/text_layer"
+          },
+          "default": []
+        },
+        "sequence_steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sequence_step"
+          },
+          "description": "Ordered runtime beats inside a story cell, such as narration, character enter, dialogue, phone message, hint, memory unlock, video playback, and choice.",
+          "default": []
+        },
+        "video_plan": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "clip_role": {
+              "enum": [
+                "establishing",
+                "character_emotion",
+                "turning_point",
+                "payoff",
+                "transition"
+              ]
+            },
+            "first_frame": {
+              "type": "string"
+            },
+            "motion_beats": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/beat"
+              },
+              "default": []
+            }
+          }
+        },
+        "media_assets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "choices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/choice"
+          },
+          "default": []
+        },
+        "qa_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "character_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "character_id",
+        "pose_asset_id",
+        "expression",
+        "position"
+      ],
+      "properties": {
+        "character_id": {
+          "type": "string"
+        },
+        "pose_asset_id": {
+          "type": "string"
+        },
+        "expression": {
+          "type": "string"
+        },
+        "position": {
+          "type": "string"
+        },
+        "entry_timing": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "text_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_type",
+        "text"
+      ],
+      "properties": {
+        "layer_type": {
+          "enum": [
+            "narration",
+            "dialogue",
+            "phone_message",
+            "memory_log",
+            "choice_prompt",
+            "system_hint",
+            "right_top_hint",
+            "profile_note"
+          ]
+        },
+        "speaker_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "text": {
+          "type": "string"
+        },
+        "display_timing": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "sequence_step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "step_id",
+        "step_type"
+      ],
+      "properties": {
+        "step_id": {
+          "type": "string"
+        },
+        "step_type": {
+          "enum": [
+            "set_background",
+            "show_character",
+            "hide_character",
+            "narration",
+            "dialogue",
+            "phone_message",
+            "right_top_hint",
+            "memory_log",
+            "play_video",
+            "choice",
+            "ending_card"
+          ]
+        },
+        "asset_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "speaker_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "text": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "duration_sec": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "ui_surface": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "choice_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "beat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start_sec",
+        "end_sec",
+        "description"
+      ],
+      "properties": {
+        "start_sec": {
+          "type": "number",
+          "minimum": 0
+        },
+        "end_sec": {
+          "type": "number",
+          "minimum": 0
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "choice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "choice_id",
+        "label",
+        "target_unit_id"
+      ],
+      "properties": {
+        "choice_id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "target_unit_id": {
+          "type": "string"
+        },
+        "state_effects": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "default": {}
+        },
+        "is_failure": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    }
+  }
+}

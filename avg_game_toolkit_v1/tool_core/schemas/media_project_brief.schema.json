@@ -1,0 +1,340 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/interactive-video/media_project_brief.schema.json",
+  "title": "Generic Interactive Media Project Brief",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project_id",
+    "title",
+    "runtime_target",
+    "inputs",
+    "session_length_sec",
+    "node_duration_sec",
+    "style_profile",
+    "protagonist",
+    "story_seed",
+    "runtime_asset_contract",
+    "multi_agent_production"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_\\-]*$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtime_target": {
+      "enum": [
+        "html_video_engine",
+        "godot_video_engine",
+        "asset_package_only"
+      ]
+    },
+    "inputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/input"
+      }
+    },
+    "session_length_sec": {
+      "$ref": "#/$defs/range"
+    },
+    "node_duration_sec": {
+      "$ref": "#/$defs/range"
+    },
+    "style_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "style_id",
+        "description"
+      ],
+      "properties": {
+        "style_id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "reference_files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "forbidden_styles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "protagonist": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pov",
+        "visibility_rule",
+        "needs_visual_reference"
+      ],
+      "properties": {
+        "pov": {
+          "enum": [
+            "first_person",
+            "third_person",
+            "mixed"
+          ]
+        },
+        "story_identity": {
+          "type": "string"
+        },
+        "visibility_rule": {
+          "type": "string"
+        },
+        "needs_visual_reference": {
+          "type": "boolean"
+        }
+      }
+    },
+    "safety_rules": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "story_seed": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "logline"
+      ],
+      "properties": {
+        "logline": {
+          "type": "string"
+        },
+        "source_text": {
+          "type": "string"
+        },
+        "required_choice_points": {
+          "$ref": "#/$defs/range"
+        },
+        "required_endings": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "runtime_asset_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "generate_only_if_referenced_by_runtime",
+        "asset_types"
+      ],
+      "properties": {
+        "generate_only_if_referenced_by_runtime": {
+          "type": "boolean",
+          "const": true
+        },
+        "asset_types": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/runtime_asset_type"
+          }
+        }
+      }
+    },
+    "multi_agent_production": {
+      "$ref": "#/$defs/multi_agent_production"
+    }
+  },
+  "$defs": {
+    "range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "max"
+      ],
+      "properties": {
+        "min": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "input_id",
+        "type",
+        "description"
+      ],
+      "properties": {
+        "input_id": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "text",
+            "image",
+            "video",
+            "audio",
+            "style_reference",
+            "mixed"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "path_or_url": {
+          "type": "string"
+        },
+        "usage_intent": {
+          "enum": [
+            "story_seed",
+            "style_reference",
+            "character_reference",
+            "location_reference",
+            "motion_reference",
+            "audio_reference",
+            "other"
+          ]
+        },
+        "rights_status": {
+          "enum": [
+            "owned",
+            "licensed",
+            "user_provided",
+            "unknown"
+          ],
+          "default": "unknown"
+        }
+      }
+    },
+    "runtime_asset_type": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "is_displayed",
+        "count_source"
+      ],
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "is_displayed": {
+          "type": "boolean"
+        },
+        "runtime_field": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "path_pattern": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "count_source": {
+          "type": "string"
+        }
+      }
+    },
+    "multi_agent_production": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "planning_agent",
+        "executive_agent",
+        "checker_agent",
+        "approval_required_before_paid_generation",
+        "checker_required_before_next_gate",
+        "allowed_write_scope_by_gate"
+      ],
+      "properties": {
+        "planning_agent": {
+          "type": "string"
+        },
+        "executive_agent": {
+          "type": "string"
+        },
+        "checker_agent": {
+          "type": "string"
+        },
+        "approval_required_before_paid_generation": {
+          "type": "boolean",
+          "const": true
+        },
+        "checker_required_before_next_gate": {
+          "type": "boolean",
+          "const": true
+        },
+        "handoff_directory": {
+          "type": "string",
+          "default": "outputs/<project_id>/handoff/"
+        },
+        "allowed_write_scope_by_gate": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/gate_write_scope"
+          }
+        }
+      }
+    },
+    "gate_write_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gate_id",
+        "owner_role",
+        "write_scope",
+        "forbidden_changes"
+      ],
+      "properties": {
+        "gate_id": {
+          "type": "string"
+        },
+        "owner_role": {
+          "enum": [
+            "planning",
+            "executive",
+            "checker",
+            "human"
+          ]
+        },
+        "write_scope": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forbidden_changes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "project_id": "example_project",
+  "source_story_graph": "story_graph_plan.json",
+  "global_scene_rules": {
+    "opening_establishment_rule": "The first meaningful choice may not appear until the player knows who they are, where they are, when it is, and what pressure is already active.",
+    "choice_callback_rule": "Every meaningful choice must have an immediate readable callback or a named later echo requirement.",
+    "first_appearance_rule": "Every major character, location, prop, and special term must be introduced in the path where the player first encounters it.",
+    "segment_rhythm_rule": "Final writing should display one playable beat per segment: narration sentence, dialogue line, phone message, hint, or memory log."
+  },
+  "scenes": [
+    {
+      "scene_plan_id": "scene_001_opening",
+      "source_node_ids": [
+        "node_001"
+      ],
+      "scene_objective": "Establish the player role, place, time pressure, and first emotional hook.",
+      "intention_function": "Show the core conflict in miniature: the player wants to avoid a decision, but the world makes avoidance costly.",
+      "player_context": "The player has just started the game and knows nothing yet.",
+      "current_pressure": "A scheduled event is about to begin, and a personal promise is already overdue.",
+      "active_characters": [
+        {
+          "character_id": "player",
+          "immediate_want": "Get through the evening without confronting the old promise.",
+          "blocking_force": "Messages, objects, and other characters keep pulling the promise back into the present.",
+          "player_facing_entry": "Use first-person narration; do not show the protagonist portrait in first-person mode."
+        }
+      ],
+      "conflict": "The player wants to avoid a decision, but the scene produces evidence that avoidance is no longer possible.",
+      "turn": "By the end, the player understands the immediate goal and why ignoring it has a cost.",
+      "presentation_mode": "text_image",
+      "visual_novel_triad": {
+        "narrative": "The player understands identity, place, time pressure, and the first emotional hook.",
+        "presentation": "Background, prop evidence, narration box, and right-top hint make the pressure legible.",
+        "interactivity": "The next choice will ask the player how to respond to the pressure they just understood."
+      },
+      "first_appearance_requirements": [
+        {
+          "target_id": "main_location",
+          "target_type": "location",
+          "must_show": [
+            "time of day",
+            "event signage",
+            "where the player is standing"
+          ]
+        }
+      ],
+      "required_visible_evidence": [
+        "background shows the current location",
+        "important prop is visible or described"
+      ],
+      "required_text_evidence": [
+        "player identity",
+        "current time pressure",
+        "why the next action matters"
+      ],
+      "runtime_surfaces": [
+        "background",
+        "narration_box",
+        "right_top_hint"
+      ],
+      "segment_budget": {
+        "min_segments": 5,
+        "max_segments": 10,
+        "min_dialogue_turns": 0
+      },
+      "choice_callback_requirements": [],
+      "branch_information_boundary": [
+        "No later node may assume a character name or term that has not appeared in the current route."
+      ],
+      "setup_payoff_links": [
+        {
+          "setup": "The opening pressure is established.",
+          "payoff": "The first choice forces the player to respond to that pressure."
+        }
+      ],
+      "asset_hooks": [
+        {
+          "asset_slot_id": "bg_opening_location",
+          "asset_type": "background",
+          "runtime_use": "opening background"
+        }
+      ],
+      "video_hooks": [],
+      "acceptance_criteria": [
+        "A player can answer who/where/when/why before the first choice.",
+        "The scene has a visible or textual turn rather than only exposition."
+      ]
+    }
+  ]
+}

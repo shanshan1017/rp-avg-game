@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/interactive-video/media_asset_plan.schema.json",
+  "title": "Generic Interactive Media Asset Plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project_id",
+    "assets"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string"
+    },
+    "assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/asset"
+      }
+    }
+  },
+  "$defs": {
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_id",
+        "asset_type",
+        "runtime_usage",
+        "capability",
+        "prompt_intent",
+        "local_output_path"
+      ],
+      "properties": {
+        "asset_id": {
+          "type": "string"
+        },
+        "asset_type": {
+          "enum": [
+            "character_reference_image",
+            "location_reference_image",
+            "prop_reference_image",
+            "node_poster",
+            "node_video",
+            "tail_frame",
+            "reference_audio",
+            "ui_image",
+            "ui_concept_image",
+            "story_still",
+            "story_background",
+            "character_pose_image",
+            "character_expression_image",
+            "video_first_frame",
+            "video_clip",
+            "audio_bgm",
+            "audio_ambience",
+            "audio_sfx",
+            "voice_line",
+            "other"
+          ]
+        },
+        "node_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "story_unit_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Hybrid narrative unit id when the asset is used by a mixed text/image/video runtime."
+        },
+        "presentation_modes": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "text_image",
+              "video",
+              "choice",
+              "text_image_choice",
+              "video_choice",
+              "ending",
+              "failure",
+              "system_overlay"
+            ]
+          },
+          "default": []
+        },
+        "character_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "runtime_usage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "is_used_by_runtime"
+          ],
+          "properties": {
+            "is_used_by_runtime": {
+              "type": "boolean"
+            },
+            "runtime_field": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "display_context": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "capability": {
+          "enum": [
+            "image.text_to_image",
+            "image.reference_edit",
+            "image.mask_edit",
+            "image.responses_multiturn",
+            "image.streaming",
+            "video.text_to_video",
+            "video.first_frame_to_video",
+            "video.reference_image_to_video",
+            "video.reference_video_to_video",
+            "video.reference_audio",
+            "video.last_frame_chain",
+            "audio.tts",
+            "audio.voice_design",
+            "audio.music_generation",
+            "audio.reference_import",
+            "audio.manual_import",
+            "audio.generated",
+            "manual.import",
+            "skip"
+          ]
+        },
+        "input_asset_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "prompt_intent": {
+          "type": "string"
+        },
+        "model_parameters": {
+          "type": "object",
+          "additionalProperties": true,
+          "default": {}
+        },
+        "local_output_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "qa_requirements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "acceptance_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "checker_required": {
+          "type": "boolean",
+          "default": true
+        },
+        "risk_level": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "default": "medium"
+        },
+        "approval_stage": {
+          "enum": [
+            "planned",
+            "prompt_approved",
+            "generated",
+            "checker_approved",
+            "runtime_approved",
+            "waived",
+            "rejected"
+          ],
+          "default": "planned"
+        },
+        "must_not_include": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "status": {
+          "enum": [
+            "planned",
+            "approved",
+            "generated",
+            "rejected",
+            "skipped"
+          ],
+          "default": "planned"
+        }
+      }
+    }
+  }
+}

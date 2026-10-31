@@ -1,0 +1,164 @@
+{
+  "project_id": "example_project",
+  "plan_version": "coherence_v1_draft",
+  "planner_owner": "Codex Planner",
+  "project_promise": {
+    "player_fantasy": "Describe what the player emotionally gets to be or do.",
+    "target_runtime": "html_then_godot",
+    "target_playthrough_duration_sec": [90, 150],
+    "primary_experience": "Hybrid interactive visual story: text+image setup, video for key turns, meaningful choices.",
+    "non_goals": [
+      "Do not generate assets that the runtime will not display.",
+      "Do not make the story understandable only through video motion."
+    ]
+  },
+  "story_intention": {
+    "protagonist_identity": "Describe the player/protagonist identity in dramatic terms.",
+    "core_goal": "Describe what the protagonist actively tries to accomplish.",
+    "core_conflict": "Describe the main opposing pressure, dilemma, flaw, relationship, or world force.",
+    "core_question": "State the question the whole story tests through scenes and choices.",
+    "emotional_anchor": "State the feeling the player should retain after finishing.",
+    "core_intention": "State what the story finally discovers, embodies, or argues.",
+    "ending_philosophy": "single_answer_true_ending",
+    "gameplay_expression": "Describe how choices, values, gates, failures, or route locks express the intention.",
+    "choice_pressure": "Describe what kind of hesitation the player should feel when choosing.",
+    "character_intention_roles": [
+      {
+        "character_id": "player",
+        "role_in_intention": "The decision center who must face the core conflict.",
+        "route_question": "What does this character's route or presence ask?",
+        "emotional_function": "What emotion this character brings into the story."
+      }
+    ],
+    "must_not_become": [
+      "A list of events without a clear dramatic question."
+    ]
+  },
+  "disciplines": [
+    {
+      "discipline_id": "planning",
+      "owner_role": "Story Graph Director / Planner",
+      "scope": ["story graph", "branch types", "value system", "route matrix", "knowledge boundaries"],
+      "outputs": ["story_graph_plan.json"],
+      "must_report": ["fake choices", "funnel convergence", "knowledge leaks", "unvisualized required facts"]
+    },
+    {
+      "discipline_id": "narrative",
+      "owner_role": "Narrative Agent",
+      "scope": ["hybrid script", "dialogue", "player comprehension", "local expansion from approved story graph"],
+      "outputs": ["hybrid_script.json", "narrative_agent_report.json"],
+      "must_report": ["new character requests", "new asset requests", "comprehension gaps"]
+    },
+    {
+      "discipline_id": "art",
+      "owner_role": "Art Agent",
+      "scope": ["visual feasibility", "asset slot audit", "style consistency"],
+      "outputs": ["asset_support_report.json"],
+      "must_report": ["missing visual evidence", "character consistency risks", "group scene risks"]
+    },
+    {
+      "discipline_id": "audio",
+      "owner_role": "Audio Agent",
+      "scope": ["BGM plan", "ambience", "sound effects", "voice/audio feasibility", "audio-runtime mapping"],
+      "outputs": ["audio_plan.json", "audio_agent_report.json"],
+      "must_report": ["missing audio cue", "audio contradicts emotional anchor", "unlicensed or remote audio dependency"]
+    },
+    {
+      "discipline_id": "mechanics",
+      "owner_role": "Mechanics Agent",
+      "scope": ["choices", "state", "failures", "endings"],
+      "outputs": ["mechanics_report.json"],
+      "must_report": ["fake choices", "weak consequences", "unclear route gates"]
+    }
+  ],
+  "global_constraints": [
+    {
+      "constraint_id": "first_person_protagonist",
+      "applies_to": ["narrative", "art", "video"],
+      "rule": "The player protagonist is first-person and should not appear as a visible male character unless explicitly approved.",
+      "severity": "blocker"
+    }
+  ],
+  "budgets": {
+    "story_cells": {"min": 10, "target": 16, "max": 24},
+    "choice_points": {"min": 3, "target": 5, "max": 8},
+    "normal_endings": {"min": 2, "target": 3, "max": 5},
+    "failure_endings": {"min": 1, "target": 2, "max": 5},
+    "image_assets": {"min": 8, "target": 18, "max": 32},
+    "video_assets": {"min": 1, "target": 3, "max": 6},
+    "audio_assets": {"min": 0, "target": 6, "max": 16},
+    "ui_concept_assets": {"min": 0, "target": 3, "max": 6}
+  },
+  "gate_plan": [
+    {
+      "gate_id": "G1",
+      "name": "Coherence Plan",
+      "owner": "Planner",
+      "inputs": ["project_brief"],
+      "outputs": ["coherence_plan.json"],
+      "acceptance": ["Disciplines, budgets, constraints, and conflict policy are explicit."],
+      "blockers": ["Missing target runtime.", "No conflict policy."]
+    },
+    {
+      "gate_id": "G1.5",
+      "name": "Story Intention Gate",
+      "owner": "Planner",
+      "inputs": ["project_brief", "coherence_plan.json"],
+      "outputs": ["story_intention"],
+      "acceptance": [
+        "Core question, emotional anchor, core conflict, gameplay expression, ending philosophy, and character intention roles are explicit."
+      ],
+      "blockers": ["Missing core intention.", "No choice pressure.", "Characters do not map to the intention."]
+    },
+    {
+      "gate_id": "G2",
+      "name": "Story Graph Plan",
+      "owner": "Planner or isolated Director Agent",
+      "inputs": ["project_brief", "coherence_plan.json"],
+      "outputs": ["story_graph_plan.json"],
+      "acceptance": [
+        "Node graph, branch types, value system, route matrix, witnesses, and media hooks are explicit.",
+        "No pseudo choices, orphan failures, or ending-by-last-choice-only structure remain."
+      ],
+      "blockers": ["Missing route matrix.", "Meaningful choices have no consequence.", "Facts needed by choices have no earlier delivery path."]
+    }
+  ],
+  "conflict_policy": {
+    "planner_decision_required_for": [
+      "new_visible_character",
+      "new_location",
+      "new_generated_asset",
+      "new_video_slot",
+      "new_audio_slot",
+      "choice_target_change",
+      "ending_condition_change",
+      "runtime_surface_change",
+      "style_anchor_change",
+      "budget_overrun",
+      "player_comprehension_gap"
+    ],
+    "allowed_resolution_actions": [
+      "revise_story",
+      "revise_asset_plan",
+      "revise_mechanics",
+      "revise_ui",
+      "revise_video_plan",
+      "revise_audio_plan",
+      "revise_runtime_contract",
+      "accept_risk",
+      "defer"
+    ],
+    "agent_change_limits": "Agents may propose cross-discipline changes but must not silently edit another discipline's source of truth."
+  },
+  "required_artifacts": [
+    "coherence_plan.json",
+    "story_graph_plan.json",
+    "story_plan.json",
+    "character_design.json",
+    "hybrid_script.json",
+    "asset_plan.json",
+    "coherence_matrix.json",
+    "agent_report.json"
+  ],
+  "open_questions": []
+}

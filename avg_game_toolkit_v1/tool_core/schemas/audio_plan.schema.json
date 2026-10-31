@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/interactive-video/audio_plan.schema.json",
+  "title": "Audio Plan",
+  "description": "Standalone audio and video-embedded audio plan for AVG / interactive-video production.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project_id",
+    "global_audio_direction",
+    "video_audio_policy",
+    "cues"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string"
+    },
+    "global_audio_direction": {
+      "type": "string"
+    },
+    "video_audio_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "video_generate_audio_default",
+        "standalone_audio_duplication_rule",
+        "prompt_requirements"
+      ],
+      "properties": {
+        "video_generate_audio_default": {
+          "type": "boolean"
+        },
+        "standalone_audio_duplication_rule": {
+          "type": "string"
+        },
+        "prompt_requirements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "voice_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "voice_lines_enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "voice_design_enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "voice_cloning_enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "consent_required": {
+          "type": "boolean",
+          "default": true
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "cues": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cue"
+      },
+      "default": []
+    },
+    "muted_fallbacks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/muted_fallback"
+      },
+      "default": []
+    }
+  },
+  "$defs": {
+    "cue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cue_id",
+        "cue_type",
+        "runtime_usage",
+        "capability",
+        "prompt_intent",
+        "local_output_path"
+      ],
+      "properties": {
+        "cue_id": {
+          "type": "string"
+        },
+        "cue_type": {
+          "enum": [
+            "bgm",
+            "ambience",
+            "ui_sfx",
+            "prop_sfx",
+            "choice_callback_sfx",
+            "ending_stinger",
+            "failure_stinger",
+            "voice_line",
+            "video_embedded_audio_note"
+          ]
+        },
+        "node_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "character_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "runtime_usage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "is_standalone_runtime_asset"
+          ],
+          "properties": {
+            "is_standalone_runtime_asset": {
+              "type": "boolean"
+            },
+            "runtime_field": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "loop": {
+              "type": "boolean",
+              "default": false
+            },
+            "duck_under_voice": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "capability": {
+          "enum": [
+            "audio.tts",
+            "audio.voice_design",
+            "audio.music_generation",
+            "audio.reference_import",
+            "audio.manual_import",
+            "video.embedded_audio_prompt",
+            "skip"
+          ]
+        },
+        "prompt_intent": {
+          "type": "string"
+        },
+        "provider_parameters": {
+          "type": "object",
+          "additionalProperties": true,
+          "default": {}
+        },
+        "local_output_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "acceptance_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "risk_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "muted_fallback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cue_id",
+        "fallback_text_or_visual"
+      ],
+      "properties": {
+        "cue_id": {
+          "type": "string"
+        },
+        "fallback_text_or_visual": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
+

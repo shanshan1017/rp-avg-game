@@ -1,0 +1,386 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/interactive-video/scene_dramaturgy_plan.schema.json",
+  "title": "Scene Dramaturgy Plan",
+  "description": "A required bridge between story graph planning and final runtime writing. It turns structural nodes into playable dramatic scenes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project_id",
+    "source_story_graph",
+    "global_scene_rules",
+    "scenes"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string"
+    },
+    "source_story_graph": {
+      "type": "string"
+    },
+    "global_scene_rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "opening_establishment_rule",
+        "choice_callback_rule",
+        "first_appearance_rule",
+        "segment_rhythm_rule"
+      ],
+      "properties": {
+        "opening_establishment_rule": {
+          "type": "string"
+        },
+        "choice_callback_rule": {
+          "type": "string"
+        },
+        "first_appearance_rule": {
+          "type": "string"
+        },
+        "segment_rhythm_rule": {
+          "type": "string"
+        }
+      }
+    },
+    "scenes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/scene_plan"
+      }
+    }
+  },
+  "$defs": {
+    "scene_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scene_plan_id",
+        "source_node_ids",
+        "scene_objective",
+        "intention_function",
+        "player_context",
+        "current_pressure",
+        "active_characters",
+        "conflict",
+        "turn",
+        "presentation_mode",
+        "visual_novel_triad",
+        "required_visible_evidence",
+        "required_text_evidence",
+        "runtime_surfaces",
+        "segment_budget",
+        "branch_information_boundary",
+        "asset_hooks",
+        "acceptance_criteria"
+      ],
+      "properties": {
+        "scene_plan_id": {
+          "type": "string"
+        },
+        "source_node_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "scene_objective": {
+          "type": "string"
+        },
+        "intention_function": {
+          "type": "string",
+          "description": "How this scene advances, complicates, tests, or echoes the approved core intention."
+        },
+        "player_context": {
+          "type": "string"
+        },
+        "current_pressure": {
+          "type": "string"
+        },
+        "active_characters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/active_character"
+          },
+          "default": []
+        },
+        "conflict": {
+          "type": "string"
+        },
+        "turn": {
+          "type": "string",
+          "description": "What changes by the end of this scene: information, emotion, relationship, route pressure, or world state."
+        },
+        "presentation_mode": {
+          "enum": [
+            "text_only",
+            "text_image",
+            "portrait_dialogue",
+            "cg_beat",
+            "video_beat",
+            "phone_or_log_overlay",
+            "hybrid"
+          ]
+        },
+        "visual_novel_triad": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "narrative",
+            "presentation",
+            "interactivity"
+          ],
+          "properties": {
+            "narrative": {
+              "type": "string"
+            },
+            "presentation": {
+              "type": "string"
+            },
+            "interactivity": {
+              "type": "string"
+            }
+          }
+        },
+        "first_appearance_requirements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/first_appearance"
+          },
+          "default": []
+        },
+        "required_visible_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "required_text_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "runtime_surfaces": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "background",
+              "character_portrait",
+              "dialogue_box",
+              "narration_box",
+              "phone_overlay",
+              "right_top_hint",
+              "memory_log",
+              "choice_overlay",
+              "video",
+              "audio",
+              "ending_card"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "segment_budget": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min_segments",
+            "max_segments",
+            "min_dialogue_turns"
+          ],
+          "properties": {
+            "min_segments": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "max_segments": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "min_dialogue_turns": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "choice_callback_requirements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/choice_callback"
+          },
+          "default": []
+        },
+        "branch_information_boundary": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "setup_payoff_links": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/setup_payoff"
+          },
+          "default": []
+        },
+        "asset_hooks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/asset_hook"
+          }
+        },
+        "video_hooks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/video_hook"
+          },
+          "default": []
+        },
+        "acceptance_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "active_character": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "character_id",
+        "immediate_want",
+        "blocking_force",
+        "player_facing_entry"
+      ],
+      "properties": {
+        "character_id": {
+          "type": "string"
+        },
+        "immediate_want": {
+          "type": "string"
+        },
+        "blocking_force": {
+          "type": "string"
+        },
+        "player_facing_entry": {
+          "type": "string"
+        }
+      }
+    },
+    "first_appearance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_id",
+        "target_type",
+        "must_show"
+      ],
+      "properties": {
+        "target_id": {
+          "type": "string"
+        },
+        "target_type": {
+          "enum": [
+            "character",
+            "location",
+            "prop",
+            "term"
+          ]
+        },
+        "must_show": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "choice_callback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "choice_id",
+        "callback_requirement"
+      ],
+      "properties": {
+        "choice_id": {
+          "type": "string"
+        },
+        "callback_requirement": {
+          "type": "string"
+        },
+        "later_echo_requirement": {
+          "type": "string"
+        }
+      }
+    },
+    "setup_payoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "setup",
+        "payoff"
+      ],
+      "properties": {
+        "setup": {
+          "type": "string"
+        },
+        "payoff": {
+          "type": "string"
+        }
+      }
+    },
+    "asset_hook": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_slot_id",
+        "asset_type",
+        "runtime_use"
+      ],
+      "properties": {
+        "asset_slot_id": {
+          "type": "string"
+        },
+        "asset_type": {
+          "enum": [
+            "background",
+            "character_portrait",
+            "expression",
+            "prop",
+            "story_still",
+            "ui",
+            "audio"
+          ]
+        },
+        "runtime_use": {
+          "type": "string"
+        }
+      }
+    },
+    "video_hook": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "video_slot_id",
+        "reason_video_is_needed",
+        "text_fallback"
+      ],
+      "properties": {
+        "video_slot_id": {
+          "type": "string"
+        },
+        "reason_video_is_needed": {
+          "type": "string"
+        },
+        "text_fallback": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "package_path": "handoff/avg_game_toolkit_v1/playable_games/zhuxian_qimai_huiwu_v1/runtime/runtime_game_package.json",
+  "schema_path": "tool_versions/cross_disciplinary_coherence_v1/schemas/runtime_game_package.schema.json",
+  "assets_complete": false,
+  "summary": {
+    "errors": 0,
+    "warnings": 29,
+    "issue_count": 29
+  },
+  "issues": [
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.bg_arena_center_facing",
+      "message": "Asset 'bg_arena_center_facing' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.bg_dazhu_inner_chamber_evening",
+      "message": "Asset 'bg_dazhu_inner_chamber_evening' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.bg_outside_arena_dispersing_crowd",
+      "message": "Asset 'bg_outside_arena_dispersing_crowd' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.cg_burst_first_strike",
+      "message": "Asset 'cg_burst_first_strike' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.cg_ending_failure_blank_record",
+      "message": "Asset 'cg_ending_failure_blank_record' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.cg_ending_restrained_dusk_distance",
+      "message": "Asset 'cg_ending_restrained_dusk_distance' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.cg_ending_true_dawn_double_view",
+      "message": "Asset 'cg_ending_true_dawn_double_view' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.cg_ending_yield_inner_chamber",
+      "message": "Asset 'cg_ending_yield_inner_chamber' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.cg_final_strike_settle",
+      "message": "Asset 'cg_final_strike_settle' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.char_judge_elder_warning",
+      "message": "Asset 'char_judge_elder_warning' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.char_tian_buyi_holding_in",
+      "message": "Asset 'char_tian_buyi_holding_in' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.char_tian_buyi_paternal_concern",
+      "message": "Asset 'char_tian_buyi_paternal_concern' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.char_tian_buyi_serious_silent",
+      "message": "Asset 'char_tian_buyi_serious_silent' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.char_zhang_xiaofan_gaze_truth",
+      "message": "Asset 'char_zhang_xiaofan_gaze_truth' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.prop_buddhist_beads_closeup",
+      "message": "Asset 'prop_buddhist_beads_closeup' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.prop_judge_bell_closeup",
+      "message": "Asset 'prop_judge_bell_closeup' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.prop_qinglian_sword_sheathed",
+      "message": "Asset 'prop_qinglian_sword_sheathed' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.ref_judge_elder",
+      "message": "Asset 'ref_judge_elder' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.ref_lu_xueqi",
+      "message": "Asset 'ref_lu_xueqi' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.ref_song_daren",
+      "message": "Asset 'ref_song_daren' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.ref_tian_buyi",
+      "message": "Asset 'ref_tian_buyi' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.ref_zhang_xiaofan",
+      "message": "Asset 'ref_zhang_xiaofan' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.ui_ending_title_card",
+      "message": "Asset 'ui_ending_title_card' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.ui_exposure_meter_concept",
+      "message": "Asset 'ui_exposure_meter_concept' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.ui_lu_attitude_meter_concept",
+      "message": "Asset 'ui_lu_attitude_meter_concept' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.ui_midsummary_card",
+      "message": "Asset 'ui_midsummary_card' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.ui_overlay_chapter_card",
+      "message": "Asset 'ui_overlay_chapter_card' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.vff_arrival_drum_step",
+      "message": "Asset 'vff_arrival_drum_step' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "unused_asset",
+      "path": "$.assets.vff_lu_arrival_intent",
+      "message": "Asset 'vff_lu_arrival_intent' is declared but not referenced by runtime package.",
+      "suggestion": ""
+    }
+  ]
+}

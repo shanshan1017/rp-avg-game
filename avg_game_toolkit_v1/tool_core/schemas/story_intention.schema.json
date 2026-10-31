@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/interactive-video/story_intention.schema.json",
+  "title": "Story Intention Statement",
+  "description": "Authoring-time schema for the mandatory G1.5 Story Intention Gate. Runtime packages may include only a short summary.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protagonist_identity",
+    "core_goal",
+    "core_conflict",
+    "core_question",
+    "emotional_anchor",
+    "core_intention",
+    "ending_philosophy",
+    "gameplay_expression",
+    "character_intention_roles"
+  ],
+  "properties": {
+    "protagonist_identity": {
+      "type": "string",
+      "description": "Who the player/protagonist is in dramatic terms."
+    },
+    "core_goal": {
+      "type": "string",
+      "description": "What the protagonist is actively trying to do."
+    },
+    "core_conflict": {
+      "type": "string",
+      "description": "The main opposing pressure: environment, relationship, antagonist, flaw, duty, or dilemma."
+    },
+    "core_question": {
+      "type": "string",
+      "description": "The question the whole story asks through scenes and choices."
+    },
+    "emotional_anchor": {
+      "type": "string",
+      "description": "The feeling the game should leave in the player."
+    },
+    "core_intention": {
+      "type": "string",
+      "description": "The story's intended meaning or answer. It need not be morally correct or universal."
+    },
+    "ending_philosophy": {
+      "enum": [
+        "single_answer_true_ending",
+        "multiple_equal_answers",
+        "branch_specific_answers",
+        "experimental"
+      ]
+    },
+    "gameplay_expression": {
+      "type": "string",
+      "description": "How choices, values, gates, failures, or loops express the intention."
+    },
+    "choice_pressure": {
+      "type": "string",
+      "description": "What kind of hesitation or value pressure choices should create."
+    },
+    "character_intention_roles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "character_id",
+          "role_in_intention"
+        ],
+        "properties": {
+          "character_id": {
+            "type": "string"
+          },
+          "role_in_intention": {
+            "type": "string",
+            "description": "What this character represents, challenges, tempts, protects, or misunderstands."
+          },
+          "route_question": {
+            "type": "string"
+          },
+          "emotional_function": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "must_not_become": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    }
+  }
+}

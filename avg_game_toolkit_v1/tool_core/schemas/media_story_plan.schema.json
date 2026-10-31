@@ -1,0 +1,491 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/interactive-video/media_story_plan.schema.json",
+  "title": "Generic Interactive Media Story Plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project_id",
+    "plan_version",
+    "story_strategy",
+    "unit_plans"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string"
+    },
+    "plan_version": {
+      "type": "string"
+    },
+    "story_strategy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_playthrough_duration_sec",
+        "presentation_policy",
+        "first_choice_gate"
+      ],
+      "properties": {
+        "target_playthrough_duration_sec": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "presentation_policy": {
+          "type": "string"
+        },
+        "first_choice_gate": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "video_budget_policy": {
+          "type": "string"
+        },
+        "runtime_component_policy": {
+          "type": "string",
+          "description": "Which UI surfaces are runtime-native and do not require raster generation by default."
+        },
+        "character_layer_policy": {
+          "type": "string",
+          "description": "How reusable character portraits, poses, expressions, and scene-baked characters should be planned."
+        }
+      }
+    },
+    "unit_plans": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/unit_plan"
+      }
+    }
+  },
+  "$defs": {
+    "unit_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unit_id",
+        "unit_role",
+        "presentation_target",
+        "duration_budget_sec",
+        "planner_intent",
+        "player_context_start",
+        "must_deliver_information",
+        "content_requirements",
+        "asset_slots",
+        "agent_briefs",
+        "acceptance_criteria",
+        "next_unit_ids"
+      ],
+      "properties": {
+        "unit_id": {
+          "type": "string"
+        },
+        "unit_role": {
+          "enum": [
+            "prologue",
+            "setup",
+            "evidence",
+            "bridge",
+            "choice",
+            "turning_point",
+            "failure",
+            "ending",
+            "epilogue"
+          ]
+        },
+        "presentation_target": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "primary_mode"
+          ],
+          "properties": {
+            "primary_mode": {
+              "enum": [
+                "text_image",
+                "video",
+                "text_image_choice",
+                "video_choice",
+                "ending",
+                "failure"
+              ]
+            },
+            "uses_background_image": {
+              "type": "boolean",
+              "default": true
+            },
+            "uses_character_layer": {
+              "type": "boolean",
+              "default": false
+            },
+            "uses_key_video": {
+              "type": "boolean",
+              "default": false
+            },
+            "uses_choice_overlay": {
+              "type": "boolean",
+              "default": false
+            },
+            "ui_surfaces": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "dialogue_box",
+                  "narration_box",
+                  "phone_overlay",
+                  "right_top_hint",
+                  "memory_log",
+                  "choice_overlay",
+                  "ending_card",
+                  "hud_status"
+                ]
+              },
+              "default": []
+            }
+          }
+        },
+        "duration_budget_sec": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min",
+            "target",
+            "max"
+          ],
+          "properties": {
+            "min": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "target": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "max": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "planner_intent": {
+          "type": "string"
+        },
+        "player_context_start": {
+          "type": "string"
+        },
+        "must_deliver_information": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "content_requirements": {
+          "$ref": "#/$defs/content_requirements"
+        },
+        "asset_slots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/asset_slot"
+          },
+          "default": []
+        },
+        "agent_briefs": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "narrative_agent",
+            "art_agent",
+            "checker_agent"
+          ],
+          "properties": {
+            "narrative_agent": {
+              "type": "string"
+            },
+            "art_agent": {
+              "type": "string"
+            },
+            "video_agent": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "ui_agent": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "runtime_agent": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "checker_agent": {
+              "type": "string"
+            }
+          }
+        },
+        "acceptance_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "next_unit_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "content_requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "background",
+        "narration_rounds",
+        "dialogue_rounds",
+        "right_top_hints",
+        "choice_requirements"
+      ],
+      "properties": {
+        "background": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "description",
+            "must_show",
+            "must_not_show"
+          ],
+          "properties": {
+            "description": {
+              "type": "string"
+            },
+            "must_show": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "must_not_show": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "character_appearances": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/character_appearance"
+          },
+          "default": []
+        },
+        "narration_rounds": {
+          "$ref": "#/$defs/round_budget"
+        },
+        "dialogue_rounds": {
+          "$ref": "#/$defs/round_budget"
+        },
+        "phone_message_rounds": {
+          "$ref": "#/$defs/round_budget"
+        },
+        "right_top_hints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "choice_requirements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/choice_requirement"
+          },
+          "default": []
+        }
+      }
+    },
+    "round_budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "target",
+        "max",
+        "purpose"
+      ],
+      "properties": {
+        "min": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "target": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "purpose": {
+          "type": "string"
+        }
+      }
+    },
+    "character_appearance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "character_id",
+        "appearance_role",
+        "required_emotion",
+        "position"
+      ],
+      "properties": {
+        "character_id": {
+          "type": "string"
+        },
+        "appearance_role": {
+          "enum": [
+            "foreground",
+            "side_portrait",
+            "background_presence",
+            "memory_image",
+            "not_visible"
+          ]
+        },
+        "required_emotion": {
+          "type": "string"
+        },
+        "position": {
+          "type": "string"
+        }
+      }
+    },
+    "choice_requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "choice_id",
+        "intent",
+        "player_must_know",
+        "target_unit_id"
+      ],
+      "properties": {
+        "choice_id": {
+          "type": "string"
+        },
+        "intent": {
+          "type": "string"
+        },
+        "player_must_know": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "target_unit_id": {
+          "type": "string"
+        },
+        "is_failure": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "asset_slot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slot_id",
+        "asset_type",
+        "runtime_usage",
+        "generation_owner",
+        "description",
+        "must_show",
+        "must_not_show"
+      ],
+      "properties": {
+        "slot_id": {
+          "type": "string"
+        },
+        "asset_type": {
+          "enum": [
+            "story_background",
+            "character_reference",
+            "character_pose",
+            "prop_reference",
+            "phone_overlay",
+            "ui_overlay",
+            "video_first_frame",
+            "video_clip",
+            "tail_frame",
+            "audio_reference"
+          ]
+        },
+        "runtime_usage": {
+          "type": "string"
+        },
+        "generation_owner": {
+          "enum": [
+            "art_agent",
+            "ui_agent",
+            "video_agent",
+            "manual",
+            "reuse_existing"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "character_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "depends_on_slot_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "suggested_capability": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "must_show": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "must_not_show": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

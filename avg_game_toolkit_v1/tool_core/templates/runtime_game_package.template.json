@@ -1,0 +1,330 @@
+{
+  "package_version": "0.1.0",
+  "game_id": "example_avg_game",
+  "engine_contract": {
+    "engine_id": "fixed_avg_runtime",
+    "engine_version": "0.1.0",
+    "required_features": [
+      "segments",
+      "choices",
+      "conditional_choices",
+      "routes",
+      "save_load",
+      "chapter_select",
+      "endings",
+      "achievements",
+      "settings",
+      "play_stats",
+      "background_images",
+      "character_portraits",
+      "expression_switching",
+      "phone_overlay",
+      "right_top_hint",
+      "memory_log",
+      "video_playback"
+    ],
+    "asset_base_path": "./assets/example_avg_game/",
+    "load_policy": "single_json_with_local_assets"
+  },
+  "meta": {
+    "title": "Example AVG Game",
+    "subtitle": "Runtime package template",
+    "author": "Studio",
+    "version": "0.1.0",
+    "description": "A minimal hot-swappable AVG package template.",
+    "language": "zh-CN",
+    "target_playtime_min": [
+      20,
+      30
+    ],
+    "pov": "first_person",
+    "story_intention_summary": {
+      "core_question": "What choice or emotional question the player repeatedly faces.",
+      "emotional_anchor": "The feeling the player should retain after finishing.",
+      "core_intention": "The story's intended meaning in one compact sentence.",
+      "ending_philosophy": "single_answer_true_ending"
+    },
+    "content_design_tags": [
+      "avg",
+      "segmented_text",
+      "hot_swappable_package"
+    ],
+    "content_notes": []
+  },
+  "home": {
+    "cover": {
+      "label": "CASE / 001",
+      "tagline": "A story loaded entirely from data.",
+      "cover_asset_id": "cover_main"
+    },
+    "enabled_features": [
+      "import_json",
+      "local_library",
+      "continue",
+      "new_game",
+      "ending_records",
+      "achievement_records",
+      "chapter_select",
+      "save_slots",
+      "play_stats",
+      "settings"
+    ],
+    "disabled_features": [
+      "developer_intro"
+    ]
+  },
+  "settings_defaults": {
+    "color_mode": "dark",
+    "font_scale": 1,
+    "motion": "full",
+    "autoplay_ms": 0
+  },
+  "start_node_id": "node_001",
+  "state": {
+    "primary_value": {
+      "id": "resolve",
+      "display_name": "决心",
+      "initial": 35,
+      "min": 0,
+      "max": 100
+    },
+    "values": {
+      "trust_a": 0,
+      "truth": 0
+    },
+    "variables": {
+      "route": "common"
+    },
+    "flags": []
+  },
+  "assets": {
+    "cover_main": {
+      "asset_id": "cover_main",
+      "type": "image",
+      "path": "cover/main.png",
+      "usage": [
+        "cover"
+      ],
+      "required": false,
+      "alt_text": "Game cover image",
+      "source_manifest_id": null,
+      "width": null,
+      "height": null,
+      "duration_sec": null
+    },
+    "bg_classroom": {
+      "asset_id": "bg_classroom",
+      "type": "image",
+      "path": "backgrounds/classroom_evening.png",
+      "usage": [
+        "background"
+      ],
+      "required": true,
+      "alt_text": "Evening classroom background",
+      "source_manifest_id": null,
+      "width": null,
+      "height": null,
+      "duration_sec": null
+    },
+    "char_a_neutral": {
+      "asset_id": "char_a_neutral",
+      "type": "image",
+      "path": "characters/a/neutral.png",
+      "usage": [
+        "character_portrait"
+      ],
+      "required": true,
+      "alt_text": "Character A neutral portrait",
+      "source_manifest_id": null,
+      "width": null,
+      "height": null,
+      "duration_sec": null
+    }
+  },
+  "characters": {
+    "char_a": {
+      "character_id": "char_a",
+      "display_name": "角色A",
+      "role": "main_character",
+      "player_visible_profile": "开场时玩家能看到的公开信息。",
+      "speech_style": "短句，克制，回避直白表达。",
+      "color": "#9fb7ff",
+      "default_expression": "neutral",
+      "portraits": [
+        {
+          "expression": "neutral",
+          "asset_id": "char_a_neutral",
+          "pose": "standing"
+        }
+      ]
+    }
+  },
+  "scenes": {
+    "classroom_evening": {
+      "scene_id": "classroom_evening",
+      "name": "傍晚的教室",
+      "type": "major",
+      "description": "窗外还亮着校园祭的灯，教室里只剩几张没收好的桌椅。",
+      "arrival": "你在最后一节课后留下来。",
+      "background_asset_id": "bg_classroom",
+      "ambient": "none"
+    }
+  },
+  "achievements": {
+    "ach_first_choice": {
+      "title": "第一个决定",
+      "description": "完成第一次选择。"
+    }
+  },
+  "chapters": [
+    {
+      "chapter_id": "chapter_01",
+      "title": "第一章：傍晚",
+      "entry_node_id": "node_001"
+    }
+  ],
+  "nodes": {
+    "node_001": {
+      "node_id": "node_001",
+      "title": "放学之后",
+      "chapter_title": "第一章：傍晚",
+      "scene_id": "classroom_evening",
+      "progress": 3,
+      "ambient": "none",
+      "background_asset_id": "bg_classroom",
+      "character_layers": [],
+      "media": [],
+      "segments": [
+        {
+          "segment_id": "node_001_s01",
+          "segment_type": "system",
+          "speaker_id": null,
+          "text": "傍晚，最后一节课结束。",
+          "effects": [],
+          "show_layers": [],
+          "asset_id": null,
+          "auto_advance_ms": null
+        },
+        {
+          "segment_id": "node_001_s02",
+          "segment_type": "narration",
+          "speaker_id": null,
+          "text": "你留下来收校园祭的流程表，手机却在桌面上震了一下。",
+          "effects": [],
+          "show_layers": [],
+          "asset_id": null,
+          "auto_advance_ms": null
+        }
+      ],
+      "choices": [
+        {
+          "choice_id": "node_001_c01",
+          "label": "拿起手机",
+          "target_node_id": "node_001_callback_phone",
+          "condition": null,
+          "locked_hint": "",
+          "changes": {
+            "primary_value_delta": 2,
+            "add_flags": [
+              "first_choice_phone"
+            ],
+            "unlock_achievements": [
+              "ach_first_choice"
+            ]
+          },
+          "callback_node_id": "node_001_callback_phone",
+          "effects": []
+        }
+      ],
+      "next": null,
+      "routes": [],
+      "is_ending": false,
+      "ending": null,
+      "qa": {
+        "purpose": "Opening establishment and first action.",
+        "player_must_understand": [
+          "the player is in a classroom after school",
+          "the player has a school festival responsibility"
+        ],
+        "choice_callback_required": true,
+        "asset_trace": [
+          "bg_classroom"
+        ]
+      }
+    },
+    "node_001_callback_phone": {
+      "node_id": "node_001_callback_phone",
+      "title": "亮起的屏幕",
+      "scene_id": "classroom_evening",
+      "progress": 5,
+      "ambient": "none",
+      "background_asset_id": "bg_classroom",
+      "character_layers": [],
+      "media": [],
+      "segments": [
+        {
+          "segment_id": "node_001_callback_phone_s01",
+          "segment_type": "phone_message",
+          "speaker_id": "char_a",
+          "text": "你现在还在教室吗？",
+          "effects": [],
+          "show_layers": [
+            {
+              "character_id": "char_a",
+              "expression": "neutral",
+              "asset_id": "char_a_neutral",
+              "position": "right",
+              "visible": true,
+              "transition": "fade",
+              "z_index": 10
+            }
+          ],
+          "asset_id": null,
+          "auto_advance_ms": null
+        }
+      ],
+      "choices": [],
+      "next": "ending_demo",
+      "routes": [],
+      "is_ending": false,
+      "ending": null,
+      "qa": {
+        "purpose": "Visible callback for first choice.",
+        "player_must_understand": [
+          "the phone action produced a concrete message"
+        ],
+        "choice_callback_required": false,
+        "asset_trace": [
+          "char_a_neutral"
+        ]
+      }
+    },
+    "ending_demo": {
+      "node_id": "ending_demo",
+      "title": "演示结尾",
+      "scene_id": "classroom_evening",
+      "progress": 100,
+      "ambient": "none",
+      "background_asset_id": "bg_classroom",
+      "character_layers": [],
+      "media": [],
+      "segments": [],
+      "choices": [],
+      "next": null,
+      "routes": [],
+      "is_ending": true,
+      "ending": {
+        "ending_type": "normal",
+        "description": "这是一个最小 runtime package 模板结尾。",
+        "closing": "真正的游戏会从这里继续扩展。",
+        "achievement_id": null
+      },
+      "qa": {
+        "purpose": "Template ending.",
+        "player_must_understand": [],
+        "choice_callback_required": false,
+        "asset_trace": []
+      }
+    }
+  }
+}

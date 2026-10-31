@@ -1,0 +1,384 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/interactive-video/project_intake.schema.json",
+  "title": "Interactive Media Project Intake",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project_id",
+    "intake_version",
+    "request_summary",
+    "creative_inputs",
+    "production_preferences",
+    "hard_constraints",
+    "unknowns",
+    "planner_permission"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_\\-]*$"
+    },
+    "intake_version": {
+      "type": "string"
+    },
+    "request_summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "creative_inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "game_type",
+        "core_premise",
+        "target_player_experience",
+        "player_role",
+        "main_characters",
+        "target_playtime_sec",
+        "ending_policy",
+        "interaction_density",
+        "presentation_format",
+        "art_direction"
+      ],
+      "properties": {
+        "target_language": {
+          "type": "string",
+          "description": "Primary player-facing output language and locale, such as zh-CN or en-US. Agents must write runtime-visible text in this language."
+        },
+        "game_type": {
+          "type": "string",
+          "description": "Genre and format, such as campus romance mystery AVG or interactive video thriller."
+        },
+        "core_premise": {
+          "type": "string",
+          "description": "One to three sentences describing who the player is, what is happening, and the main conflict."
+        },
+        "target_player_experience": {
+          "type": "string",
+          "description": "What the player should feel: sweet, tense, tragic, clever, romantic, scary, etc."
+        },
+        "player_role": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "pov",
+            "identity",
+            "visibility_rule"
+          ],
+          "properties": {
+            "pov": {
+              "enum": [
+                "first_person",
+                "third_person",
+                "mixed"
+              ]
+            },
+            "identity": {
+              "type": "string"
+            },
+            "visibility_rule": {
+              "type": "string"
+            }
+          }
+        },
+        "main_characters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/main_character"
+          },
+          "minItems": 1
+        },
+        "target_playtime_sec": {
+          "$ref": "#/$defs/range"
+        },
+        "ending_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "normal_endings",
+            "true_endings",
+            "failure_endings",
+            "notes"
+          ],
+          "properties": {
+            "normal_endings": {
+              "$ref": "#/$defs/range"
+            },
+            "true_endings": {
+              "$ref": "#/$defs/range"
+            },
+            "failure_endings": {
+              "$ref": "#/$defs/range"
+            },
+            "notes": {
+              "type": "string"
+            }
+          }
+        },
+        "interaction_density": {
+          "type": "string",
+          "description": "How many choices and how strategic they should be."
+        },
+        "presentation_format": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "runtime_target",
+            "modes",
+            "video_policy"
+          ],
+          "properties": {
+            "runtime_target": {
+              "enum": [
+                "html",
+                "godot",
+                "html_then_godot",
+                "asset_package_only",
+                "unknown"
+              ]
+            },
+            "modes": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "text_image",
+                  "video",
+                  "choice",
+                  "ui_overlay",
+                  "audio"
+                ]
+              },
+              "minItems": 1
+            },
+            "video_policy": {
+              "type": "string"
+            }
+          }
+        },
+        "art_direction": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "style_description",
+            "reference_files",
+            "forbidden_styles"
+          ],
+          "properties": {
+            "style_description": {
+              "type": "string"
+            },
+            "reference_files": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "forbidden_styles": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "reference_inputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference_input"
+          },
+          "default": []
+        }
+      }
+    },
+    "production_preferences": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "multi_agent_required",
+        "generate_assets_now",
+        "paid_generation_allowed",
+        "first_deliverable"
+      ],
+      "properties": {
+        "multi_agent_required": {
+          "type": "boolean"
+        },
+        "generate_assets_now": {
+          "type": "boolean"
+        },
+        "paid_generation_allowed": {
+          "type": "boolean"
+        },
+        "first_deliverable": {
+          "enum": [
+            "project_intake",
+            "coherence_plan",
+            "story_graph_plan",
+            "media_story_plan",
+            "text_playtest",
+            "runtime_prototype",
+            "asset_generation"
+          ]
+        }
+      }
+    },
+    "hard_constraints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/unknown"
+      },
+      "default": []
+    },
+    "planner_permission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "approved_to_make_assumptions",
+        "approved_to_start_planning",
+        "approved_to_start_execution"
+      ],
+      "properties": {
+        "approved_to_make_assumptions": {
+          "type": "boolean"
+        },
+        "approved_to_start_planning": {
+          "type": "boolean"
+        },
+        "approved_to_start_execution": {
+          "type": "boolean"
+        },
+        "permission_notes": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "target",
+        "max"
+      ],
+      "properties": {
+        "min": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "target": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "main_character": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "character_id",
+        "role",
+        "description"
+      ],
+      "properties": {
+        "character_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "must_include": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "reference_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "input_id",
+        "type",
+        "path_or_description",
+        "usage_intent",
+        "rights_status"
+      ],
+      "properties": {
+        "input_id": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "text",
+            "image",
+            "video",
+            "audio",
+            "style_reference",
+            "mixed"
+          ]
+        },
+        "path_or_description": {
+          "type": "string"
+        },
+        "usage_intent": {
+          "type": "string"
+        },
+        "rights_status": {
+          "enum": [
+            "owned",
+            "licensed",
+            "user_provided",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "unknown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "question_id",
+        "question",
+        "blocking_level",
+        "default_assumption"
+      ],
+      "properties": {
+        "question_id": {
+          "type": "string"
+        },
+        "question": {
+          "type": "string"
+        },
+        "blocking_level": {
+          "enum": [
+            "must_ask",
+            "can_assume",
+            "defer"
+          ]
+        },
+        "default_assumption": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

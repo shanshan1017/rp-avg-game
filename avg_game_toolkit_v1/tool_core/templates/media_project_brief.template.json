@@ -1,0 +1,143 @@
+{
+  "project_id": "new_interactive_media_project",
+  "title": "未命名互动视频项目",
+  "runtime_target": "asset_package_only",
+  "inputs": [
+    {
+      "input_id": "seed_text_001",
+      "type": "text",
+      "description": "Paste the premise, script, or story request here.",
+      "usage_intent": "story_seed",
+      "rights_status": "user_provided"
+    }
+  ],
+  "session_length_sec": {
+    "min": 60,
+    "max": 90
+  },
+  "node_duration_sec": {
+    "min": 8,
+    "max": 15
+  },
+  "style_profile": {
+    "style_id": "original_anime_cinematic",
+    "description": "Original Japanese anime-style cinematic illustration with consistent character design.",
+    "reference_files": [],
+    "forbidden_styles": [
+      "photorealistic live action",
+      "celebrity likeness",
+      "existing anime or game IP"
+    ]
+  },
+  "protagonist": {
+    "pov": "first_person",
+    "story_identity": "male player character",
+    "visibility_rule": "The protagonist is the camera and should not appear on screen unless explicitly approved.",
+    "needs_visual_reference": false
+  },
+  "safety_rules": [
+    "All romanceable characters must be adults.",
+    "Do not use real people, celebrities, public figures, or existing IP as visual references.",
+    "Do not write API keys or signed platform URLs into repo files."
+  ],
+  "story_seed": {
+    "logline": "A short branching interactive video story.",
+    "source_text": "Paste the full user request here.",
+    "required_choice_points": {
+      "min": 3,
+      "max": 5
+    },
+    "required_endings": {
+      "normal": 2,
+      "true": 1,
+      "failure": 2
+    }
+  },
+  "runtime_asset_contract": {
+    "generate_only_if_referenced_by_runtime": true,
+    "asset_types": [
+      {
+        "type": "character_reference_image",
+        "is_displayed": true,
+        "runtime_field": "characters.<character_id>.portrait",
+        "path_pattern": "assets/<project_id>/characters/<character_id>.png",
+        "count_source": "visible recurring characters only"
+      },
+      {
+        "type": "node_poster",
+        "is_displayed": true,
+        "runtime_field": "nodes.<node_id>.video.poster",
+        "path_pattern": "assets/<project_id>/posters/<node_id>.png",
+        "count_source": "all playable nodes"
+      },
+      {
+        "type": "node_video",
+        "is_displayed": true,
+        "runtime_field": "nodes.<node_id>.video.src",
+        "path_pattern": "assets/<project_id>/videos/<node_id>.mp4",
+        "count_source": "all playable nodes"
+      },
+      {
+        "type": "tail_frame",
+        "is_displayed": false,
+        "runtime_field": null,
+        "path_pattern": "assets/<project_id>/tail_frames/<node_id>.png",
+        "count_source": "save only when returned by video generation"
+      }
+    ]
+  },
+  "multi_agent_production": {
+    "planning_agent": "Codex",
+    "executive_agent": "Claude Code",
+    "checker_agent": "Claude Code",
+    "approval_required_before_paid_generation": true,
+    "checker_required_before_next_gate": true,
+    "handoff_directory": "outputs/<project_id>/handoff/",
+    "allowed_write_scope_by_gate": [
+      {
+        "gate_id": "planning",
+        "owner_role": "planning",
+        "write_scope": [
+          "outputs/<project_id>/project_brief.json",
+          "outputs/<project_id>/story_bible.json",
+          "outputs/<project_id>/script_table.json",
+          "outputs/<project_id>/asset_plan.json",
+          "outputs/<project_id>/handoff/"
+        ],
+        "forbidden_changes": [
+          "submit paid generation jobs",
+          "write API keys to files",
+          "add assets not referenced by runtime contract"
+        ]
+      },
+      {
+        "gate_id": "execution",
+        "owner_role": "executive",
+        "write_scope": [
+          "outputs/<project_id>/prompt_pack/",
+          "outputs/<project_id>/provider_payloads/",
+          "outputs/<project_id>/generation_manifest.json",
+          "assets/<project_id>/"
+        ],
+        "forbidden_changes": [
+          "redesign story graph",
+          "expand approved asset scope",
+          "write signed provider URLs to game-facing files"
+        ]
+      },
+      {
+        "gate_id": "checking",
+        "owner_role": "checker",
+        "write_scope": [
+          "outputs/<project_id>/qa_report.md",
+          "outputs/<project_id>/acceptance_report.json"
+        ],
+        "forbidden_changes": [
+          "submit generation jobs",
+          "silently fix production outputs",
+          "approve unreviewed runtime assets"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>樱花落下的平行线</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-dark: #0c0a14;
+  --bg-darker: #06050c;
+  --sakura: #e8a0b4;
+  --sakura-light: #f5c6d4;
+  --sakura-dim: #a06878;
+  --sakura-glow: rgba(232,160,180,0.25);
+  --lavender: #b8a0d0;
+  --sky-blue: #a0c4e0;
+  --text-warm: #f0e8e0;
+  --text-dim: #b0a098;
+  --red-accent: #c04060;
+  --green-accent: #60b088;
+  --textbox-bg: rgba(12, 10, 24, 0.72);
+  --overlay-bg: rgba(6, 5, 14, 0.92);
+  --gold: #d4b070;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: var(--bg-darker);
+  font-family: 'Noto Serif SC', 'SimSun', serif;
+  color: var(--text-warm);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+#game-container {
+  position: relative; width: 100vw; height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-darker);
+}
+#game-viewport {
+  position: relative; width: 100%; height: 100%;
+  max-width: calc(100vh * 16 / 9);
+  max-height: calc(100vw * 9 / 16);
+  overflow: hidden; background: var(--bg-dark);
+}
+
+/* ===== SAKURA PETALS ===== */
+.sakura-canvas {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 6;
+}
+
+/* ===== LIGHT OVERLAY ===== */
+.light-overlay {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 3;
+  background:
+    radial-gradient(ellipse at 70% 20%, rgba(255,200,160,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 30% 80%, rgba(200,160,220,0.04) 0%, transparent 40%);
+  animation: lightShift 15s ease-in-out infinite alternate;
+}
+@keyframes lightShift {
+  0%   { opacity: 0.6; }
+  100% { opacity: 1.0; }
+}
+
+.vignette {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 5;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(6,5,12,0.5) 100%);
+}
+
+/* ===== TITLE SCREEN ===== */
+#title-screen {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 100;
+  background: linear-gradient(180deg, #0c0818 0%, #120e20 30%, #0e0a18 70%, #080614 100%);
+  transition: opacity 1.2s ease;
+}
+#title-screen.hidden { opacity: 0; pointer-events: none; }
+
+#title-screen .ornament {
+  width: 240px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--sakura-dim), var(--sakura), var(--sakura-dim), transparent);
+  margin: 16px 0;
+  opacity: 0.6;
+}
+#title-screen h1 {
+  font-size: 2.8rem; font-weight: 900; color: var(--sakura-light);
+  text-shadow: 0 0 40px rgba(232,160,180,0.3), 0 0 80px rgba(232,160,180,0.1), 0 2px 4px rgba(0,0,0,0.5);
+  letter-spacing: 8px; text-align: center; line-height: 1.5;
+}
+#title-screen .subtitle {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.85rem;
+  color: var(--text-dim); letter-spacing: 6px; margin-top: 8px; font-weight: 300;
+  opacity: 0.7;
+}
+#title-screen .title-buttons {
+  display: flex; flex-direction: column; gap: 16px; margin-top: 56px; align-items: center;
+}
+.btn-title {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.95rem; font-weight: 400;
+  color: var(--text-warm); background: transparent;
+  border: 1px solid var(--sakura-dim); padding: 13px 60px;
+  cursor: pointer; letter-spacing: 5px; min-width: 240px; text-align: center;
+  transition: all 0.4s ease; border-radius: 2px;
+}
+.btn-title:hover:not(:disabled) {
+  border-color: var(--sakura); color: var(--sakura-light);
+  box-shadow: 0 0 20px var(--sakura-glow), inset 0 0 20px rgba(232,160,180,0.03);
+  text-shadow: 0 0 12px rgba(232,160,180,0.3);
+}
+.btn-title:disabled { color: #444; border-color: #2a2a2a; cursor: not-allowed; }
+
+/* ===== SCENE LAYER ===== */
+#scene-layer {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 10; display: none;
+}
+#scene-bg {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background-size: cover; background-position: center; background-repeat: no-repeat;
+  background-color: var(--bg-dark); transition: opacity 1s ease;
+}
+#scene-bg-next {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background-size: cover; background-position: center; background-repeat: no-repeat;
+  background-color: var(--bg-dark); opacity: 0; transition: opacity 1s ease;
+}
+
+/* ===== SPEAKER AVATAR (in textbox) ===== */
+#speaker-avatar-wrap {
+  position: absolute; left: 20px; top: -46px;
+  width: 88px; height: 88px; border-radius: 14px;
+  overflow: hidden; z-index: 2;
+  border: 2px solid var(--sakura-dim);
+  box-shadow: 0 0 18px rgba(232,160,180,0.18), 0 4px 12px rgba(0,0,0,0.4);
+  background: var(--bg-dark);
+  opacity: 0; transform: translateX(-20px);
+  transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.4s ease;
+  pointer-events: none;
+}
+#speaker-avatar-wrap.visible {
+  opacity: 1; transform: translateX(0);
+}
+#speaker-avatar {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block;
+}
+#speaker-avatar-wrap.speaking {
+  animation: avatarSpeak 1.2s ease-in-out infinite;
+  border-color: var(--sakura);
+  box-shadow: 0 0 24px rgba(232,160,180,0.3), 0 4px 12px rgba(0,0,0,0.4);
+}
+#speaker-avatar-wrap.visible:not(.speaking) {
+  animation: avatarBreath 3s ease-in-out infinite;
+}
+@keyframes avatarSpeak {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+@keyframes avatarBreath {
+  0%, 100% { transform: scale(1.0); }
+  50% { transform: scale(1.02); }
+}
+@keyframes avatarSlideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* ===== SCENE TITLE OVERLAY ===== */
+#scene-title-overlay {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 50; background: rgba(6,5,12,0.7);
+  opacity: 0; pointer-events: none; transition: opacity 0.8s ease;
+}
+#scene-title-overlay.visible { opacity: 1; }
+#scene-title-overlay .act-label {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.85rem;
+  color: var(--sakura-dim); letter-spacing: 8px; margin-bottom: 14px;
+}
+#scene-title-overlay .scene-title-text {
+  font-family: 'Noto Serif SC', serif; font-size: 2.2rem; color: var(--sakura-light);
+  text-shadow: 0 0 30px rgba(232,160,180,0.25); letter-spacing: 4px;
+}
+
+/* ===== ACT TRANSITION ===== */
+#act-transition {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 200; background: var(--bg-dark);
+  opacity: 0; pointer-events: none; transition: opacity 1s ease;
+}
+#act-transition.visible { opacity: 1; pointer-events: auto; }
+#act-transition .act-number {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.9rem;
+  color: var(--sakura-dim); letter-spacing: 10px; margin-bottom: 18px;
+}
+#act-transition .act-title {
+  font-family: 'Noto Serif SC', serif; font-size: 2.2rem; color: var(--sakura-light);
+  text-shadow: 0 0 40px rgba(232,160,180,0.2); letter-spacing: 5px;
+}
+#act-transition .act-line {
+  width: 140px; height: 1px; margin-top: 24px;
+  background: linear-gradient(90deg, transparent, var(--sakura-dim), transparent);
+}
+
+/* ===== TEXT BOX ===== */
+#textbox-container {
+  position: absolute; bottom: 0; left: 0; width: 100%;
+  z-index: 30; pointer-events: auto;
+}
+#textbox {
+  background: var(--textbox-bg);
+  border-top: 1px solid rgba(232,160,180,0.12);
+  padding: 24px 48px 32px 120px;
+  min-height: 200px;
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  position: relative;
+}
+#textbox::before {
+  content: '';
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(135deg, rgba(232,160,180,0.02) 0%, transparent 40%, rgba(180,160,210,0.02) 100%);
+  pointer-events: none;
+}
+#speaker-name {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.95rem;
+  color: var(--sakura); letter-spacing: 3px; margin-bottom: 10px;
+  font-weight: 500; min-height: 1.3em;
+  text-shadow: 0 0 8px rgba(232,160,180,0.2);
+  display: flex; align-items: center; gap: 8px;
+}
+#speaker-name .speaker-dot {
+  display: inline-block; width: 6px; height: 6px;
+  border-radius: 50%; background: var(--sakura);
+  box-shadow: 0 0 6px rgba(232,160,180,0.4);
+}
+#text-content {
+  font-size: 1.15rem; line-height: 2.1; color: var(--text-warm);
+  letter-spacing: 0.8px; white-space: pre-wrap;
+  min-height: 110px;
+}
+#text-content em, #text-content i {
+  color: var(--sakura-dim); font-style: italic;
+}
+#click-indicator {
+  position: absolute; bottom: 10px; right: 28px;
+  font-size: 0.7rem; color: var(--sakura-dim);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 0.25; transform: translateY(0); }
+  50% { opacity: 0.8; transform: translateY(-2px); }
+}
+
+/* ===== CHOICE PANEL ===== */
+#choice-panel {
+  position: absolute; bottom: 0; left: 0; width: 100%;
+  z-index: 35; display: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(12,10,24,0.8) 15%, rgba(12,10,24,0.94) 100%);
+  padding: 36px 60px 32px;
+}
+#choice-panel .choice-header {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.75rem;
+  color: var(--sakura-dim); letter-spacing: 6px; margin-bottom: 20px; text-align: center;
+}
+.choice-btn {
+  display: block; width: 100%; max-width: 680px; margin: 0 auto 14px;
+  font-family: 'Noto Serif SC', serif; font-size: 0.95rem;
+  color: var(--text-warm); background: rgba(20,16,36,0.75);
+  border: 1px solid rgba(232,160,180,0.18); padding: 16px 28px;
+  cursor: pointer; text-align: left; letter-spacing: 0.5px;
+  transition: all 0.35s ease; line-height: 1.7; position: relative;
+  border-radius: 3px;
+}
+.choice-btn:hover:not(.locked) {
+  border-color: var(--sakura); color: var(--sakura-light);
+  background: rgba(28,22,48,0.9);
+  box-shadow: 0 0 24px rgba(232,160,180,0.12), inset 0 0 24px rgba(232,160,180,0.02);
+  transform: translateX(4px);
+}
+.choice-btn.locked {
+  color: #484048; border-color: #2a2228; cursor: not-allowed;
+}
+.choice-btn .lock-reason {
+  display: block; font-family: 'Noto Sans SC', sans-serif;
+  font-size: 0.72rem; color: var(--red-accent); margin-top: 6px;
+  font-style: italic; opacity: 0.8;
+}
+.choice-btn .dead-end-icon {
+  color: var(--red-accent); margin-left: 6px; font-size: 0.85em;
+}
+
+/* ===== HUD ===== */
+#hud {
+  position: absolute; top: 16px; left: 16px; z-index: 40;
+  display: none; gap: 10px;
+}
+.hud-stat {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.72rem;
+  color: var(--text-dim); letter-spacing: 1px;
+  background: rgba(12,10,24,0.65); padding: 5px 14px;
+  border: 1px solid rgba(232,160,180,0.1); border-radius: 14px;
+  backdrop-filter: blur(6px); transition: all 0.4s ease;
+  display: flex; align-items: center; gap: 5px;
+}
+.hud-stat .stat-icon { font-size: 0.85rem; }
+.hud-stat .stat-val {
+  color: var(--sakura); font-weight: 500; min-width: 14px; text-align: center;
+  transition: all 0.3s ease;
+}
+.hud-stat.flash {
+  border-color: var(--sakura);
+  box-shadow: 0 0 16px var(--sakura-glow);
+  transform: scale(1.08);
+}
+
+/* ===== HUD RIGHT ===== */
+#hud-right {
+  position: absolute; top: 16px; right: 16px; z-index: 40;
+  display: none; gap: 6px;
+}
+.hud-btn {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.68rem;
+  color: var(--text-dim); background: rgba(12,10,24,0.55);
+  border: 1px solid rgba(232,160,180,0.08); padding: 5px 14px;
+  cursor: pointer; letter-spacing: 2px; transition: all 0.3s;
+  border-radius: 12px;
+}
+.hud-btn:hover { color: var(--sakura-light); border-color: var(--sakura-dim); }
+.hud-btn.active { color: var(--sakura); border-color: var(--sakura); }
+
+/* ===== SAVE/LOAD MODAL ===== */
+#modal-overlay {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 300; background: rgba(6,5,12,0.85);
+  display: none; align-items: center; justify-content: center;
+  backdrop-filter: blur(6px);
+}
+#modal-box {
+  background: linear-gradient(180deg, #14101e 0%, #0e0a18 100%);
+  border: 1px solid var(--sakura-dim);
+  padding: 32px 44px; max-width: 480px; width: 90%;
+  text-align: center; border-radius: 6px;
+}
+#modal-box h2 {
+  font-size: 1.1rem; color: var(--sakura); letter-spacing: 4px; margin-bottom: 26px;
+  font-weight: 400;
+}
+.save-slot {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 18px; margin-bottom: 10px;
+  border: 1px solid rgba(232,160,180,0.1); cursor: pointer;
+  transition: all 0.3s; border-radius: 4px;
+}
+.save-slot:hover { border-color: var(--sakura-dim); background: rgba(232,160,180,0.03); }
+.save-slot .slot-info { font-size: 0.8rem; color: var(--text-dim); text-align: left; }
+.save-slot .slot-label { color: var(--text-warm); font-size: 0.85rem; }
+#modal-close {
+  margin-top: 22px; font-family: 'Noto Sans SC', sans-serif;
+  font-size: 0.8rem; color: var(--text-dim); background: transparent;
+  border: 1px solid #333; padding: 8px 32px; cursor: pointer;
+  letter-spacing: 3px; transition: all 0.3s; border-radius: 14px;
+}
+#modal-close:hover { color: var(--sakura-light); border-color: var(--sakura-dim); }
+
+/* ===== ENDING SCREEN ===== */
+#ending-screen {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 250; display: none; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: linear-gradient(180deg, #0c0818 0%, #100c1c 50%, #0c0818 100%);
+  text-align: center; padding: 40px;
+}
+#ending-screen.bad-end {
+  background: linear-gradient(180deg, #0c0510 0%, #180814 50%, #0c0510 100%);
+}
+#ending-screen .ending-icon { font-size: 3.5rem; margin-bottom: 24px; }
+#ending-screen h2 {
+  font-family: 'Noto Serif SC', serif; font-size: 2rem; color: var(--sakura-light);
+  letter-spacing: 5px; margin-bottom: 14px;
+  text-shadow: 0 0 30px rgba(232,160,180,0.2);
+}
+#ending-screen .ending-type {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.75rem;
+  color: var(--sakura-dim); letter-spacing: 4px; margin-bottom: 32px;
+}
+#ending-screen .ending-text {
+  font-size: 0.92rem; line-height: 1.9; color: var(--text-dim);
+  max-width: 580px; margin-bottom: 40px;
+}
+#ending-screen .ending-stats {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.75rem;
+  color: var(--text-dim); margin-bottom: 32px; line-height: 2.2;
+}
+.ending-buttons { display: flex; gap: 18px; }
+.btn-ending {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.9rem;
+  color: var(--text-warm); background: transparent;
+  border: 1px solid var(--sakura-dim); padding: 12px 44px;
+  cursor: pointer; letter-spacing: 4px; transition: all 0.35s;
+  border-radius: 3px;
+}
+.btn-ending:hover {
+  border-color: var(--sakura); color: var(--sakura-light);
+  box-shadow: 0 0 20px var(--sakura-glow);
+}
+
+/* ===== HISTORY PANEL ===== */
+#history-panel {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 280; display: none; background: rgba(10,8,18,0.96);
+  overflow-y: auto; padding: 40px 60px;
+  backdrop-filter: blur(8px);
+}
+#history-panel h2 {
+  font-size: 1rem; color: var(--sakura); letter-spacing: 4px;
+  margin-bottom: 24px; text-align: center; font-weight: 400;
+}
+#history-panel .history-entry {
+  padding: 12px 0; border-bottom: 1px solid rgba(232,160,180,0.06);
+  font-size: 0.82rem; line-height: 1.7; color: var(--text-dim);
+}
+#history-panel .history-entry .h-title { color: var(--sakura-dim); margin-bottom: 4px; }
+#history-close {
+  position: fixed; top: 20px; right: 30px;
+  font-size: 1.5rem; color: var(--text-dim); cursor: pointer;
+  background: none; border: none; z-index: 281;
+}
+
+/* ===== PROLOGUE SCREEN ===== */
+#prologue-screen {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 90; display: none;
+  background: linear-gradient(180deg, #0c0818 0%, #120e20 40%, #0e0a18 70%, #080614 100%);
+  overflow-y: auto; overflow-x: hidden;
+  flex-direction: column; align-items: center;
+  padding: 48px 40px 60px;
+  transition: opacity 1s ease;
+}
+#prologue-screen.hidden { opacity: 0; pointer-events: none; }
+.prologue-header {
+  text-align: center; margin-bottom: 32px;
+}
+.prologue-header h2 {
+  font-family: 'Noto Serif SC', serif; font-size: 1.8rem; color: var(--sakura-light);
+  letter-spacing: 6px; margin-bottom: 8px;
+  text-shadow: 0 0 30px rgba(232,160,180,0.2);
+}
+.prologue-header .prologue-genre {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.75rem;
+  color: var(--sakura-dim); letter-spacing: 4px;
+}
+.prologue-ornament {
+  width: 180px; height: 1px; margin: 0 auto 28px;
+  background: linear-gradient(90deg, transparent, var(--sakura-dim), transparent);
+  opacity: 0.5;
+}
+.prologue-world {
+  max-width: 640px; margin: 0 auto 36px;
+  font-size: 0.88rem; line-height: 2; color: var(--text-dim);
+  text-align: justify; letter-spacing: 0.5px;
+}
+.prologue-section-title {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.8rem;
+  color: var(--sakura-dim); letter-spacing: 6px;
+  text-align: center; margin-bottom: 24px;
+}
+.char-cards {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 20px; max-width: 900px; margin: 0 auto 40px;
+}
+.char-card {
+  width: 150px; background: rgba(20,16,36,0.7);
+  border: 1px solid rgba(232,160,180,0.15); border-radius: 8px;
+  overflow: hidden; transition: all 0.35s ease;
+}
+.char-card:hover {
+  border-color: var(--sakura-dim);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(232,160,180,0.1);
+}
+.char-card img {
+  width: 100%; height: 200px; object-fit: cover;
+  display: block; border-bottom: 1px solid rgba(232,160,180,0.1);
+}
+.char-card .card-info { padding: 12px 10px; }
+.char-card .card-name {
+  font-family: 'Noto Serif SC', serif; font-size: 0.9rem;
+  color: var(--sakura-light); letter-spacing: 2px; margin-bottom: 4px;
+}
+.char-card .card-role {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.6rem;
+  color: var(--sakura-dim); letter-spacing: 2px; margin-bottom: 8px;
+  text-transform: uppercase;
+}
+.char-card .card-desc {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.7rem;
+  color: var(--text-dim); line-height: 1.6;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.btn-prologue {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 0.95rem; font-weight: 400;
+  color: var(--text-warm); background: transparent;
+  border: 1px solid var(--sakura-dim); padding: 13px 60px;
+  cursor: pointer; letter-spacing: 5px; text-align: center;
+  transition: all 0.4s ease; border-radius: 2px;
+  display: block; margin: 0 auto;
+}
+.btn-prologue:hover {
+  border-color: var(--sakura); color: var(--sakura-light);
+  box-shadow: 0 0 20px var(--sakura-glow), inset 0 0 20px rgba(232,160,180,0.03);
+  text-shadow: 0 0 12px rgba(232,160,180,0.3);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  #textbox { padding: 16px 20px 22px 90px; min-height: 160px; }
+  #speaker-avatar-wrap { width: 64px; height: 64px; left: 14px; top: -34px; border-radius: 10px; }
+  #text-content { font-size: 1rem; line-height: 1.9; }
+  #title-screen h1 { font-size: 1.8rem; letter-spacing: 4px; }
+  #choice-panel { padding: 24px 16px 24px; }
+  .choice-btn { font-size: 0.85rem; padding: 12px 16px; }
+  #hud { left: 8px; }
+  .hud-stat { font-size: 0.6rem; padding: 3px 8px; }
+  #prologue-screen { padding: 32px 20px 40px; }
+  .char-card { width: 130px; }
+  .char-card img { height: 170px; }
+  .prologue-header h2 { font-size: 1.4rem; }
+}
+</style>
+</head>
+<body>
+<div id="game-container">
+<div id="game-viewport">
+
+  <!-- Background -->
+  <div id="scene-bg"></div>
+  <div id="scene-bg-next"></div>
+  <canvas class="sakura-canvas" id="sakura-canvas"></canvas>
+  <div class="light-overlay"></div>
+  <div class="vignette"></div>
+
+  <!-- Title Screen -->
+  <div id="title-screen">
+    <div class="ornament"></div>
+    <h1>樱花落下的平行线</h1>
+    <div class="subtitle">Parallel Lines of Falling Sakura</div>
+    <div class="ornament"></div>
+    <div class="title-buttons">
+      <button class="btn-title" id="btn-start">开 始 游 戏</button>
+      <button class="btn-title" id="btn-continue" disabled>继 续 游 戏</button>
+    </div>
+  </div>
+
+  <!-- Prologue Screen -->
+  <div id="prologue-screen">
+    <div class="prologue-header">
+      <h2 id="prologue-title"></h2>
+      <div class="prologue-genre" id="prologue-genre"></div>
+    </div>
+    <div class="prologue-ornament"></div>
+    <div class="prologue-world" id="prologue-world"></div>
+    <div class="prologue-ornament"></div>
+    <div class="prologue-section-title">— 登 场 人 物 —</div>
+    <div class="char-cards" id="char-cards"></div>
+    <button class="btn-prologue" id="btn-enter-game">开 始 冒 险</button>
+  </div>
+
+  <!-- Scene Layer -->
+  <div id="scene-layer">
+    <div id="scene-title-overlay">
+      <div class="act-label" id="scene-act-label"></div>
+      <div class="scene-title-text" id="scene-title-text"></div>
+    </div>
+
+    <div id="textbox-container">
+      <div id="textbox">
+        <div id="speaker-avatar-wrap">
+          <img id="speaker-avatar" src="" alt="">
+        </div>
+        <div id="speaker-name"></div>
+        <div id="text-content"></div>
+        <div id="click-indicator">▽</div>
+      </div>
+    </div>
+
+    <div id="choice-panel">
+      <div class="choice-header">— 请做出选择 —</div>
+      <div id="choice-buttons"></div>
+    </div>
+  </div>
+
+  <!-- Act transition -->
+  <div id="act-transition">
+    <div class="act-number" id="act-number"></div>
+    <div class="act-title" id="act-title"></div>
+    <div class="act-line"></div>
+  </div>
+
+  <!-- HUD -->
+  <div id="hud">
+    <div class="hud-stat" id="hud-kizuna"><span class="stat-icon">💗</span>羁绊 <span class="stat-val" id="val-kizuna">0</span></div>
+    <div class="hud-stat" id="hud-memory"><span class="stat-icon">🌸</span>记忆 <span class="stat-val" id="val-memory">0</span></div>
+    <div class="hud-stat" id="hud-resolve"><span class="stat-icon">✨</span>觉悟 <span class="stat-val" id="val-resolve">0</span></div>
+  </div>
+  <div id="hud-right">
+    <button class="hud-btn" id="btn-save">存档</button>
+    <button class="hud-btn" id="btn-load">读档</button>
+    <button class="hud-btn" id="btn-history">回顾</button>
+    <button class="hud-btn" id="btn-auto">自动</button>
+  </div>
+
+  <!-- Ending screen -->
+  <div id="ending-screen">
+    <div class="ending-icon" id="ending-icon"></div>
+    <h2 id="ending-title"></h2>
+    <div class="ending-type" id="ending-type-label"></div>
+    <div class="ending-text" id="ending-text"></div>
+    <div class="ending-stats" id="ending-stats"></div>
+    <div class="ending-buttons">
+      <button class="btn-ending" id="btn-restart">重新开始</button>
+      <button class="btn-ending" id="btn-title-return">返回标题</button>
+    </div>
+  </div>
+
+  <!-- Save/Load Modal -->
+  <div id="modal-overlay">
+    <div id="modal-box">
+      <h2 id="modal-title">存 档</h2>
+      <div id="modal-slots"></div>
+      <button id="modal-close">关 闭</button>
+    </div>
+  </div>
+
+  <!-- History Panel -->
+  <div id="history-panel">
+    <button id="history-close">&times;</button>
+    <h2>— 回 顾 —</h2>
+    <div id="history-content"></div>
+  </div>
+
+</div>
+</div>
+
+<!-- GAME_DATA_PLACEHOLDER -->
+
+<script>
+(function() {
+'use strict';
+
+const ACT_NAMES = {
+  1: '第一幕 · 光之丘的重逢',
+  2: '第二幕 · 记忆与真相',
+  3: '第三幕 · 钟楼之夜',
+  4: '第四幕 · 最终的选择'
+};
+
+const ENDING_LABELS = {
+  true_ending: '平行线的交汇',
+  bittersweet_ending: '苦涩的约定',
+  neutral: '日常的余温',
+  cold_ending: '遗忘的再临',
+  bad_ending: '消逝的少年'
+};
+const ENDING_ICONS = {
+  true_ending: '🌸',
+  bittersweet_ending: '🌅',
+  neutral: '🌤️',
+  cold_ending: '❄️',
+  bad_ending: '🌑'
+};
+
+const story = GAME_DATA.story;
+const narratives = GAME_DATA.narratives;
+const assets = GAME_DATA.assets;
+const nodes = story.nodes;
+const entryId = story.entry_node_id || 'node_01';
+
+const PROTAGONIST = 'char_akito';
+
+let state = {
+  currentNode: null,
+  values: { kizuna: 0, memory: 0, resolve: 0 },
+  visited: [],
+  history: [],
+  currentAct: 0,
+  textQueue: [],
+  textIdx: 0,
+  typing: false,
+  typeTimer: null,
+  autoMode: false,
+  autoTimer: null,
+};
+
+const $ = id => document.getElementById(id);
+const titleScreen = $('title-screen');
+const sceneLayer = $('scene-layer');
+const sceneBg = $('scene-bg');
+const sceneBgNext = $('scene-bg-next');
+const sceneTitleOverlay = $('scene-title-overlay');
+const actTransition = $('act-transition');
+const textbox = $('textbox');
+const textContent = $('text-content');
+const speakerName = $('speaker-name');
+const clickIndicator = $('click-indicator');
+const choicePanel = $('choice-panel');
+const choiceButtons = $('choice-buttons');
+const hud = $('hud');
+const hudRight = $('hud-right');
+const endingScreen = $('ending-screen');
+const modalOverlay = $('modal-overlay');
+const historyPanel = $('history-panel');
+const avatarWrap = $('speaker-avatar-wrap');
+const avatarImg = $('speaker-avatar');
+let currentAvatarCharId = null;
+
+/* ===== SAKURA PETAL ANIMATION ===== */
+const sakuraCanvas = $('sakura-canvas');
+const ctx = sakuraCanvas.getContext('2d');
+let petals = [];
+
+function resizeCanvas() {
+  const vp = sakuraCanvas.parentElement;
+  sakuraCanvas.width = vp.clientWidth;
+  sakuraCanvas.height = vp.clientHeight;
+}
+
+function createPetal() {
+  return {
+    x: Math.random() * sakuraCanvas.width * 1.2 - sakuraCanvas.width * 0.1,
+    y: -10 - Math.random() * 40,
+    size: 4 + Math.random() * 6,
+    speedX: -0.3 - Math.random() * 0.6,
+    speedY: 0.5 + Math.random() * 1.0,
+    rotation: Math.random() * Math.PI * 2,
+    rotSpeed: (Math.random() - 0.5) * 0.03,
+    opacity: 0.2 + Math.random() * 0.35,
+    wobble: Math.random() * Math.PI * 2,
+    wobbleSpeed: 0.01 + Math.random() * 0.02,
+  };
+}
+
+function drawPetal(p) {
+  ctx.save();
+  ctx.translate(p.x, p.y);
+  ctx.rotate(p.rotation);
+  ctx.globalAlpha = p.opacity;
+  ctx.fillStyle = `hsl(${340 + Math.random() * 10}, ${60 + Math.random() * 20}%, ${80 + Math.random() * 10}%)`;
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.bezierCurveTo(p.size * 0.4, -p.size * 0.3, p.size, -p.size * 0.2, p.size, 0);
+  ctx.bezierCurveTo(p.size, p.size * 0.2, p.size * 0.4, p.size * 0.3, 0, 0);
+  ctx.fill();
+  ctx.restore();
+}
+
+function animatePetals() {
+  ctx.clearRect(0, 0, sakuraCanvas.width, sakuraCanvas.height);
+  if (petals.length < 18) petals.push(createPetal());
+
+  for (let i = petals.length - 1; i >= 0; i--) {
+    const p = petals[i];
+    p.wobble += p.wobbleSpeed;
+    p.x += p.speedX + Math.sin(p.wobble) * 0.4;
+    p.y += p.speedY;
+    p.rotation += p.rotSpeed;
+    if (p.y > sakuraCanvas.height + 20 || p.x < -30) {
+      petals.splice(i, 1);
+      continue;
+    }
+    drawPetal(p);
+  }
+  requestAnimationFrame(animatePetals);
+}
+
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+animatePetals();
+
+/* ===== INIT ===== */
+function init() {
+  if (hasSaveData()) $('btn-continue').disabled = false;
+  $('btn-start').addEventListener('click', () => startGame(false));
+  $('btn-continue').addEventListener('click', () => startGame(true));
+  $('btn-save').addEventListener('click', () => openModal('save'));
+  $('btn-load').addEventListener('click', () => openModal('load'));
+  $('btn-history').addEventListener('click', toggleHistory);
+  $('btn-auto').addEventListener('click', toggleAuto);
+  $('btn-restart').addEventListener('click', () => { endingScreen.style.display = 'none'; sceneLayer.style.display = 'none'; hud.style.display = 'none'; hudRight.style.display = 'none'; startGame(false); });
+  $('btn-title-return').addEventListener('click', () => { endingScreen.style.display = 'none'; returnToTitle(); });
+  $('modal-close').addEventListener('click', closeModal);
+  $('history-close').addEventListener('click', () => historyPanel.style.display = 'none');
+  textbox.addEventListener('click', onTextClick);
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); onTextClick(); }
+  });
+}
+
+function startGame(continued) {
+  if (continued && hasSaveData()) {
+    loadFromSlot('auto');
+    titleScreen.classList.add('hidden');
+    setTimeout(() => {
+      titleScreen.style.display = 'none';
+      sceneLayer.style.display = 'block';
+      hud.style.display = 'flex';
+      hudRight.style.display = 'flex';
+      updateHUD();
+      enterNode(state.currentNode);
+    }, 1000);
+  } else {
+    state.currentNode = null;
+    state.values = { kizuna: 0, memory: 0, resolve: 0 };
+    state.visited = [];
+    state.history = [];
+    state.currentAct = 0;
+    showPrologue();
+  }
+}
+
+function showPrologue() {
+  titleScreen.classList.add('hidden');
+  setTimeout(() => {
+    titleScreen.style.display = 'none';
+    const prologueScreen = $('prologue-screen');
+    $('prologue-title').textContent = story.title || '';
+    $('prologue-genre').textContent = story.genre || '';
+    const worldText = story.world_setting || '';
+    $('prologue-world').textContent = worldText.length > 250
+      ? worldText.substring(0, 250) + '……' : worldText;
+
+    const cardsContainer = $('char-cards');
+    cardsContainer.innerHTML = '';
+    const chars = story.characters || [];
+    chars.forEach(ch => {
+      const card = document.createElement('div');
+      card.className = 'char-card';
+      const imgUrl = (assets.characters[ch.char_id] || {}).url || '';
+      const desc = ch.description || '';
+      const shortDesc = desc.length > 70 ? desc.substring(0, 70) + '…' : desc;
+      const roleLabel = ch.role === '主角' ? '主 角' : 'N P C';
+      card.innerHTML =
+        (imgUrl ? `<img src="${imgUrl}" alt="${ch.name}">` : '') +
+        `<div class="card-info">` +
+        `<div class="card-name">${ch.name}</div>` +
+        `<div class="card-role">${roleLabel}</div>` +
+        `<div class="card-desc">${shortDesc}</div>` +
+        `</div>`;
+      cardsContainer.appendChild(card);
+    });
+
+    $('btn-enter-game').addEventListener('click', enterGameFromPrologue);
+    prologueScreen.style.display = 'flex';
+  }, 800);
+}
+
+function enterGameFromPrologue() {
+  const prologueScreen = $('prologue-screen');
+  prologueScreen.classList.add('hidden');
+  setTimeout(() => {
+    prologueScreen.style.display = 'none';
+    sceneLayer.style.display = 'block';
+    hud.style.display = 'flex';
+    hudRight.style.display = 'flex';
+    updateHUD();
+    enterNode(entryId);
+  }, 800);
+}
+
+function returnToTitle() {
+  sceneLayer.style.display = 'none';
+  hud.style.display = 'none';
+  hudRight.style.display = 'none';
+  titleScreen.style.display = 'flex';
+  titleScreen.classList.remove('hidden');
+  if (hasSaveData()) $('btn-continue').disabled = false;
+}
+
+/* ===== NODE ENTRY ===== */
+function enterNode(nodeId) {
+  const node = nodes[nodeId];
+  if (!node) return;
+
+  state.currentNode = nodeId;
+  if (!state.visited.includes(nodeId)) state.visited.push(nodeId);
+
+  const newAct = node.act || 1;
+  if (newAct !== state.currentAct) {
+    state.currentAct = newAct;
+    showActTransition(newAct, () => showScene(nodeId, node));
+  } else {
+    showScene(nodeId, node);
+  }
+
+  autoSave();
+}
+
+function showActTransition(act, cb) {
+  $('act-number').textContent = `第 ${['一','二','三','四'][act-1]} 幕`;
+  $('act-title').textContent = ACT_NAMES[act] || '';
+  actTransition.classList.add('visible');
+  setTimeout(() => {
+    actTransition.classList.remove('visible');
+    setTimeout(cb, 700);
+  }, 2800);
+}
+
+/* ===== SCENE ===== */
+function showScene(nodeId, node) {
+  choicePanel.style.display = 'none';
+  textbox.style.display = 'block';
+  clickIndicator.style.display = 'block';
+
+  const bgUrl = assets.backgrounds[nodeId];
+  if (bgUrl) {
+    sceneBgNext.style.backgroundImage = `url('${bgUrl}')`;
+    sceneBgNext.style.opacity = '1';
+    setTimeout(() => {
+      sceneBg.style.backgroundImage = `url('${bgUrl}')`;
+      sceneBgNext.style.opacity = '0';
+    }, 1100);
+  }
+
+  updateAvatar(node);
+
+  const narr = narratives[nodeId];
+  const title = narr ? narr.title : node.title;
+  const act = narr ? narr.act : node.act;
+
+  $('scene-act-label').textContent = `第 ${['一','二','三','四'][(act||1)-1]} 幕`;
+  $('scene-title-text').textContent = title || '';
+  sceneTitleOverlay.classList.add('visible');
+  setTimeout(() => sceneTitleOverlay.classList.remove('visible'), 2200);
+
+  setTimeout(() => {
+    const fullText = narr ? narr.text : (node.scene_description || node.title);
+    startTextDisplay(fullText, node);
+  }, 2000);
+}
+
+/* ===== AVATAR ===== */
+function updateAvatar(node) {
+  const witnesses = node.witnesses || [];
+  const nonPlayer = witnesses.filter(c => c !== PROTAGONIST);
+  let targetChar = null;
+
+  if (nonPlayer.length > 0 && assets.characters[nonPlayer[0]]) {
+    targetChar = nonPlayer[0];
+  }
+
+  if (targetChar && targetChar !== currentAvatarCharId) {
+    avatarWrap.classList.remove('visible', 'speaking');
+    setTimeout(() => {
+      avatarImg.src = assets.characters[targetChar].url;
+      currentAvatarCharId = targetChar;
+      avatarWrap.classList.add('visible');
+    }, targetChar ? 300 : 0);
+  } else if (!targetChar) {
+    avatarWrap.classList.remove('visible', 'speaking');
+    currentAvatarCharId = null;
+  }
+}
+
+function setSpeakerAvatar(charId) {
+  if (!charId || !assets.characters[charId]) {
+    avatarWrap.classList.remove('visible', 'speaking');
+    return;
+  }
+  if (charId !== currentAvatarCharId) {
+    avatarWrap.classList.remove('visible', 'speaking');
+    setTimeout(() => {
+      avatarImg.src = assets.characters[charId].url;
+      currentAvatarCharId = charId;
+      avatarWrap.classList.add('visible');
+    }, 200);
+  } else if (!avatarWrap.classList.contains('visible')) {
+    avatarWrap.classList.add('visible');
+  }
+}
+
+function findCharIdByName(name) {
+  if (!name) return null;
+  const chars = assets.characters || {};
+  for (const [cid, info] of Object.entries(chars)) {
+    if (info.name === name) return cid;
+  }
+  return null;
+}
+
+/* ===== TEXT DISPLAY ===== */
+function startTextDisplay(fullText, node) {
+  const paragraphs = splitIntoParagraphs(fullText);
+  state.textQueue = paragraphs;
+  state.textIdx = 0;
+  state.currentNodeObj = node;
+  displayNextParagraph();
+}
+
+function splitIntoParagraphs(text) {
+  if (!text) return ['......'];
+  const raw = text.split(/\n\s*\n/);
+  const result = [];
+  let buffer = '';
+  for (const para of raw) {
+    const trimmed = para.trim();
+    if (!trimmed) continue;
+    if (buffer.length + trimmed.length > 280 && buffer.length > 0) {
+      result.push(buffer.trim());
+      buffer = trimmed;
+    } else {
+      buffer += (buffer ? '\n\n' : '') + trimmed;
+    }
+  }
+  if (buffer.trim()) result.push(buffer.trim());
+  if (result.length === 0) result.push(text.trim() || '......');
+  return result;
+}
+
+function displayNextParagraph() {
+  if (state.textIdx >= state.textQueue.length) {
+    onTextComplete();
+    return;
+  }
+  const para = state.textQueue[state.textIdx];
+  state.textIdx++;
+
+  const speaker = extractSpeaker(para);
+  if (speaker) {
+    speakerName.innerHTML = `<span class="speaker-dot"></span>${speaker}`;
+    const charId = findCharIdByName(speaker);
+    if (charId && charId !== PROTAGONIST) {
+      setSpeakerAvatar(charId);
+    }
+  } else {
+    speakerName.textContent = '';
+    const node = state.currentNodeObj;
+    if (node) {
+      const witnesses = (node.witnesses || []).filter(c => c !== PROTAGONIST);
+      if (witnesses.length > 0 && assets.characters[witnesses[0]]) {
+        setSpeakerAvatar(witnesses[0]);
+      }
+    }
+  }
+
+  const displayText = speaker ? para.replace(/^["「][^"」]*["」]\s*/, '') : para;
+  typeText(formatText(displayText));
+}
+
+function extractSpeaker(text) {
+  const m = text.match(/^["「]([^"」]+?)["」]/);
+  if (m && m[1].length < 20) return m[1];
+
+  const chars = assets.characters || {};
+  for (const [cid, info] of Object.entries(chars)) {
+    const name = info.name;
+    if (name && text.startsWith(name + '：')) return name;
+    if (name && text.startsWith(name + '：')) return name;
+    if (name && text.startsWith(name + ':')) return name;
+  }
+  return '';
+}
+
+function formatText(text) {
+  return text
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+    .replace(/---/g, '—');
+}
+
+function typeText(html) {
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = html;
+  const plainText = tempDiv.textContent;
+
+  state.typing = true;
+  textContent.innerHTML = '';
+  clickIndicator.style.display = 'none';
+  avatarWrap.classList.add('speaking');
+
+  let charIdx = 0;
+  const speed = 28;
+
+  clearInterval(state.typeTimer);
+  state.typeTimer = setInterval(() => {
+    if (charIdx >= plainText.length) {
+      clearInterval(state.typeTimer);
+      textContent.innerHTML = html;
+      state.typing = false;
+      clickIndicator.style.display = 'block';
+      avatarWrap.classList.remove('speaking');
+      if (state.autoMode) {
+        clearTimeout(state.autoTimer);
+        state.autoTimer = setTimeout(onTextClick, 2500);
+      }
+      return;
+    }
+    charIdx++;
+    const emMatches = [...html.matchAll(/<em>([^<]*)<\/em>/g)];
+    if (emMatches.length === 0) {
+      textContent.textContent = plainText.substring(0, charIdx);
+    } else {
+      textContent.innerHTML = buildPartialHTML(html, charIdx);
+    }
+  }, speed);
+}
+
+function buildPartialHTML(html, charCount) {
+  let result = '';
+  let count = 0;
+  let inTag = false;
+  for (let i = 0; i < html.length && count < charCount; i++) {
+    const ch = html[i];
+    if (ch === '<') {
+      inTag = true;
+      const end = html.indexOf('>', i);
+      if (end >= 0) { result += html.substring(i, end + 1); i = end; }
+      inTag = false;
+      continue;
+    }
+    result += ch;
+    count++;
+  }
+  const openEm = (result.match(/<em>/g) || []).length;
+  const closeEm = (result.match(/<\/em>/g) || []).length;
+  if (openEm > closeEm) result += '</em>';
+  return result;
+}
+
+function skipTypewriter() {
+  if (!state.typing) return false;
+  clearInterval(state.typeTimer);
+  const html = formatText(state.textQueue[state.textIdx - 1] || '');
+  textContent.innerHTML = html;
+  state.typing = false;
+  clickIndicator.style.display = 'block';
+  avatarWrap.classList.remove('speaking');
+  return true;
+}
+
+function onTextClick() {
+  if (choicePanel.style.display === 'flex') return;
+  if (skipTypewriter()) return;
+  displayNextParagraph();
+}
+
+function onTextComplete() {
+  const node = state.currentNodeObj;
+  if (!node) return;
+
+  state.history.push({ nodeId: node.node_id, title: node.title });
+  clickIndicator.style.display = 'none';
+
+  const isEnding = node.node_type === 'ending' || node.node_type === 'dead_end';
+  if (isEnding) {
+    setTimeout(() => showEnding(node), 800);
+    return;
+  }
+
+  if (node.choices && node.choices.length > 0) {
+    setTimeout(() => showChoices(node), 400);
+    return;
+  }
+
+  if (node.next_nodes && node.next_nodes.length > 0) {
+    let targetNode = node.next_nodes[0];
+    if (node.auto_route) {
+      targetNode = resolveAutoRouteTarget(node);
+    }
+    clickIndicator.style.display = 'block';
+    textbox.onclick = () => {
+      textbox.onclick = onTextClick;
+      enterNode(targetNode);
+    };
+    return;
+  }
+
+  showEnding(node);
+}
+
+/* ===== CHOICES ===== */
+function showChoices(node) {
+  textbox.style.display = 'none';
+  choicePanel.style.display = 'flex';
+  choicePanel.style.flexDirection = 'column';
+  choiceButtons.innerHTML = '';
+
+  node.choices.forEach((choice, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+
+    let locked = false;
+    let lockReason = '';
+
+    if (choice.gate_condition) {
+      for (const [attr, cond] of Object.entries(choice.gate_condition)) {
+        const match = cond.match(/(>=|<=|>|<|==)(\d+)/);
+        if (match) {
+          const op = match[1];
+          const threshold = parseInt(match[2]);
+          const val = state.values[attr] || 0;
+          if (op === '>=' && val < threshold) locked = true;
+          else if (op === '<=' && val > threshold) locked = true;
+          else if (op === '>' && val <= threshold) locked = true;
+          else if (op === '<' && val >= threshold) locked = true;
+          else if (op === '==' && val !== threshold) locked = true;
+        }
+      }
+      if (locked) lockReason = choice.locked_hint || '条件未满足';
+    }
+
+    let label = choice.text;
+    if (choice.is_dead_end) label += ' <span class="dead-end-icon">💀</span>';
+
+    btn.innerHTML = label;
+    if (locked) {
+      btn.classList.add('locked');
+      btn.innerHTML += `<span class="lock-reason">🔒 ${lockReason}</span>`;
+    }
+
+    if (!locked) {
+      btn.addEventListener('click', () => makeChoice(choice));
+    }
+
+    choiceButtons.appendChild(btn);
+  });
+}
+
+function makeChoice(choice) {
+  choicePanel.style.display = 'none';
+  textbox.style.display = 'block';
+  textbox.onclick = onTextClick;
+
+  if (choice.value_effects) {
+    choice.value_effects.forEach(eff => {
+      const attr = eff.attribute;
+      const delta = eff.delta || 0;
+      if (state.values.hasOwnProperty(attr)) {
+        state.values[attr] += delta;
+        flashStat(attr, delta);
+      }
+    });
+    updateHUD();
+  }
+
+  let targetNode = choice.target_node_id;
+
+  if (choice.gate_branch) {
+    const gb = choice.gate_branch;
+    let pass = true;
+    if (gb.condition) {
+      for (const [attr, cond] of Object.entries(gb.condition)) {
+        const match = cond.match(/(>=|<=|>|<|==)(\d+)/);
+        if (match) {
+          const op = match[1];
+          const threshold = parseInt(match[2]);
+          const val = state.values[attr] || 0;
+          if (op === '>=' && val < threshold) pass = false;
+          else if (op === '<=' && val > threshold) pass = false;
+          else if (op === '>' && val <= threshold) pass = false;
+          else if (op === '<' && val >= threshold) pass = false;
+        }
+      }
+    }
+    targetNode = pass ? gb.true_target : gb.false_target;
+  }
+
+  state.history.push({ nodeId: state.currentNode, choice: choice.text });
+
+  enterNode(targetNode);
+}
+
+/* ===== AUTO ROUTE ===== */
+function resolveAutoRouteTarget(node) {
+  const nid = node.node_id;
+  const v = state.values;
+
+  if (nid === 'node_18_accept') {
+    return v.kizuna >= 2 ? 'node_end_daily' : 'node_end_cold';
+  }
+  if (nid === 'node_18_release') {
+    return (v.memory >= 4 && v.kizuna >= 4 && v.resolve >= 3)
+      ? 'node_end_true' : 'node_end_sacrifice';
+  }
+  if (nid === 'node_14_solo') {
+    return v.resolve >= 3 ? 'node_15_survive' : 'node_dead_tower';
+  }
+
+  if (node.next_nodes && node.next_nodes.length > 0) return node.next_nodes[0];
+  return nid;
+}
+
+/* ===== HUD ===== */
+function updateHUD() {
+  $('val-kizuna').textContent = state.values.kizuna;
+  $('val-memory').textContent = state.values.memory;
+  $('val-resolve').textContent = state.values.resolve;
+}
+
+function flashStat(attr, delta) {
+  const map = { kizuna: 'hud-kizuna', memory: 'hud-memory', resolve: 'hud-resolve' };
+  const el = $(map[attr]);
+  if (!el) return;
+  el.classList.add('flash');
+  setTimeout(() => el.classList.remove('flash'), 1400);
+}
+
+/* ===== ENDING ===== */
+function showEnding(node) {
+  sceneLayer.style.display = 'none';
+
+  const isBad = node.ending_type === 'bad_ending' || node.node_type === 'dead_end';
+  endingScreen.className = isBad ? 'bad-end' : '';
+  endingScreen.style.display = 'flex';
+
+  const endType = node.ending_type || (node.node_type === 'dead_end' ? 'bad_ending' : 'neutral');
+  $('ending-icon').textContent = ENDING_ICONS[endType] || '🌸';
+  $('ending-title').textContent = node.title || '结局';
+  $('ending-type-label').textContent = ENDING_LABELS[endType] || '';
+
+  const narr = narratives[node.node_id];
+  const endText = narr ? narr.text : (node.scene_description || '');
+  const shortText = endText.length > 250 ? endText.substring(0, 250) + '......' : endText;
+  $('ending-text').textContent = shortText;
+
+  $('ending-stats').innerHTML =
+    `💗 羁绊: ${state.values.kizuna} | 🌸 记忆: ${state.values.memory} | ✨ 觉悟: ${state.values.resolve}<br>` +
+    `经过节点: ${state.visited.length} / ${Object.keys(nodes).length}`;
+
+  autoSave();
+}
+
+/* ===== SAVE / LOAD ===== */
+function getSaveKey(slot) { return `avg_save_${story.story_id}_${slot}`; }
+
+function hasSaveData() {
+  return !!localStorage.getItem(getSaveKey('auto'));
+}
+
+function autoSave() { saveToSlot('auto'); }
+
+function saveToSlot(slot) {
+  const data = {
+    currentNode: state.currentNode,
+    values: { ...state.values },
+    visited: [...state.visited],
+    history: [...state.history],
+    currentAct: state.currentAct,
+    timestamp: new Date().toISOString(),
+    nodeTitle: nodes[state.currentNode]?.title || '',
+  };
+  localStorage.setItem(getSaveKey(slot), JSON.stringify(data));
+}
+
+function loadFromSlot(slot) {
+  const raw = localStorage.getItem(getSaveKey(slot));
+  if (!raw) return false;
+  try {
+    const data = JSON.parse(raw);
+    state.currentNode = data.currentNode;
+    state.values = data.values || { kizuna: 0, memory: 0, resolve: 0 };
+    state.visited = data.visited || [];
+    state.history = data.history || [];
+    state.currentAct = data.currentAct || 0;
+    return true;
+  } catch { return false; }
+}
+
+function openModal(mode) {
+  $('modal-title').textContent = mode === 'save' ? '存 档' : '读 档';
+  const slots = $('modal-slots');
+  slots.innerHTML = '';
+
+  ['slot1', 'slot2', 'slot3'].forEach((slot, i) => {
+    const div = document.createElement('div');
+    div.className = 'save-slot';
+    const raw = localStorage.getItem(getSaveKey(slot));
+    let info = '空';
+    if (raw) {
+      try {
+        const d = JSON.parse(raw);
+        info = `${d.nodeTitle || '?'} — ${new Date(d.timestamp).toLocaleString('zh-CN')}`;
+      } catch { info = '损坏'; }
+    }
+    div.innerHTML = `<span class="slot-label">存档 ${i + 1}</span><span class="slot-info">${info}</span>`;
+    div.addEventListener('click', () => {
+      if (mode === 'save') {
+        saveToSlot(slot);
+        closeModal();
+      } else {
+        if (loadFromSlot(slot)) {
+          closeModal();
+          endingScreen.style.display = 'none';
+          sceneLayer.style.display = 'block';
+          updateHUD();
+          enterNode(state.currentNode);
+        }
+      }
+    });
+    slots.appendChild(div);
+  });
+
+  modalOverlay.style.display = 'flex';
+}
+
+function closeModal() { modalOverlay.style.display = 'none'; }
+
+/* ===== HISTORY ===== */
+function toggleHistory() {
+  if (historyPanel.style.display === 'block') {
+    historyPanel.style.display = 'none';
+    return;
+  }
+  const content = $('history-content');
+  content.innerHTML = '';
+  state.history.forEach(entry => {
+    const div = document.createElement('div');
+    div.className = 'history-entry';
+    if (entry.choice) {
+      div.innerHTML = `<div class="h-title">选择</div>${entry.choice}`;
+    } else {
+      div.innerHTML = `<div class="h-title">${entry.title || entry.nodeId}</div>`;
+    }
+    content.appendChild(div);
+  });
+  historyPanel.style.display = 'block';
+}
+
+/* ===== AUTO MODE ===== */
+function toggleAuto() {
+  state.autoMode = !state.autoMode;
+  const btn = $('btn-auto');
+  btn.textContent = state.autoMode ? '停止' : '自动';
+  btn.classList.toggle('active', state.autoMode);
+  if (state.autoMode && !state.typing) {
+    state.autoTimer = setTimeout(onTextClick, 2000);
+  }
+  if (!state.autoMode) clearTimeout(state.autoTimer);
+}
+
+/* ===== BOOT ===== */
+init();
+
+})();
+</script>
+</body>
+</html>

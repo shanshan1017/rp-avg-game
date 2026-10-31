@@ -1,0 +1,871 @@
+{
+  "project_id": "campus_triangle_v1",
+  "nodes": [
+    {
+      "node_id": "n00_after_class_spark",
+      "type": "opening",
+      "target_duration_sec": 10,
+      "location_id": "after_class_corridor",
+      "on_screen_character_ids": [],
+      "scene_goal": "建立三条邀请同时到来的压力，并用星形护符把校园恋爱线和轻奇幻线接起来。",
+      "first_frame": "第一视角站在放学后的大学教学楼走廊，窗外黄昏，手边课桌上有发光的星形护符和三条消息提示，但不出现男主身体。",
+      "camera": "First-person eye-level camera, slight handheld hesitation, no protagonist reflection.",
+      "beats": [
+        {
+          "start_sec": 0,
+          "end_sec": 4,
+          "description": "放学铃和走廊脚步声渐远，星形护符在桌边微微发蓝光。"
+        },
+        {
+          "start_sec": 4,
+          "end_sec": 10,
+          "description": "三条消息的语气依次压上来：林澄认真、唐绫音别扭、未知星图召唤。画面停在旧图书馆方向的蓝光。"
+        }
+      ],
+      "dialogue": [],
+      "audio": {
+        "music_intent": "轻快校园钢琴进入，最后两秒加入星门低鸣。",
+        "sound_effects": [
+          "school bell",
+          "phone vibration",
+          "soft magic shimmer"
+        ],
+        "generate_audio": true,
+        "reference_audio_asset_ids": []
+      },
+      "choices": [
+        {
+          "choice_id": "go_lin",
+          "label": "先去找林澄",
+          "target_node_id": "n01_osmanthus_staircase",
+          "is_failure": false,
+          "state_effects": {
+            "lin_bond": 1
+          }
+        },
+        {
+          "choice_id": "go_tang",
+          "label": "去隔壁班找唐绫音",
+          "target_node_id": "n02_next_class_rehearsal",
+          "is_failure": false,
+          "state_effects": {
+            "tang_bond": 1
+          }
+        },
+        {
+          "choice_id": "go_library",
+          "label": "追着护符的光去旧图书馆",
+          "target_node_id": "n03_old_library_contract",
+          "is_failure": false,
+          "state_effects": {
+            "xing_mi_trust": 1
+          }
+        }
+      ],
+      "required_assets": [
+        "poster_n00_after_class_spark",
+        "video_n00_after_class_spark"
+      ],
+      "qa_notes": [
+        "No visible protagonist hands or reflection.",
+        "Messages should be implied visually, not rendered as readable UI text in generated art."
+      ]
+    },
+    {
+      "node_id": "n01_osmanthus_staircase",
+      "type": "scene",
+      "target_duration_sec": 10,
+      "location_id": "after_class_corridor",
+      "on_screen_character_ids": [
+        "lin_cheng"
+      ],
+      "scene_goal": "建立青梅竹马的情感债：她不是无理取闹，而是在等一个被拖很久的承诺。",
+      "first_frame": "第一视角在桂花树旁的楼梯口看见林澄，她拿着星形发夹和校园祭记录板，夕光照在她浅蓝针织外套上。",
+      "camera": "First-person camera at conversational distance, Lin Cheng faces the camera.",
+      "beats": [
+        {
+          "start_sec": 0,
+          "end_sec": 5,
+          "description": "林澄从楼梯旁走近，先笑了一下，又把笑收住。"
+        },
+        {
+          "start_sec": 5,
+          "end_sec": 10,
+          "description": "她把小时候一起看烟火的约定说出口，护符蓝光变强。"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker_id": "lin_cheng",
+          "line": "你每次都说下次，可今晚就是那个下次。",
+          "delivery": "soft but firm"
+        }
+      ],
+      "audio": {
+        "music_intent": "温柔木吉他和校园环境声。",
+        "sound_effects": [
+          "distant festival rehearsal",
+          "leaves in wind"
+        ],
+        "generate_audio": true,
+        "reference_audio_asset_ids": []
+      },
+      "choices": [
+        {
+          "choice_id": "promise_listen",
+          "label": "认真听她说完",
+          "target_node_id": "n04_courtyard_collision",
+          "is_failure": false,
+          "state_effects": {
+            "lin_bond": 1,
+            "honesty": 1
+          }
+        }
+      ],
+      "required_assets": [
+        "poster_n01_osmanthus_staircase",
+        "video_n01_osmanthus_staircase"
+      ],
+      "qa_notes": [
+        "Use only Lin Cheng character reference."
+      ]
+    },
+    {
+      "node_id": "n02_next_class_rehearsal",
+      "type": "scene",
+      "target_duration_sec": 10,
+      "location_id": "festival_courtyard",
+      "on_screen_character_ids": [
+        "tang_lingyin"
+      ],
+      "scene_goal": "让傲娇女的冲突合理：她需要男主作证，不只是吃醋。",
+      "first_frame": "第一视角站在隔壁班舞台布景旁，唐绫音抱着歪掉的星空灯，黑色校服外套半披，红领结醒目。",
+      "camera": "First-person camera slightly lower as if entering the rehearsal room, Tang Lingyin turns sharply toward the camera.",
+      "beats": [
+        {
+          "start_sec": 0,
+          "end_sec": 4,
+          "description": "唐绫音先把星空灯往你怀里一推，语气很冲。"
+        },
+        {
+          "start_sec": 4,
+          "end_sec": 10,
+          "description": "她压低声音说别人误会她破坏舞台，她只相信你能说明白。"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker_id": "tang_lingyin",
+          "line": "别误会，我不是特意找你。只是你刚好最知道我没撒谎。",
+          "delivery": "tsundere, fast, embarrassed"
+        }
+      ],
+      "audio": {
+        "music_intent": "节奏更快的校园鼓点，带一点喜剧紧张。",
+        "sound_effects": [
+          "metal lantern wobble",
+          "classroom rehearsal noise"
+        ],
+        "generate_audio": true,
+        "reference_audio_asset_ids": []
+      },
+      "choices": [
+        {
+          "choice_id": "help_lantern",
+          "label": "帮她扶住快倒的星空灯",
+          "target_node_id": "n04_courtyard_collision",
+          "is_failure": false,
+          "state_effects": {
+            "tang_bond": 1,
+            "honesty": 1
+          }
+        }
+      ],
+      "required_assets": [
+        "poster_n02_next_class_rehearsal",
+        "video_n02_next_class_rehearsal"
+      ],
+      "qa_notes": [
+        "Use only Tang Lingyin character reference."
+      ]
+    },
+    {
+      "node_id": "n03_old_library_contract",
+      "type": "scene",
+      "target_duration_sec": 10,
+      "location_id": "old_library",
+      "on_screen_character_ids": [
+        "xing_mi"
+      ],
+      "scene_goal": "介绍异界从者但保持合理：她是护符召来的守约者，不是突然无缘由倒贴。",
+      "first_frame": "第一视角面对旧图书馆深处的星图书页，星弥从蓝白光中半步走出，银蓝长发和星光短披风漂浮。",
+      "camera": "First-person camera fixed at library aisle, light bloom from star map, no protagonist shadow.",
+      "beats": [
+        {
+          "start_sec": 0,
+          "end_sec": 4,
+          "description": "星图书页自动翻开，蓝光组成一道小型门。"
+        },
+        {
+          "start_sec": 4,
+          "end_sec": 10,
+          "description": "星弥礼貌行礼，误把校园广播当作召唤礼钟。"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker_id": "xing_mi",
+          "line": "临时契约者，我来替你守住那个尚未说出口的承诺。",
+          "delivery": "calm, formal, slightly confused"
+        }
+      ],
+      "audio": {
+        "music_intent": "神秘合成器和轻钢片琴。",
+        "sound_effects": [
+          "page flip",
+          "soft portal hum"
+        ],
+        "generate_audio": true,
+        "reference_audio_asset_ids": []
+      },
+      "choices": [
+        {
+          "choice_id": "calm_servant",
+          "label": "先让她冷静，问清楚星门规则",
+          "target_node_id": "n04_courtyard_collision",
+          "is_failure": false,
+          "state_effects": {
+            "xing_mi_trust": 1,
+            "gate_stability": 1
+          }
+        }
+      ],
+      "required_assets": [
+        "poster_n03_old_library_contract",
+        "video_n03_old_library_contract"
+      ],
+      "qa_notes": [
+        "Use only Xing Mi character reference; fantasy effects should stay readable and not overpower her face."
+      ]
+    },
+    {
+      "node_id": "n04_courtyard_collision",
+      "type": "choice",
+      "target_duration_sec": 12,
+      "location_id": "festival_courtyard",
+      "on_screen_character_ids": [
+        "lin_cheng",
+        "tang_lingyin",
+        "xing_mi"
+      ],
+      "scene_goal": "把三条线合理撞在一起，并给出诚实或逃避的核心选择。",
+      "first_frame": "第一视角站在校园祭中庭，林澄、唐绫音、星弥从三个方向围到镜头前，背后纸灯串被星门蓝光点亮。",
+      "camera": "First-person camera backed near a booth table, three characters form a readable triangle composition with clock tower behind them.",
+      "beats": [
+        {
+          "start_sec": 0,
+          "end_sec": 5,
+          "description": "林澄先看见星弥，唐绫音同时看见你手里的护符，三人都停住。"
+        },
+        {
+          "start_sec": 5,
+          "end_sec": 12,
+          "description": "钟楼方向蓝光闪动，星弥说日落前必须有人说出真正的承诺。"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker_id": "lin_cheng",
+          "line": "你是不是又打算一个人解决？",
+          "delivery": "hurt but controlled"
+        },
+        {
+          "speaker_id": "tang_lingyin",
+          "line": "等一下，这个发光的东西跟我的舞台灯有什么关系？",
+          "delivery": "sharp, confused"
+        },
+        {
+          "speaker_id": "xing_mi",
+          "line": "请不要争执。星门正在听。",
+          "delivery": "serious"
+        }
+      ],
+      "audio": {
+        "music_intent": "三条主题动机叠加，加入倒计时脉冲。",
+        "sound_effects": [
+          "paper lanterns flicker",
+          "portal pulse"
+        ],
+        "generate_audio": true,
+        "reference_audio_asset_ids": []
+      },
+      "choices": [
+        {
+          "choice_id": "tell_truth",
+          "label": "把护符和星门的事全说出来",
+          "target_node_id": "n05_team_truce",
+          "is_failure": false,
+          "state_effects": {
+            "honesty": 2,
+            "gate_stability": 1
+          }
+        },
+        {
+          "choice_id": "hide_servant",
+          "label": "先把星弥藏起来，明天再解释",
+          "target_node_id": "n06_hide_failure",
+          "is_failure": true,
+          "state_effects": {
+            "honesty": -2,
+            "gate_stability": -2
+          }
+        }
+      ],
+      "required_assets": [
+        "poster_n04_courtyard_collision",
+        "video_n04_courtyard_collision"
+      ],
+      "qa_notes": [
+        "High-risk multi-character poster. Must include exactly three female leads and no male protagonist."
+      ]
+    },
+    {
+      "node_id": "n05_team_truce",
+      "type": "bridge",
+      "target_duration_sec": 10,
+      "location_id": "festival_courtyard",
+      "on_screen_character_ids": [
+        "lin_cheng",
+        "tang_lingyin",
+        "xing_mi"
+      ],
+      "scene_goal": "三人从竞争转成临时合作，让后续路线不是无脑选妃，而是解决共同问题。",
+      "first_frame": "第一视角看着三位女生围在校园祭桌边，星形护符放在中间，钟楼在背景发光。",
+      "camera": "First-person camera slightly above tabletop, characters visible around the prop.",
+      "beats": [
+        {
+          "start_sec": 0,
+          "end_sec": 5,
+          "description": "唐绫音画出钟楼路线，林澄指出旧楼近路，星弥用书页标出星门位置。"
+        },
+        {
+          "start_sec": 5,
+          "end_sec": 10,
+          "description": "三人看向镜头，要求你别再逃避，选一个行动方案。"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker_id": "tang_lingyin",
+          "line": "临时合作而已，不代表我原谅你让场面变这么乱。",
+          "delivery": "annoyed but cooperative"
+        }
+      ],
+      "audio": {
+        "music_intent": "节奏稳定下来，像临时小队开始行动。",
+        "sound_effects": [
+          "festival crowd",
+          "paper map rustle"
+        ],
+        "generate_audio": true,
+        "reference_audio_asset_ids": []
+      },
+      "choices": [
+        {
+          "choice_id": "lin_leads",
+          "label": "让林澄带你走旧楼近路",
+          "target_node_id": "n07_memory_corridor",
+          "is_failure": false,
+          "state_effects": {
+            "lin_bond": 1
+          }
+        },
+        {
+          "choice_id": "tang_blocks",
+          "label": "让唐绫音去拖住巡楼老师",
+          "target_node_id": "n08_rooftop_argument",
+          "is_failure": false,
+          "state_effects": {
+            "tang_bond": 1
+          }
+        },
+        {
+          "choice_id": "xing_mi_guides",
+          "label": "跟星弥先确认星门位置",
+          "target_node_id": "n09_gate_stair",
+          "is_failure": false,
+          "state_effects": {
+            "xing_mi_trust": 1
+          }
+        }
+      ],
+      "required_assets": [
+        "poster_n05_team_truce",
+        "video_n05_team_truce"
+      ],
+      "qa_notes": [
+        "High-risk multi-character poster. Keep table composition clear for future bottom choice UI."
+      ]
+    },
+    {
+      "node_id": "n06_hide_failure",
+      "type": "failure",
+      "target_duration_sec": 10,
+      "location_id": "festival_courtyard",
+      "on_screen_character_ids": [
+        "lin_cheng",
+        "tang_lingyin",
+        "xing_mi"
+      ],
+      "scene_goal": "中途失败：逃避导致信任和星门同时崩掉。",
+      "first_frame": "第一视角看见中庭灯串突然熄灭，三位女生表情从惊讶变成失望，星形护符裂出一道暗蓝纹。",
+      "camera": "First-person camera frozen as if caught in a lie.",
+      "beats": [
+        {
+          "start_sec": 0,
+          "end_sec": 5,
+          "description": "你试图后退，星弥身后的蓝光骤然收缩。"
+        },
+        {
+          "start_sec": 5,
+          "end_sec": 10,
+          "description": "林澄低头，唐绫音收回星灯，星弥说契约判定为拒绝。"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker_id": "xing_mi",
+          "line": "隐瞒不是选择，是放弃选择。",
+          "delivery": "quiet, final"
+        }
+      ],
+      "audio": {
+        "music_intent": "音乐骤停后留下低频和远处烟火预备声。",
+        "sound_effects": [
+          "lantern power down",
+          "glass-like crack"
+        ],
+        "generate_audio": true,
+        "reference_audio_asset_ids": []
+      },
+      "choices": [],
+      "required_assets": [
+        "poster_n06_hide_failure",
+        "video_n06_hide_failure"
+      ],
+      "qa_notes": [
+        "Failure can be dramatic but not horror or cruel.",
+        "High-risk multi-character scene. Must include exactly three female leads and no male protagonist."
+      ]
+    },
+    {
+      "node_id": "n07_memory_corridor",
+      "type": "scene",
+      "target_duration_sec": 10,
+      "location_id": "after_class_corridor",
+      "on_screen_character_ids": [
+        "lin_cheng"
+      ],
+      "scene_goal": "青梅线加深，说明她要的是男主正面回应而不是默认陪伴。",
+      "first_frame": "第一视角跟着林澄穿过旧楼走廊，她回头看向镜头，夕光在星形发夹上闪一下。",
+      "camera": "First-person walking shot, Lin Cheng ahead then turns back.",
+      "beats": [
+        {
+          "start_sec": 0,
+          "end_sec": 4,
+          "description": "林澄熟练避开锁住的走廊门，像小时候一样带路。"
+        },
+        {
+          "start_sec": 4,
+          "end_sec": 10,
+          "description": "她停下说自己怕的不是被拒绝，而是你一直不回答。"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker_id": "lin_cheng",
+          "line": "你可以不选我，但别把沉默当温柔。",
+          "delivery": "honest, vulnerable"
+        }
+      ],
+      "audio": {
+        "music_intent": "青梅主题旋律，温柔但带一点心酸。",
+        "sound_effects": [
+          "old corridor echo"
+        ],
+        "generate_audio": true,
+        "reference_audio_asset_ids": []
+      },
+      "choices": [
+        {
+          "choice_id": "continue_to_final_from_lin",
+          "label": "带着她的话继续上钟楼",
+          "target_node_id": "n10_final_choice",
+          "is_failure": false,
+          "state_effects": {
+            "lin_bond": 1,
+            "honesty": 1
+          }
+        }
+      ],
+      "required_assets": [
+        "poster_n07_memory_corridor",
+        "video_n07_memory_corridor"
+      ],
+      "qa_notes": [
+        "Use only Lin Cheng reference."
+      ]
+    },
+    {
+      "node_id": "n08_rooftop_argument",
+      "type": "scene",
+      "target_duration_sec": 10,
+      "location_id": "clocktower_stair",
+      "on_screen_character_ids": [
+        "tang_lingyin"
+      ],
+      "scene_goal": "傲娇线加深，她用行动争取时间，也承认她在意被男主相信。",
+      "first_frame": "第一视角在钟楼楼梯口，看见唐绫音挡在巡楼老师影子前，手里抱着星空灯，脸红却强撑镇定。",
+      "camera": "First-person camera looking up the stair landing, Tang Lingyin turns partly toward the camera.",
+      "beats": [
+        {
+          "start_sec": 0,
+          "end_sec": 5,
+          "description": "唐绫音快速编出舞台检查的理由，把老师引向另一边。"
+        },
+        {
+          "start_sec": 5,
+          "end_sec": 10,
+          "description": "她压低声音催你快走，却补一句只许你回来把误会说清。"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker_id": "tang_lingyin",
+          "line": "我才不是帮你，我是在保护我的舞台。顺便，保护一下你。",
+          "delivery": "embarrassed, fast"
+        }
+      ],
+      "audio": {
+        "music_intent": "快节奏弦乐拨奏，带校园喜剧感。",
+        "sound_effects": [
+          "footsteps on stairs",
+          "lantern metal clink"
+        ],
+        "generate_audio": true,
+        "reference_audio_asset_ids": []
+      },
+      "choices": [
+        {
+          "choice_id": "continue_to_final_from_tang",
+          "label": "带着她争取来的时间上钟楼",
+          "target_node_id": "n10_final_choice",
+          "is_failure": false,
+          "state_effects": {
+            "tang_bond": 1,
+            "honesty": 1
+          }
+        }
+      ],
+      "required_assets": [
+        "poster_n08_rooftop_argument",
+        "video_n08_rooftop_argument"
+      ],
+      "qa_notes": [
+        "Use only Tang Lingyin reference; teacher should remain an indistinct background shadow if present."
+      ]
+    },
+    {
+      "node_id": "n09_gate_stair",
+      "type": "scene",
+      "target_duration_sec": 10,
+      "location_id": "clocktower_stair",
+      "on_screen_character_ids": [
+        "xing_mi"
+      ],
+      "scene_goal": "从者线加深，她不是竞争者而是让男主理解承诺的镜子。",
+      "first_frame": "第一视角在钟楼楼梯看见星弥扶着漂浮书页，蓝光把台阶照成星图。",
+      "camera": "First-person camera follows Xing Mi upward, slight magical parallax.",
+      "beats": [
+        {
+          "start_sec": 0,
+          "end_sec": 5,
+          "description": "星弥用书页展示三条承诺线如何连接到星门。"
+        },
+        {
+          "start_sec": 5,
+          "end_sec": 10,
+          "description": "她第一次露出困惑的微笑，说人的承诺比契约更难读。"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker_id": "xing_mi",
+          "line": "在我的世界，契约写在纸上。你们却把它藏在心跳里。",
+          "delivery": "curious, gentle"
+        }
+      ],
+      "audio": {
+        "music_intent": "轻幻想音色和温柔旋律。",
+        "sound_effects": [
+          "floating pages",
+          "distant fireworks crowd"
+        ],
+        "generate_audio": true,
+        "reference_audio_asset_ids": []
+      },
+      "choices": [
+        {
+          "choice_id": "continue_to_final_from_xing_mi",
+          "label": "带着她的星图上钟楼",
+          "target_node_id": "n10_final_choice",
+          "is_failure": false,
+          "state_effects": {
+            "xing_mi_trust": 1,
+            "gate_stability": 1
+          }
+        }
+      ],
+      "required_assets": [
+        "poster_n09_gate_stair",
+        "video_n09_gate_stair"
+      ],
+      "qa_notes": [
+        "Use only Xing Mi reference."
+      ]
+    },
+    {
+      "node_id": "n10_final_choice",
+      "type": "choice",
+      "target_duration_sec": 10,
+      "location_id": "rooftop",
+      "on_screen_character_ids": [
+        "lin_cheng",
+        "tang_lingyin",
+        "xing_mi"
+      ],
+      "scene_goal": "最终选择。不是谁赢，而是男主终于正面说出一个承诺。",
+      "first_frame": "第一视角站在钟楼天台，三位女生在烟火和星门光之间看向镜头，星形护符悬在画面中央偏下。",
+      "camera": "First-person camera centered, three-character composition with enough lower safe space for choices.",
+      "beats": [
+        {
+          "start_sec": 0,
+          "end_sec": 4,
+          "description": "第一束烟火升起，星门扩张，护符从桌面浮起。"
+        },
+        {
+          "start_sec": 4,
+          "end_sec": 10,
+          "description": "三人没有争抢，只等你说出真正想守住的承诺。"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker_id": "lin_cheng",
+          "line": "这次，你自己说。",
+          "delivery": "quiet"
+        },
+        {
+          "speaker_id": "tang_lingyin",
+          "line": "别再用沉默糊弄过去。",
+          "delivery": "sharp but sincere"
+        },
+        {
+          "speaker_id": "xing_mi",
+          "line": "星门等待你的答案。",
+          "delivery": "ceremonial"
+        }
+      ],
+      "audio": {
+        "music_intent": "三人主题合并，最后停在选择前的悬念和烟火声。",
+        "sound_effects": [
+          "firework launch",
+          "portal swell"
+        ],
+        "generate_audio": true,
+        "reference_audio_asset_ids": []
+      },
+      "choices": [
+        {
+          "choice_id": "choose_lin",
+          "label": "兑现和林澄一起看烟火的约定",
+          "target_node_id": "n11_end_childhood",
+          "is_failure": false,
+          "state_effects": {
+            "lin_bond": 2
+          }
+        },
+        {
+          "choice_id": "choose_tang",
+          "label": "站到唐绫音身边，把误会说清",
+          "target_node_id": "n12_end_tsundere",
+          "is_failure": false,
+          "state_effects": {
+            "tang_bond": 2
+          }
+        },
+        {
+          "choice_id": "choose_xing_mi",
+          "label": "陪星弥打开星门，并约定明天再见",
+          "target_node_id": "n13_end_servant",
+          "is_failure": false,
+          "state_effects": {
+            "xing_mi_trust": 2,
+            "gate_stability": 2
+          }
+        }
+      ],
+      "required_assets": [
+        "poster_n10_final_choice",
+        "video_n10_final_choice"
+      ],
+      "qa_notes": [
+        "High-risk multi-character poster. Keep all faces above lower UI safe area."
+      ]
+    },
+    {
+      "node_id": "n11_end_childhood",
+      "type": "ending",
+      "target_duration_sec": 12,
+      "location_id": "rooftop",
+      "on_screen_character_ids": [
+        "lin_cheng"
+      ],
+      "scene_goal": "青梅结局：普通日常因为被认真选择而成立。",
+      "first_frame": "第一视角在天台栏杆旁看见林澄把星形护符重新系好，烟火照亮她浅蓝外套。",
+      "camera": "First-person close conversational framing, no protagonist reflection in railing.",
+      "beats": [
+        {
+          "start_sec": 0,
+          "end_sec": 6,
+          "description": "星门变成温和光点落下，林澄把护符递回镜头前但不出现男主手。"
+        },
+        {
+          "start_sec": 6,
+          "end_sec": 12,
+          "description": "她转身看烟火，轻声说这次不是下次了。"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker_id": "lin_cheng",
+          "line": "那就从今晚开始，别再把我放进待办事项里。",
+          "delivery": "smiling through relief"
+        }
+      ],
+      "audio": {
+        "music_intent": "温暖收束，烟火和青梅主题旋律。",
+        "sound_effects": [
+          "fireworks",
+          "soft charm chime"
+        ],
+        "generate_audio": true,
+        "reference_audio_asset_ids": []
+      },
+      "choices": [],
+      "required_assets": [
+        "poster_n11_end_childhood",
+        "video_n11_end_childhood"
+      ],
+      "qa_notes": [
+        "Ending label: 青梅烟火结局."
+      ]
+    },
+    {
+      "node_id": "n12_end_tsundere",
+      "type": "ending",
+      "target_duration_sec": 12,
+      "location_id": "festival_courtyard",
+      "on_screen_character_ids": [
+        "tang_lingyin"
+      ],
+      "scene_goal": "傲娇结局：男主选择站出来帮她澄清，她把未来继续合作包装成命令。",
+      "first_frame": "第一视角回到校园祭舞台边，唐绫音站在修好的星空灯下，脸红着别开视线。",
+      "camera": "First-person camera from audience side of stage, Tang Lingyin foreground.",
+      "beats": [
+        {
+          "start_sec": 0,
+          "end_sec": 6,
+          "description": "星门光落进星空灯，坏掉的灯重新亮起，旁人误会被澄清。"
+        },
+        {
+          "start_sec": 6,
+          "end_sec": 12,
+          "description": "唐绫音把备用工作牌塞向镜头方向，说你明天也必须来。"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker_id": "tang_lingyin",
+          "line": "我可没说原谅你。明天继续来帮忙，听见没有？",
+          "delivery": "tsundere, relieved"
+        }
+      ],
+      "audio": {
+        "music_intent": "轻快喜剧结尾，星灯点亮时加入清脆和弦。",
+        "sound_effects": [
+          "stage lights on",
+          "crowd applause"
+        ],
+        "generate_audio": true,
+        "reference_audio_asset_ids": []
+      },
+      "choices": [],
+      "required_assets": [
+        "poster_n12_end_tsundere",
+        "video_n12_end_tsundere"
+      ],
+      "qa_notes": [
+        "Ending label: 傲娇共犯结局."
+      ]
+    },
+    {
+      "node_id": "n13_end_servant",
+      "type": "ending",
+      "target_duration_sec": 12,
+      "location_id": "old_library",
+      "on_screen_character_ids": [
+        "xing_mi"
+      ],
+      "scene_goal": "从者结局：帮她回去，但不让轻奇幻逃避校园关系，留下明天的现实承诺。",
+      "first_frame": "第一视角在旧图书馆门口看见星弥站在星门前，手中漂浮的书页变成大学交换生申请表般的光影。",
+      "camera": "First-person camera facing Xing Mi and a vertical blue-white portal, library shelves frame the shot.",
+      "beats": [
+        {
+          "start_sec": 0,
+          "end_sec": 6,
+          "description": "星弥穿过星门一半又回头，第一次用校园式的笑容挥手。"
+        },
+        {
+          "start_sec": 6,
+          "end_sec": 12,
+          "description": "她留下一页契约，上面浮现明天交换生报到的时间。"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker_id": "xing_mi",
+          "line": "我明天会回来学习。请继续教我，人怎样把承诺说出口。",
+          "delivery": "gentle, hopeful"
+        }
+      ],
+      "audio": {
+        "music_intent": "轻幻想收束，留一点未完待续。",
+        "sound_effects": [
+          "portal close",
+          "page sparkle"
+        ],
+        "generate_audio": true,
+        "reference_audio_asset_ids": []
+      },
+      "choices": [],
+      "required_assets": [
+        "poster_n13_end_servant",
+        "video_n13_end_servant"
+      ],
+      "qa_notes": [
+        "Ending label: 星门明日结局."
+      ]
+    }
+  ]
+}

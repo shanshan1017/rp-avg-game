@@ -1,0 +1,49 @@
+{
+  "game_id": "zhuxian_qimai_huiwu_v1",
+  "title": "诛仙之七脉会武:四强台前",
+  "description": "张小凡在七脉会武四强台上迎战陆雪琪，于师门目光、隐秘力量与心中情愫之间作出选择。",
+  "runtime_json": "runtime/runtime_game_package.json",
+  "asset_base_path": "../assets/zhuxian_qimai_huiwu_v1/",
+  "asset_root": "assets/zhuxian_qimai_huiwu_v1/",
+  "node_count": 41,
+  "choice_node_count": 8,
+  "ending_count": 5,
+  "character_count": 5,
+  "chapter_count": 4,
+  "asset_entry_count": 87,
+  "unique_asset_file_count": 52,
+  "missing_asset_file_count": 0,
+  "missing_assets": [],
+  "asset_entries_by_type": {
+    "image": 58,
+    "ui": 27,
+    "video": 2
+  },
+  "asset_entries_by_folder": {
+    "characters": 34,
+    "backgrounds": 8,
+    "props": 3,
+    "cgs": 11,
+    "video": 4,
+    "ui_concepts": 27
+  },
+  "actual_files_by_folder": {
+    "characters": 23,
+    "backgrounds": 7,
+    "props": 3,
+    "cgs": 6,
+    "video": 6,
+    "ui_concepts": 9
+  },
+  "videos": [
+    {
+      "id": "vid_arrival_drum_step",
+      "path": "video/vid_arrival_drum_step.mp4"
+    },
+    {
+      "id": "vid_lu_arrival_intent",
+      "path": "video/vid_lu_arrival_intent.mp4"
+    }
+  ],
+  "usage_report": "runtime_asset_usage_map.md"
+}

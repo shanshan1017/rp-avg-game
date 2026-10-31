@@ -1,0 +1,337 @@
+{
+  "game_id": "heart_rush_night_v0",
+  "title": "心动失控夜",
+  "entry_node_id": "node_01_office_exit",
+  "runtime": {
+    "target_total_seconds": [60, 90],
+    "default_choice_mode": "after_video",
+    "allow_rewind_to_checkpoint": true
+  },
+  "state": {
+    "initial": {
+      "honesty": 0,
+      "warmth": 0,
+      "focus": 0,
+      "sync": 0
+    }
+  },
+  "characters": {
+    "lin_xiaoman": {
+      "display_name": "林小满",
+      "archetype": "邻家妹妹",
+      "age": 20
+    },
+    "shen_yishuang": {
+      "display_name": "沈以霜",
+      "archetype": "高冷上司姐姐",
+      "age": 28
+    },
+    "qi_xia": {
+      "display_name": "祁夏",
+      "archetype": "网吧偶遇少女",
+      "age": 22
+    },
+    "bai_lu": {
+      "display_name": "白鹿",
+      "archetype": "反差摄影少女",
+      "age": 24
+    }
+  },
+  "nodes": {
+    "node_01_office_exit": {
+      "type": "video",
+      "title": "周五下班口",
+      "duration_sec": 12,
+      "checkpoint": true,
+      "scene_goal": "开场，三条约定同时压来，玩家意识到今晚会失控。",
+      "location": "写字楼电梯厅",
+      "characters_on_screen": [],
+      "video": {
+        "src": "assets/videos/node_01_office_exit.mp4",
+        "poster": "assets/posters/node_01_office_exit.jpg"
+      },
+      "choices": [
+        {
+          "id": "go_boss",
+          "label": "先回应电梯里的沈以霜",
+          "target": "node_02_boss_elevator",
+          "effects": { "focus": 1 }
+        },
+        {
+          "id": "go_neighbor",
+          "label": "赶去小区门口见小满",
+          "target": "node_02_neighbor_gate",
+          "effects": { "warmth": 1 }
+        },
+        {
+          "id": "go_cafe",
+          "label": "从后门溜去网吧",
+          "target": "node_02_cafe_alley",
+          "effects": { "sync": 1 }
+        }
+      ]
+    },
+    "node_02_boss_elevator": {
+      "type": "video",
+      "title": "电梯门被按住",
+      "duration_sec": 13,
+      "checkpoint": true,
+      "scene_goal": "沈以霜登场，给玩家责任压力。",
+      "location": "写字楼电梯",
+      "characters_on_screen": ["shen_yishuang"],
+      "video": {
+        "src": "assets/videos/node_02_boss_elevator.mp4",
+        "poster": "assets/posters/node_02_boss_elevator.jpg"
+      },
+      "choices": [
+        {
+          "id": "boss_honest",
+          "label": "说实话：今晚我还有两个约定",
+          "target": "node_03_crosswalk",
+          "effects": { "honesty": 1, "focus": 1 }
+        },
+        {
+          "id": "boss_lie",
+          "label": "假装只是下楼买咖啡",
+          "target": "fail_lie_receipt",
+          "effects": { "honesty": -1 },
+          "is_failure": true
+        }
+      ]
+    },
+    "node_02_neighbor_gate": {
+      "type": "video",
+      "title": "小区门口的夜宵",
+      "duration_sec": 13,
+      "checkpoint": true,
+      "scene_goal": "林小满登场，给玩家亲近和愧疚压力。",
+      "location": "小区门口",
+      "characters_on_screen": ["lin_xiaoman"],
+      "video": {
+        "src": "assets/videos/node_02_neighbor_gate.mp4",
+        "poster": "assets/posters/node_02_neighbor_gate.jpg"
+      },
+      "choices": [
+        {
+          "id": "neighbor_honest",
+          "label": "接过夜宵并坦白还有事",
+          "target": "node_03_crosswalk",
+          "effects": { "honesty": 1, "warmth": 1 }
+        },
+        {
+          "id": "neighbor_hide_phone",
+          "label": "把手机扣过去，先糊弄过去",
+          "target": "fail_phone_screen",
+          "effects": { "honesty": -1 },
+          "is_failure": true
+        }
+      ]
+    },
+    "node_02_cafe_alley": {
+      "type": "video",
+      "title": "霓虹巷口的会员卡",
+      "duration_sec": 13,
+      "checkpoint": true,
+      "scene_goal": "祁夏登场，给玩家逃离现实的诱惑。",
+      "location": "网吧后巷",
+      "characters_on_screen": ["qi_xia"],
+      "video": {
+        "src": "assets/videos/node_02_cafe_alley.mp4",
+        "poster": "assets/posters/node_02_cafe_alley.jpg"
+      },
+      "choices": [
+        {
+          "id": "cafe_honest",
+          "label": "先说明今晚可能只能打一局",
+          "target": "node_03_crosswalk",
+          "effects": { "honesty": 1, "sync": 1 }
+        },
+        {
+          "id": "cafe_escape",
+          "label": "跟她进包间，暂时消失",
+          "target": "fail_wrong_escape",
+          "effects": { "honesty": -1 },
+          "is_failure": true
+        }
+      ]
+    },
+    "node_03_crosswalk": {
+      "type": "video",
+      "title": "红灯倒计时",
+      "duration_sec": 14,
+      "checkpoint": true,
+      "scene_goal": "三条语音同时弹出，追逐升级。",
+      "location": "夜晚十字路口",
+      "characters_on_screen": [],
+      "video": {
+        "src": "assets/videos/node_03_crosswalk.mp4",
+        "poster": "assets/posters/node_03_crosswalk.jpg"
+      },
+      "choices": [
+        {
+          "id": "send_groupchat",
+          "label": "拉群说清楚",
+          "target": "node_04_truth_groupchat",
+          "effects": { "honesty": 2 }
+        },
+        {
+          "id": "keep_juggling",
+          "label": "继续分头安抚",
+          "target": "node_04_keep_juggling",
+          "effects": { "honesty": -1 }
+        },
+        {
+          "id": "freeze",
+          "label": "先谁都不回",
+          "target": "fail_panic_freeze",
+          "effects": { "honesty": -1 },
+          "is_failure": true
+        }
+      ]
+    },
+    "node_04_truth_groupchat": {
+      "type": "video",
+      "title": "群聊发送成功",
+      "duration_sec": 14,
+      "checkpoint": true,
+      "scene_goal": "诚实路线进入最终选择，三个女生正面出现。",
+      "location": "便利店外",
+      "characters_on_screen": ["lin_xiaoman", "shen_yishuang", "qi_xia"],
+      "video": {
+        "src": "assets/videos/node_04_truth_groupchat.mp4",
+        "poster": "assets/posters/node_04_truth_groupchat.jpg"
+      },
+      "choices": [
+        {
+          "id": "choose_neighbor",
+          "label": "先陪小满吃完夜宵",
+          "target": "end_neighbor_warmth",
+          "condition": { "warmth": ">=1" }
+        },
+        {
+          "id": "choose_boss",
+          "label": "先回公司交方案",
+          "target": "end_boss_midnight_plan",
+          "condition": { "focus": ">=1" }
+        },
+        {
+          "id": "choose_cafe",
+          "label": "先去完成那一局",
+          "target": "end_cafe_duo",
+          "condition": { "sync": ">=1" }
+        },
+        {
+          "id": "choose_calendar",
+          "label": "把今晚拆成公开日程",
+          "target": "end_true_open_calendar",
+          "condition": { "honesty": ">=3" }
+        }
+      ]
+    },
+    "node_04_keep_juggling": {
+      "type": "video",
+      "title": "继续周旋",
+      "duration_sec": 14,
+      "checkpoint": true,
+      "scene_goal": "逃避路线，高风险进入单人结局或修罗场失败。",
+      "location": "楼梯间与街角快切",
+      "characters_on_screen": ["bai_lu"],
+      "video": {
+        "src": "assets/videos/node_04_keep_juggling.mp4",
+        "poster": "assets/posters/node_04_keep_juggling.jpg"
+      },
+      "choices": [
+        {
+          "id": "juggle_neighbor",
+          "label": "优先稳住小满",
+          "target": "end_neighbor_warmth",
+          "condition": { "warmth": ">=2", "honesty": ">=0" },
+          "locked_hint": "你还不够坦白，小满不会再信这句话。"
+        },
+        {
+          "id": "juggle_boss",
+          "label": "优先稳住沈以霜",
+          "target": "end_boss_midnight_plan",
+          "condition": { "focus": ">=2", "honesty": ">=0" },
+          "locked_hint": "你的时间线对不上，沈以霜会直接拆穿。"
+        },
+        {
+          "id": "juggle_cafe",
+          "label": "优先稳住祁夏",
+          "target": "end_cafe_duo",
+          "condition": { "sync": ">=2", "honesty": ">=0" },
+          "locked_hint": "祁夏已经看穿你在拖时间。"
+        },
+        {
+          "id": "juggle_fail",
+          "label": "继续拖到最后一秒",
+          "target": "fail_rooftop_showdown",
+          "is_failure": true
+        }
+      ]
+    },
+    "fail_lie_receipt": {
+      "type": "failure",
+      "title": "收据上的时间",
+      "duration_sec": 8,
+      "ending_label": "中途失败：低级谎言",
+      "video": { "src": "assets/videos/fail_lie_receipt.mp4" }
+    },
+    "fail_phone_screen": {
+      "type": "failure",
+      "title": "亮起的弹窗",
+      "duration_sec": 8,
+      "ending_label": "中途失败：手机背叛",
+      "video": { "src": "assets/videos/fail_phone_screen.mp4" }
+    },
+    "fail_wrong_escape": {
+      "type": "failure",
+      "title": "错误包间",
+      "duration_sec": 8,
+      "ending_label": "中途失败：逃跑路线错误",
+      "video": { "src": "assets/videos/fail_wrong_escape.mp4" }
+    },
+    "fail_panic_freeze": {
+      "type": "failure",
+      "title": "三方同时抵达",
+      "duration_sec": 8,
+      "ending_label": "中途失败：沉默不是答案",
+      "video": { "src": "assets/videos/fail_panic_freeze.mp4" }
+    },
+    "fail_rooftop_showdown": {
+      "type": "failure",
+      "title": "屋顶时间线",
+      "duration_sec": 12,
+      "ending_label": "失败结局：时间线崩盘",
+      "video": { "src": "assets/videos/fail_rooftop_showdown.mp4" }
+    },
+    "end_neighbor_warmth": {
+      "type": "ending",
+      "title": "热汤和长椅",
+      "duration_sec": 12,
+      "ending_label": "小满结局",
+      "video": { "src": "assets/videos/end_neighbor_warmth.mp4" }
+    },
+    "end_boss_midnight_plan": {
+      "type": "ending",
+      "title": "午夜方案",
+      "duration_sec": 12,
+      "ending_label": "沈以霜结局",
+      "video": { "src": "assets/videos/end_boss_midnight_plan.mp4" }
+    },
+    "end_cafe_duo": {
+      "type": "ending",
+      "title": "最后一局",
+      "duration_sec": 10,
+      "ending_label": "祁夏结局",
+      "video": { "src": "assets/videos/end_cafe_duo.mp4" }
+    },
+    "end_true_open_calendar": {
+      "type": "ending",
+      "title": "共享日历",
+      "duration_sec": 12,
+      "ending_label": "真结局：诚实后的第一张合照",
+      "video": { "src": "assets/videos/end_true_open_calendar.mp4" }
+    }
+  }
+}

@@ -1,0 +1,400 @@
+{
+  "graph_title": "密室与玫瑰：克劳福德侦探案",
+  "pipeline_mode": "llm",
+  "total_nodes": 27,
+  "total_narratives": 28,
+  "structural_issues": [
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_02",
+      "message": "事实 '壁炉有新鲜燃烧痕迹' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_06",
+      "message": "事实 '书房存在'第二条路'的暗示' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_12_negotiate",
+      "message": "事实 '伊莎贝拉具有高超的政治手腕' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_03a",
+      "message": "事实 '存在'玫瑰兄弟会'秘密组织' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_12_legal",
+      "message": "事实 '法律程序启动' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_03b",
+      "message": "事实 '威胁者来自上层阶级' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_07a",
+      "message": "事实 '玫瑰兄弟会成员名单存在' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_07a",
+      "message": "事实 '拉扎罗进入书房时伯爵已死' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_09_guided",
+      "message": "事实 '威廉极可能是凶手' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_01",
+      "message": "事实 '伯爵死于密室书房' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_04",
+      "message": "事实 '伊莎贝拉主动提出协助调查' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_05_trust",
+      "message": "事实 '伯爵因想退出而被威胁' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_07b",
+      "message": "事实 '书房壁炉是隐藏通道入口' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_09_solo",
+      "message": "事实 '钢琴弦是凶器' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_09_william",
+      "message": "事实 '凶器是钢琴弦' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_12_legal",
+      "message": "事实 '组织有时间销毁部分证据' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_05_trust",
+      "message": "事实 '拉扎罗监视伊莎贝拉' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_08",
+      "message": "事实 '地下室是破解密室的关键位置' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_04",
+      "message": "事实 '伯爵'有秘密但不是坏人'' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_05_suspect",
+      "message": "事实 '威廉曾警告仆人噤声' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_09_solo",
+      "message": "事实 '存在幕后雇主'H先生'' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_03b",
+      "message": "事实 '伯爵被要求归还某份文件' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_end_true",
+      "message": "事实 '委托人是伯爵私生子' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_01",
+      "message": "事实 '唯一钥匙在死者口袋' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_05_trust",
+      "message": "事实 '玫瑰兄弟会是上流社会秘密组织' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_12_negotiate",
+      "message": "事实 '玫瑰兄弟会以内部方式处置威廉' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_09_william",
+      "message": "事实 '威廉·霍奇是实际凶手' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_end_true",
+      "message": "事实 '玫瑰兄弟会全面曝光' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_01",
+      "message": "事实 '死亡时间约昨夜十一点' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_02",
+      "message": "事实 '书桌有未完成信件提示被威胁' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_02",
+      "message": "事实 '窗框内侧有划痕' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_09_william",
+      "message": "事实 '威廉受玫瑰兄弟会指令行事' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_07a",
+      "message": "事实 '威廉·霍奇是玫瑰兄弟会成员' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_09_guided",
+      "message": "事实 '凶手穿警察制服' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_05_trust",
+      "message": "事实 '《圣母与玫瑰》油画藏有秘密' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_07c",
+      "message": "事实 '获得部分玫瑰兄弟会文件' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_05_suspect",
+      "message": "事实 '案发当夜有陌生男人在庄园' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_10_survive",
+      "message": "事实 '玫瑰兄弟会今晚派人到庄园' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_05_suspect",
+      "message": "事实 '庄园存在隐藏通道迹象' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_06",
+      "message": "事实 '拉扎罗声称进入时伯爵已死' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_04",
+      "message": "事实 '伊莎贝拉手腕有玫瑰银手环' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_02",
+      "message": "事实 '伯爵死于掐痕，疑似细绳或金属丝' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_09_solo",
+      "message": "事实 '被盗画作包装材料在地下室' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_07c",
+      "message": "事实 '伊莎贝拉已知晓艾德蒙并暗中布局' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_12_public",
+      "message": "事实 '玫瑰兄弟会成员名单公开' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_end_true",
+      "message": "事实 '艾德蒙声名建立' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_03b",
+      "message": "事实 '存在神秘人物'H'' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_07c",
+      "message": "事实 '《圣母与玫瑰》画框有隐藏隔层' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_06",
+      "message": "事实 '拉扎罗当夜进入过书房' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_03a",
+      "message": "事实 '密室机关疑为钢琴弦从窗外操控锁舌' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "error",
+      "category": "dead_end_causality",
+      "node_id": "node_dead_basement",
+      "message": "死结局 node_dead_basement 缺少叙事文本",
+      "suggestion": ""
+    },
+    {
+      "severity": "error",
+      "category": "dead_end_causality",
+      "node_id": "node_dead_william",
+      "message": "死结局 node_dead_william 缺少叙事文本",
+      "suggestion": ""
+    },
+    {
+      "severity": "error",
+      "category": "narrative_coverage",
+      "node_id": "node_dead_basement",
+      "message": "死结局 node_dead_basement 缺少 death_text",
+      "suggestion": ""
+    },
+    {
+      "severity": "error",
+      "category": "narrative_coverage",
+      "node_id": "node_dead_william",
+      "message": "死结局 node_dead_william 缺少 death_text",
+      "suggestion": ""
+    },
+    {
+      "severity": "warning",
+      "category": "funnel_convergence",
+      "node_id": "node_08",
+      "message": "漏斗收束：分支 {'node_09_guided', 'node_09_william', 'node_09_solo'} 在 node_10_survive 合流后只有单一后继 node_11，分支选择的差异被抹平",
+      "suggestion": "在合流节点添加 auto_route 或 gate_condition 分化后续路径"
+    }
+  ],
+  "ai_writing_issues": [],
+  "summary": {
+    "errors": 4,
+    "warnings": 51,
+    "info": 0,
+    "ai_flags": 0
+  }
+}

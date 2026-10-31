@@ -1,0 +1,5 @@
+# Offline pipeline, demos, QA and the runtime validator run on the Python 3.10+ standard library.
+# These are only needed for LLM / image / media generation and JSON Schema validation.
+requests>=2.31
+jsonschema>=4.18
+Pillow>=10.0

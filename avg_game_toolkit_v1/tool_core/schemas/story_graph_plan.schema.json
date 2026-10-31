@@ -1,0 +1,875 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/interactive-video/story_graph_plan.schema.json",
+  "title": "Planner-Owned Story Graph Plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project_id",
+    "plan_version",
+    "entry_node_id",
+    "story_promise",
+    "story_intention_alignment",
+    "graph_rules",
+    "value_system",
+    "characters",
+    "nodes",
+    "branches",
+    "route_matrix",
+    "audit_requirements"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string"
+    },
+    "plan_version": {
+      "type": "string"
+    },
+    "source_inputs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "entry_node_id": {
+      "type": "string"
+    },
+    "story_promise": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "genre",
+        "player_role",
+        "core_theme",
+        "target_route_duration_sec",
+        "ending_policy"
+      ],
+      "properties": {
+        "genre": {
+          "type": "string"
+        },
+        "player_role": {
+          "type": "string"
+        },
+        "core_theme": {
+          "type": "string"
+        },
+        "target_route_duration_sec": {
+          "$ref": "#/$defs/range_budget"
+        },
+        "first_choice_comprehension_gate": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "ending_policy": {
+          "type": "string"
+        }
+      }
+    },
+    "story_intention_alignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_story_intention",
+        "core_question",
+        "route_alignment",
+        "choice_pressure_principles"
+      ],
+      "properties": {
+        "source_story_intention": {
+          "type": "string",
+          "description": "Path or id of the approved story intention source."
+        },
+        "core_question": {
+          "type": "string"
+        },
+        "ending_philosophy": {
+          "enum": [
+            "single_answer_true_ending",
+            "multiple_equal_answers",
+            "branch_specific_answers",
+            "experimental"
+          ]
+        },
+        "route_alignment": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/route_intention_alignment"
+          }
+        },
+        "choice_pressure_principles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "graph_rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "act_structure",
+        "node_budget",
+        "choice_budget",
+        "branch_types_allowed",
+        "anti_patterns"
+      ],
+      "properties": {
+        "act_structure": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/act_rule"
+          },
+          "minItems": 1
+        },
+        "node_budget": {
+          "$ref": "#/$defs/range_budget"
+        },
+        "choice_budget": {
+          "$ref": "#/$defs/range_budget"
+        },
+        "branch_types_allowed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/branch_type"
+          },
+          "minItems": 1
+        },
+        "anti_patterns": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "pseudo_choice",
+              "funnel_convergence_without_echo",
+              "value_system_unused",
+              "ending_by_last_choice_only",
+              "dead_end_without_causality",
+              "orphan_node",
+              "knowledge_leak",
+              "unvisualized_required_fact"
+            ]
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "value_system": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attributes",
+        "ending_conditions",
+        "routing_rules"
+      ],
+      "properties": {
+        "attributes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/value_attribute"
+          },
+          "default": []
+        },
+        "ending_conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ending_condition"
+          },
+          "default": []
+        },
+        "routing_rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/routing_rule"
+          },
+          "default": []
+        }
+      }
+    },
+    "characters": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/character"
+      },
+      "minItems": 1
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/node"
+      },
+      "minItems": 1
+    },
+    "branches": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/branch"
+      },
+      "default": []
+    },
+    "route_matrix": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/route"
+      },
+      "minItems": 1
+    },
+    "audit_requirements": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "graph_integrity",
+          "choice_impact",
+          "pseudo_choice",
+          "funnel_convergence",
+          "value_system_usage",
+          "ending_condition_diversity",
+          "dead_end_causality",
+          "knowledge_boundaries",
+          "fact_echo_coverage",
+          "player_comprehension_before_choice",
+          "asset_story_traceability"
+        ]
+      },
+      "minItems": 1
+    },
+    "planner_notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    }
+  },
+  "$defs": {
+    "node_type": {
+      "enum": [
+        "narrative",
+        "choice",
+        "branch_point",
+        "merge_point",
+        "ending",
+        "failure"
+      ]
+    },
+    "branch_type": {
+      "enum": [
+        "pearl_string",
+        "strong",
+        "value_based"
+      ]
+    },
+    "presentation_candidate": {
+      "enum": [
+        "text_image",
+        "video",
+        "text_image_choice",
+        "video_choice",
+        "ending",
+        "failure"
+      ]
+    },
+    "range_budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "target",
+        "max"
+      ],
+      "properties": {
+        "min": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "target": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "route_intention_alignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route_id",
+        "intention_function"
+      ],
+      "properties": {
+        "route_id": {
+          "type": "string"
+        },
+        "intention_function": {
+          "type": "string",
+          "description": "How this route expresses, challenges, tempts, or answers the core question."
+        },
+        "emotional_answer": {
+          "type": "string"
+        }
+      }
+    },
+    "act_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "act_id",
+        "purpose",
+        "node_budget",
+        "required_turns"
+      ],
+      "properties": {
+        "act_id": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "node_budget": {
+          "$ref": "#/$defs/range_budget"
+        },
+        "required_turns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "value_attribute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attribute_id",
+        "initial",
+        "range",
+        "meaning",
+        "must_be_used_by"
+      ],
+      "properties": {
+        "attribute_id": {
+          "type": "string"
+        },
+        "initial": {
+          "type": "integer"
+        },
+        "range": {
+          "$ref": "#/$defs/range_budget"
+        },
+        "meaning": {
+          "type": "string"
+        },
+        "must_be_used_by": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "choice_effect",
+              "gate_condition",
+              "ending_condition",
+              "text_variant",
+              "ui_feedback"
+            ]
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "ending_condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ending_node_id",
+        "ending_type",
+        "condition"
+      ],
+      "properties": {
+        "ending_node_id": {
+          "type": "string"
+        },
+        "ending_type": {
+          "enum": [
+            "true",
+            "good",
+            "character",
+            "neutral",
+            "bad",
+            "failure",
+            "hidden"
+          ]
+        },
+        "condition": {
+          "type": "string"
+        }
+      }
+    },
+    "routing_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rule_id",
+        "location",
+        "condition",
+        "true_target",
+        "false_target"
+      ],
+      "properties": {
+        "rule_id": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "condition": {
+          "type": "string"
+        },
+        "true_target": {
+          "type": "string"
+        },
+        "false_target": {
+          "type": "string"
+        }
+      }
+    },
+    "character": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "character_id",
+        "name",
+        "role",
+        "story_function",
+        "speech_style",
+        "initial_knowledge"
+      ],
+      "properties": {
+        "character_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "story_function": {
+          "type": "string"
+        },
+        "speech_style": {
+          "type": "string"
+        },
+        "hidden_agenda": {
+          "type": "string"
+        },
+        "visual_identity_hook": {
+          "type": "string"
+        },
+        "initial_knowledge": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "node_id",
+        "node_type",
+        "title",
+        "act_id",
+        "branch_id",
+        "planner_intent",
+        "scene_description",
+        "key_events",
+        "player_must_understand",
+        "facts_introduced",
+        "witnesses",
+        "next_node_ids",
+        "media_planning_hooks"
+      ],
+      "properties": {
+        "node_id": {
+          "type": "string"
+        },
+        "node_type": {
+          "$ref": "#/$defs/node_type"
+        },
+        "title": {
+          "type": "string"
+        },
+        "act_id": {
+          "type": "string"
+        },
+        "branch_id": {
+          "type": "string"
+        },
+        "location_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "planner_intent": {
+          "type": "string"
+        },
+        "scene_description": {
+          "type": "string"
+        },
+        "emotional_tone": {
+          "type": "string"
+        },
+        "presentation_candidate": {
+          "$ref": "#/$defs/presentation_candidate"
+        },
+        "key_events": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "player_must_understand": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "facts_introduced": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "witnesses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "choices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/choice"
+          },
+          "default": []
+        },
+        "next_node_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "prev_node_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "merge_to": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "auto_route": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "ending_condition": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "failure_cause": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "echo_points_required": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/echo_point"
+          },
+          "default": []
+        },
+        "media_planning_hooks": {
+          "$ref": "#/$defs/media_hooks"
+        }
+      }
+    },
+    "choice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "choice_id",
+        "label",
+        "target_node_id",
+        "branch_type",
+        "value_effects",
+        "player_must_know",
+        "expected_later_echo"
+      ],
+      "properties": {
+        "choice_id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "target_node_id": {
+          "type": "string"
+        },
+        "branch_type": {
+          "$ref": "#/$defs/branch_type"
+        },
+        "value_effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/value_effect"
+          }
+        },
+        "gate_condition": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "gate_branch": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "locked_hint": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "player_must_know": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "expected_later_echo": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "is_failure": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "value_effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attribute_id",
+        "delta"
+      ],
+      "properties": {
+        "attribute_id": {
+          "type": "string"
+        },
+        "delta": {
+          "type": "integer"
+        }
+      }
+    },
+    "echo_point": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_choice_or_fact",
+        "target_node_id",
+        "echo_type"
+      ],
+      "properties": {
+        "source_choice_or_fact": {
+          "type": "string"
+        },
+        "target_node_id": {
+          "type": "string"
+        },
+        "echo_type": {
+          "enum": [
+            "dialogue",
+            "environment",
+            "mechanics",
+            "ui",
+            "visual",
+            "ending"
+          ]
+        }
+      }
+    },
+    "media_hooks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "visual_facts_required",
+        "text_fallbacks_required",
+        "asset_slot_hints",
+        "ui_surface_hints",
+        "video_candidate"
+      ],
+      "properties": {
+        "visual_facts_required": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "text_fallbacks_required": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "asset_slot_hints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ui_surface_hints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "video_candidate": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "is_video_candidate",
+            "reason"
+          ],
+          "properties": {
+            "is_video_candidate": {
+              "type": "boolean"
+            },
+            "reason": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "branch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "branch_id",
+        "branch_type",
+        "fork_node_id",
+        "node_ids",
+        "merge_node_id",
+        "description"
+      ],
+      "properties": {
+        "branch_id": {
+          "type": "string"
+        },
+        "branch_type": {
+          "$ref": "#/$defs/branch_type"
+        },
+        "fork_node_id": {
+          "type": "string"
+        },
+        "node_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "merge_node_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route_id",
+        "route_type",
+        "canonical_node_path",
+        "required_choices",
+        "terminal_node_id",
+        "expected_playtime_sec"
+      ],
+      "properties": {
+        "route_id": {
+          "type": "string"
+        },
+        "route_type": {
+          "enum": [
+            "true",
+            "good",
+            "character",
+            "neutral",
+            "bad",
+            "failure",
+            "hidden"
+          ]
+        },
+        "canonical_node_path": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "required_choices": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "required_state": {
+          "type": "string"
+        },
+        "terminal_node_id": {
+          "type": "string"
+        },
+        "expected_playtime_sec": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "results": [
+    {
+      "slug": "v1_broad_brush",
+      "source": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/title_candidates_20260522/v1_broad_brush_green_source.png",
+      "final": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/title_candidates_20260522/v1_broad_brush.png",
+      "seconds": 53.7,
+      "size": [
+        1496,
+        789
+      ],
+      "transparent": 532719,
+      "nonzero_alpha": 647625
+    },
+    {
+      "slug": "v2_refined_calligraphy",
+      "source": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/title_candidates_20260522/v2_refined_calligraphy_green_source.png",
+      "final": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/title_candidates_20260522/v2_refined_calligraphy.png",
+      "seconds": 53.9,
+      "size": [
+        1476,
+        557
+      ],
+      "transparent": 485927,
+      "nonzero_alpha": 336205
+    },
+    {
+      "slug": "v3_ink_splash_gold",
+      "source": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/title_candidates_20260522/v3_ink_splash_gold_green_source.png",
+      "final": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/title_candidates_20260522/v3_ink_splash_gold.png",
+      "seconds": 61.8,
+      "size": [
+        1475,
+        846
+      ],
+      "transparent": 579326,
+      "nonzero_alpha": 668524
+    },
+    {
+      "slug": "v4_lacquer_jade_gold",
+      "source": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/title_candidates_20260522/v4_lacquer_jade_gold_green_source.png",
+      "final": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/title_candidates_20260522/v4_lacquer_jade_gold.png",
+      "seconds": 66.0,
+      "size": [
+        1523,
+        866
+      ],
+      "transparent": 595010,
+      "nonzero_alpha": 723908
+    },
+    {
+      "slug": "v5_minimal_cinematic",
+      "source": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/title_candidates_20260522/v5_minimal_cinematic_green_source.png",
+      "final": "<ZHUXIAN_GAME_ROOT>/assets/zhuxian_qimai_huiwu_v1/ui/login/title_candidates_20260522/v5_minimal_cinematic.png",
+      "seconds": 99.4,
+      "size": [
+        1506,
+        782
+      ],
+      "transparent": 640620,
+      "nonzero_alpha": 537072
+    }
+  ],
+  "errors": [],
+  "created_at": "2026-05-22 17:56:43"
+}

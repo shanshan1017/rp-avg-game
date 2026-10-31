@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/interactive-video/codex_agent_supervision.schema.json",
+  "title": "Codex Agent Supervision Board",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project_id",
+    "protocol",
+    "updated_at",
+    "agents"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string"
+    },
+    "protocol": {
+      "type": "string"
+    },
+    "updated_at": {
+      "type": "string"
+    },
+    "agents": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/agent"
+      },
+      "default": []
+    }
+  },
+  "$defs": {
+    "agent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agent_id",
+        "nickname",
+        "role",
+        "task",
+        "owned_paths",
+        "forbidden_paths",
+        "status",
+        "started_at",
+        "last_checked_at",
+        "completed_at",
+        "result_summary",
+        "result_files",
+        "next_action"
+      ],
+      "properties": {
+        "agent_id": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "task": {
+          "type": "string"
+        },
+        "owned_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forbidden_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "enum": [
+            "launched",
+            "running",
+            "completed",
+            "blocked",
+            "failed",
+            "closed"
+          ]
+        },
+        "started_at": {
+          "type": "string"
+        },
+        "last_checked_at": {
+          "type": "string"
+        },
+        "completed_at": {
+          "type": "string"
+        },
+        "result_summary": {
+          "type": "string"
+        },
+        "result_files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "next_action": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

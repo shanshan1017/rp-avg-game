@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ruff_cache/
+.pytest_cache/
+
+# Secrets — never commit real keys; copy .env.example to .env instead
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Logs, temp files, editor/OS junk
+*.log
+*.bak
+*.tmp
+*.crdownload
+*.zip
+.DS_Store
+.idea/
+.vscode/
+node_modules/
+
+# Generated reports and local runs
+qa_report.json
+outputs/*
+!outputs/seed001/
+!outputs/seed002/
+!outputs/seed003/
+!outputs/story_tree_viz.html
+outputs/**/debug/

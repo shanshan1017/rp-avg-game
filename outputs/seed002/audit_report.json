@@ -1,0 +1,323 @@
+{
+  "graph_title": "末日列车·永恒号",
+  "pipeline_mode": "llm",
+  "total_nodes": 24,
+  "total_narratives": 16,
+  "structural_issues": [
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_06",
+      "message": "事实 '紧急分流阀选项存在' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_05_rev",
+      "message": "事实 '老王控制二等舱部分区域' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_02b",
+      "message": "事实 '上层早已知情' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_01",
+      "message": "事实 '修复需要跨越车厢' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_06",
+      "message": "事实 '激活分流阀可确保引擎修复但操作员必死' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_03c",
+      "message": "事实 '叶婷受赵明远控制' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_05",
+      "message": "事实 '方案B修复操作的三个步骤' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_03a",
+      "message": "事实 '赵明远开始监控林晓' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_04b",
+      "message": "事实 '赵明远公开否认引擎问题' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_05",
+      "message": "事实 '赵明远特工已锁定引擎核心区' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_04c",
+      "message": "事实 '赵明远签署方案A执行令' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_04c",
+      "message": "事实 '72小时倒计时' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_04a",
+      "message": "事实 '陈浩在二等舱留有备用路线标记' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_04a",
+      "message": "事实 '赵明远已开始跟踪林晓' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_03c",
+      "message": "事实 '方案A：牺牲三等舱后段八千人' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_01",
+      "message": "事实 '30天倒计时' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_01",
+      "message": "事实 '引擎冷却回路存在裂缝' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_05_rev",
+      "message": "事实 '赵明远提前执行方案A' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_05_negotiate",
+      "message": "事实 '方案B操作员存活率12%' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_02b",
+      "message": "事实 '叶婷三个月前就预留联络方式' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_07_ending",
+      "message": "事实 '引擎危机解除' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_02a",
+      "message": "事实 '老王知道守卫换班规律' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_03c",
+      "message": "事实 '方案B：高风险手动修复' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_04b",
+      "message": "事实 '革命运动已公开化' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_03b",
+      "message": "事实 '革命窗口期有限' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_03b",
+      "message": "事实 '叶婷主动寻求与林晓见面' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "item_tracking",
+      "node_id": "node_02b",
+      "message": "事实 '三等舱死亡率是头等舱七倍' 被引入但可能未被后续使用",
+      "suggestion": "检查该事实是否在后续分支中有呼应"
+    },
+    {
+      "severity": "warning",
+      "category": "character_presence",
+      "node_id": "node_04c",
+      "message": "角色 '老王' 在节点 node_04c 中说话但不在 witnesses 列表中",
+      "suggestion": "将 'char_wang' 添加到 witnesses 列表"
+    },
+    {
+      "severity": "error",
+      "category": "dead_end_causality",
+      "node_id": "node_dead_01",
+      "message": "死结局 node_dead_01 缺少叙事文本",
+      "suggestion": ""
+    },
+    {
+      "severity": "error",
+      "category": "dead_end_causality",
+      "node_id": "node_dead_02",
+      "message": "死结局 node_dead_02 缺少叙事文本",
+      "suggestion": ""
+    },
+    {
+      "severity": "error",
+      "category": "dead_end_causality",
+      "node_id": "node_dead_03",
+      "message": "死结局 node_dead_03 缺少叙事文本",
+      "suggestion": ""
+    },
+    {
+      "severity": "error",
+      "category": "dead_end_causality",
+      "node_id": "node_dead_04",
+      "message": "死结局 node_dead_04 缺少叙事文本",
+      "suggestion": ""
+    },
+    {
+      "severity": "error",
+      "category": "dead_end_causality",
+      "node_id": "node_dead_05",
+      "message": "死结局 node_dead_05 缺少叙事文本",
+      "suggestion": ""
+    },
+    {
+      "severity": "error",
+      "category": "dead_end_causality",
+      "node_id": "node_dead_06",
+      "message": "死结局 node_dead_06 缺少叙事文本",
+      "suggestion": ""
+    },
+    {
+      "severity": "error",
+      "category": "narrative_coverage",
+      "node_id": "node_end_true",
+      "message": "节点 node_end_true (新秩序) 缺少叙事文本",
+      "suggestion": ""
+    },
+    {
+      "severity": "error",
+      "category": "narrative_coverage",
+      "node_id": "node_end_revolution",
+      "message": "节点 node_end_revolution (革命之后) 缺少叙事文本",
+      "suggestion": ""
+    },
+    {
+      "severity": "error",
+      "category": "narrative_coverage",
+      "node_id": "node_end_neutral",
+      "message": "节点 node_end_neutral (技术官僚的和平) 缺少叙事文本",
+      "suggestion": ""
+    },
+    {
+      "severity": "error",
+      "category": "narrative_coverage",
+      "node_id": "node_end_cold",
+      "message": "节点 node_end_cold (独行者) 缺少叙事文本",
+      "suggestion": ""
+    },
+    {
+      "severity": "error",
+      "category": "narrative_coverage",
+      "node_id": "node_dead_01",
+      "message": "节点 node_dead_01 (关卡枪声) 缺少叙事文本",
+      "suggestion": ""
+    },
+    {
+      "severity": "error",
+      "category": "narrative_coverage",
+      "node_id": "node_dead_02",
+      "message": "节点 node_dead_02 (混乱中的囚笼) 缺少叙事文本",
+      "suggestion": ""
+    },
+    {
+      "severity": "error",
+      "category": "narrative_coverage",
+      "node_id": "node_dead_03",
+      "message": "节点 node_dead_03 (操作窗口关闭) 缺少叙事文本",
+      "suggestion": ""
+    },
+    {
+      "severity": "error",
+      "category": "narrative_coverage",
+      "node_id": "node_dead_04",
+      "message": "节点 node_dead_04 (革命胜利，列车停止) 缺少叙事文本",
+      "suggestion": ""
+    },
+    {
+      "severity": "error",
+      "category": "narrative_coverage",
+      "node_id": "node_dead_05",
+      "message": "节点 node_dead_05 (谈判桌上的失败) 缺少叙事文本",
+      "suggestion": ""
+    },
+    {
+      "severity": "error",
+      "category": "narrative_coverage",
+      "node_id": "node_dead_06",
+      "message": "死结局 node_dead_06 缺少 death_text",
+      "suggestion": ""
+    }
+  ],
+  "ai_writing_issues": [],
+  "summary": {
+    "errors": 16,
+    "warnings": 28,
+    "info": 0,
+    "ai_flags": 0
+  }
+}

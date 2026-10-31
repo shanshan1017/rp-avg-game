@@ -1,0 +1,43 @@
+{
+  "project_id": "example_project",
+  "report_id": "narrative_report_001",
+  "agent_role": "narrative",
+  "agent_name": "Narrative Agent",
+  "status": "needs_planner_decision",
+  "scope": {
+    "owned_files": ["hybrid_script.json"],
+    "owned_cells": ["cell_001", "cell_002"],
+    "not_owned": ["asset_plan.json", "runtime code", "generation manifests"]
+  },
+  "inputs_reviewed": [
+    "coherence_plan.json",
+    "story_plan.json",
+    "character_design.json"
+  ],
+  "outputs_produced": [
+    {
+      "path": "hybrid_script.json",
+      "artifact_type": "hybrid_script",
+      "description": "Expanded story cells into narration/dialogue/message/choice beats."
+    }
+  ],
+  "summary": "Briefly describe what the agent produced and whether it stayed within scope.",
+  "assumptions": [
+    "List assumptions that Planner may need to confirm."
+  ],
+  "conflicts": [
+    {
+      "conflict_id": "conflict_001",
+      "severity": "major",
+      "affected_files": ["story_plan.json", "asset_plan.json"],
+      "affected_cells": ["cell_002"],
+      "description": "The script needs a prop that is not in the approved asset plan.",
+      "recommended_resolution": "Planner should either approve a new prop asset slot or rewrite the beat to use runtime text."
+    }
+  ],
+  "questions_for_planner": [
+    "Should this new prop become a generated asset or a text-only clue?"
+  ],
+  "recommended_next_action": "planner_review",
+  "qa_findings": []
+}
