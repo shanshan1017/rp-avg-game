@@ -1,82 +1,86 @@
-# RP_AVG_game — 从一个故事种子生成可玩的分支 AVG
+# RP_AVG_game — Generate a playable branching AVG from a single story seed
 
-> 输入一段故事种子（seed），输出一部带分支、数值和多结局的网页 AVG 游戏。
+English | [简体中文](README.zh-CN.md)
 
-本项目把互动小说的生产拆成「剧本制」多 Agent 流水线：**Director** 先规划完整的 Story Graph，**Writers** 只拿局部上下文并行写各节点正文，**Auditor** 用规则检查结构和连贯性，最后编译成单文件 HTML 游戏，或打包给通用 runtime 播放。运行时不调用模型，产物是静态网页，可离线游玩、直接部署。
+> Feed in a story seed, get back a web-based AVG (visual novel) with branches, stats and multiple endings.
+
+This project splits interactive-fiction production into a "screenplay-style" multi-agent pipeline. A **Director** plans the full Story Graph first; **Writers** write each node's prose in parallel with only local context; an **Auditor** runs rule-based checks on structure and coherence. The result is compiled into a single-file HTML game, or packaged for a generic runtime player. No model is called at play time — the output is a static web page that works offline and can be deployed anywhere.
 
 ```
-Seed ─► Director ─► story_graph.json ─► Writers(并行) ─► narratives.json
-                                                            │
-             单文件 HTML / runtime 游戏包 ◄─ build_game ◄─ Auditor ─► audit_report.json
+Seed ─► Director ─► story_graph.json ─► Writers (parallel) ─► narratives.json
+                                                                  │
+     single-file HTML / runtime game package ◄─ build_game ◄─ Auditor ─► audit_report.json
                                  ▲
-                         asset_generator（背景 / 立绘 / 视频 / 音频）
+             asset_generator (backgrounds / character sprites / video / audio)
 ```
 
-## 快速体验
+## Quick start
 
-只需要 Python 3.10+，不用安装依赖，也不需要 API Key。
+All you need is Python 3.10+. No dependencies to install and no API key required.
 
 ```bash
-git clone https://github.com/shanshan1017/RP_AVG_game && cd RP_AVG_game
+git clone https://github.com/shanshan1017/rp-avg-game && cd rp-avg-game
 python3 -m http.server 8000
 ```
 
-| Demo | 地址 | 说明 |
+| Demo | URL | Notes |
 |---|---|---|
-| 维多利亚密室推理 | http://localhost:8000/demos/game_victorian_mystery_001.html | 单文件 HTML，背景图 + 立绘 + 分支 |
-| 樱花平行世界 | http://localhost:8000/demos/game_sakura_parallel_003.html | 单文件 HTML |
-| 诛仙·七脉会武 | `bash avg_game_toolkit_v1/start_zhuxian_preview.sh` → http://127.0.0.1:8062/runtime/ | toolkit runtime：41 个节点、24 个选择、5 个结局，含视频与音频 |
-| 故事树可视化 | http://localhost:8000/outputs/story_tree_viz.html | 三个样例种子的分支结构 |
+| Victorian locked-room mystery | http://localhost:8000/demos/game_victorian_mystery_001.html | Single-file HTML: backgrounds + character sprites + branches |
+| Sakura parallel worlds | http://localhost:8000/demos/game_sakura_parallel_003.html | Single-file HTML |
+| Zhu Xian: Seven Peaks Tournament | `bash avg_game_toolkit_v1/start_zhuxian_preview.sh` → http://127.0.0.1:8062/runtime/ | Toolkit runtime: 41 nodes, 24 choices, 5 endings, with video and audio |
+| Story tree visualization | http://localhost:8000/outputs/story_tree_viz.html | Branch structure of the three sample seeds |
 
-## 核心机制
+The demo stories themselves are written in Chinese.
 
-- **Story Graph**（`pipeline/story_graph_schema.py`）定义了 6 种节点：`narrative`、`choice`、`branch_point`、`merge_point`、`dead_end`、`ending`；分支分为三种：
-  - `pearl_string` 珍珠串：选项走向不同的段落，之后汇回主线
-  - `strong` 强分支：选项通向不同的路线
-  - `value_based` 数值分支：由累积的数值决定走向
-- **状态系统**：主数值、多维数值、flags、variables 共同驱动选项的门控（`all / any / not / >= …`）、结局判定和「后果回声」。
-- **Auditor**（`pipeline/auditor.py`）检查图完整性、道具追踪、角色在场、命名一致、死结局因果、时间线，以及结构质量：伪选择、漏斗收束、数值系统没被用上、结局缺少条件。
-- **Runtime**（`avg_game_toolkit_v1/runtime_container/fixed_avg_runtime/`）是可换皮的通用网页播放器，读取 `runtime_game_package.json`，用 localStorage 保存存档位和结局收集。
+## Core mechanics
 
-## 生成你自己的游戏
+- **Story Graph** (`pipeline/story_graph_schema.py`) defines 6 node types: `narrative`, `choice`, `branch_point`, `merge_point`, `dead_end`, `ending`. There are three kinds of branches:
+  - `pearl_string`: options lead to different passages that then rejoin the main line
+  - `strong`: options lead to different routes
+  - `value_based`: the route is decided by accumulated stats
+- **State system**: a primary stat, multi-dimensional stats, flags and variables together drive choice gating (`all / any / not / >= …`), ending resolution and "consequence echoes".
+- **Auditor** (`pipeline/auditor.py`) checks graph integrity, item tracking, character presence, naming consistency, dead-end causality and timeline, plus structural quality: pseudo-choices, funnel convergence, unused stat systems and endings without conditions.
+- **Runtime** (`avg_game_toolkit_v1/runtime_container/fixed_avg_runtime/`) is a re-skinnable generic web player. It reads `runtime_game_package.json` and uses localStorage for save slots and ending collection.
+
+## Generate your own game
 
 ```bash
-# 离线模式：用内置示例快速验证整条链路，不需要 API
+# Offline mode: validates the whole pipeline with built-in samples, no API needed
 python3 pipeline/pipeline.py --mode offline --output-dir /tmp/offline
 python3 avg_engine/build_game.py --story-graph /tmp/offline/story_graph.json \
     --narratives /tmp/offline/narratives.json --output /tmp/offline/game.html
 
-# LLM 模式：需要自备 OpenAI 兼容接口
-cp .env.example .env   # 填入自己的 Key，.env 已被 git 忽略
+# LLM mode: bring your own OpenAI-compatible endpoint
+cp .env.example .env   # fill in your own keys; .env is git-ignored
 pip install -r requirements.txt
 python3 pipeline/pipeline.py --mode llm --seed-file data/seed_001.jsonl --output-dir outputs/my_story
 ```
 
-图片、视频、音频生成和 toolkit 的多 Agent 流程见 **[MANUAL.md](MANUAL.md)** 与 [`avg_game_toolkit_v1/README.md`](avg_game_toolkit_v1/README.md)。
+For image, video and audio generation and the toolkit's multi-agent workflow, see **[MANUAL.md](MANUAL.md)** and [`avg_game_toolkit_v1/README.md`](avg_game_toolkit_v1/README.md).
 
-## 目录结构
+## Repository layout
 
-| 路径 | 内容 |
+| Path | Contents |
 |---|---|
-| `pipeline/` | Director / Writers / Auditor 与 Story Graph schema |
-| `avg_engine/` | 编译器：story graph + narratives → 单文件 HTML（`build_game.py`、`asset_generator.py`、`templates/`） |
-| `avg_game_toolkit_v1/` | 三层游戏生产工具包：`tool_core/`（多 Agent 生成链）→ `runtime_container/`（通用 runtime）→ `playable_games/`（打包成品） |
-| `demos/` | 可玩 demo 及本地化资产 |
-| `outputs/seed00{1,2,3}/` | 样例产物：story graph、正文、world bible、审计报告、可视化 |
-| `data/` | 故事种子（`gen_seeds.py` 生成了 100 个多题材 seed） |
-| `qa/` | 可离线运行的 QA 测试 |
-| `docs/` | 系统设计与 QA 计划 |
+| `pipeline/` | Director / Writers / Auditor and the Story Graph schema |
+| `avg_engine/` | Compiler: story graph + narratives → single-file HTML (`build_game.py`, `asset_generator.py`, `templates/`) |
+| `avg_game_toolkit_v1/` | Three-layer game production toolkit: `tool_core/` (multi-agent generation) → `runtime_container/` (generic runtime) → `playable_games/` (packaged games) |
+| `demos/` | Playable demos and their local assets |
+| `outputs/seed00{1,2,3}/` | Sample outputs: story graph, prose, world bible, audit report, visualizations |
+| `data/` | Story seeds (`gen_seeds.py` generated 100 seeds across genres) |
+| `qa/` | QA tests that run offline |
+| `docs/` | System design and QA plan |
 
-## 开发与规范
+## Development and conventions
 
 ```bash
 pip install -r requirements-dev.txt && pre-commit install
 ruff check . && python3 qa/test_pipeline.py
 ```
 
-目录约定、命名、密钥处理、素材上限和提交规范见 **[CONTRIBUTING.md](CONTRIBUTING.md)**。每个 PR 都会在 CI 中运行 lint、离线流水线、QA、runtime 包校验和 gitleaks 密钥扫描。
+See **[CONTRIBUTING.md](CONTRIBUTING.md)** for directory conventions, naming, secret handling, asset size limits and commit rules. Every PR runs lint, the offline pipeline, QA, runtime package validation and a gitleaks secret scan in CI.
 
-## 说明
+## Notes
 
-- 仓库不含任何密钥，所有外部服务都通过环境变量配置（见 `.env.example`）。文档中的 `<PROJECT_ROOT>`、`api.example.com` 等是占位符。
-- 诛仙案例是基于原著世界观的非商业同人演示，原作版权归原作者所有。
+- The repository contains no secrets; all external services are configured through environment variables (see `.env.example`). Values such as `<PROJECT_ROOT>` and `api.example.com` in the docs are placeholders.
+- The Zhu Xian demo is a non-commercial fan work based on the original novel's setting; all rights to the original work belong to its author.
